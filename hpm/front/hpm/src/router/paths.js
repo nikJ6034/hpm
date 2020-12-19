@@ -46,7 +46,7 @@ export default [
       name: 'Dashboard View',
       requiresAuth: true
     },
-    component: () => import(`@/views/DashboardView.vue`),
+    component: () => import(`@/components/hpm/company/Company.vue`),
     children: [
       {
         path: '',
