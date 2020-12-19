@@ -60,13 +60,13 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import { AgGridVue } from 'ag-grid-vue'
 import '@ag-grid-community/all-modules/dist/styles/ag-grid.css'
 import '@ag-grid-community/all-modules/dist/styles/ag-theme-alpine.css'
-import companis from '../../testdata/company'
-import instrumentCompany from '../../testdata/instrumentCompany'
+import companis from '../../../testdata/company'
+import instrumentCompany from '../../../testdata/instrumentCompany'
 
-import SelectEditor from '../../components/agGrid/selectEditor.js'
-import SelectRenderer from '../../components/agGrid/selectRenderer.js'
-import NumericEditorVue from '../../components/agGrid/numericEditorVue.js'
-import NumericEditor from '../../components/agGrid/numericEditor.vue'
+import SelectEditor from '../../../components/agGrid/selectEditor.js'
+import SelectRenderer from '../../../components/agGrid/selectRenderer.js'
+import NumericEditorVue from '../../../components/agGrid/numericEditorVue.js'
+import NumericEditor from '../../../components/agGrid/numericEditor.vue'
 
 export default {
   components: {

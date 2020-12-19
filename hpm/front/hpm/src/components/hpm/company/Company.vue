@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import companis from '../../testdata/company'
+import companis from '../../../testdata/company'
 
 export default {
   data: () => ({
