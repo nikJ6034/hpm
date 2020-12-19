@@ -51,27 +51,27 @@ export default [
       {
         path: '',
         name: 'Dashboard',
-        component: () => import(`@/components/DashViews/Company.vue`)
+        component: () => import(`@/components/hpm/company/Company.vue`)
       },
       {
         path: 'company',
         name: '사업자 관리',
-        component: () => import(`@/components/DashViews/Company.vue`)
+        component: () => import(`@/components/hpm/company/Company.vue`)
       },
       {
         path: 'instrument/company',
         name: '계측 사업자 관리',
-        component: () => import(`@/components/DashViews/InstrumentCompany.vue`)
+        component: () => import(`@/components/hpm/instrumentCompany/InstrumentCompany.vue`)
       },
       {
         path: 'application',
         name: '신청서 관리',
-        component: () => import(`@/components/DashViews/Application.vue`)
+        component: () => import(`@/components/hpm/application/Application.vue`)
       },
       {
         path: 'application/write',
         name: '신청서 작성',
-        component: () => import(`@/components/DashViews/ApplicationWrite.vue`)
+        component: () => import(`@/components/hpm/application/ApplicationWrite.vue`)
       },
       {
         path: 'user-profile',

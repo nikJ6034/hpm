@@ -131,6 +131,6 @@ export default Vue.extend({
 
         this.$refs.input.focus()
       }
-    });
+    })
   },
-});
+})
