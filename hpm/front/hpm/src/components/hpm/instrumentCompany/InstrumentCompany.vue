@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import instrumentCompanis from '../../../testdata/instrumentCompany'
+import instrumentCompanis from '@/testdata/instrumentCompany'
 
 export default {
   data: () => ({
