@@ -54,6 +54,11 @@ export default [
         component: () => import(`@/components/hpm/company/Company.vue`)
       },
       {
+        path: 'member',
+        name: '회원 관리',
+        component: () => import(`@/components/hpm/member/Member.vue`)
+      },
+      {
         path: 'company',
         name: '사업자 관리',
         component: () => import(`@/components/hpm/company/Company.vue`)

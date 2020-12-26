@@ -1,20 +1,24 @@
 // https://vuex.vuejs.org/en/actions.html
 import axios from 'axios'
+import jwt_decode from "jwt-decode";
+import router from '@/router'
 
 // The login action passes vuex commit helper that we will use to trigger mutations.
 export default {
   login ({ commit }, userData) {
     return new Promise((resolve, reject) => {
       commit('auth_request')
-      /* axios.post('/auth', { username: userData.username, password: userData.password })
+      axios.post('/oauth2/callback', { memberId: userData.username, memberPassword: userData.password })
         .then(response => {
           const token = response.data.access_token
-          const user = response.data.username
-          console.log(response)
+          const refreshToken = response.data.refresh_token
+          var decoded = jwt_decode(token);
+          const user = { 'memberId': decoded.user_name, 'name': decoded.name }
           // storing jwt in localStorage. https cookie is safer place to store
-          localStorage.setItem('token', token)
+          localStorage.setItem('token', token )
+          localStorage.setItem('refreshToken', refreshToken )
           localStorage.setItem('user', user)
-          axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
           // mutation to change state properties to the values passed along
           commit('auth_success', { token, user })
           resolve(response)
@@ -23,37 +27,46 @@ export default {
           console.log('login error')
           commit('auth_error')
           localStorage.removeItem('token')
+          localStorage.removeItem('refreshToken')
+          localStorage.removeItem('user')
           reject(err)
-        }) */
-        localStorage.setItem('token', 'token')
-        localStorage.setItem('user', { 'memberId': 'jmi7313', 'name': '장문익' })
-        commit('auth_success', { 'token': 'token', 'user': { 'memberId': 'jmi7313', 'name': '장문익' } })
-        resolve()
+        })
     })
   },
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
       commit('logout')
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      localStorage.removeItem('refreshToken')
       delete axios.defaults.headers.common['Authorization']
       resolve()
     })
   },
-  refreshtoken ({ commit }) {
+  async refreshtoken ({ commit }) {
     console.log('refreshtoken')
-    /* axios.get('/refresh')
+    axios.defaults.headers.common['Authorization'] = ''
+    return await axios.post('/oauth2/token/refresh', { refresh_token: localStorage.getItem('refreshToken') })
       .then(response => {
         const token = response.data.access_token
+        const refreshToken = response.data.refresh_token
+        var decoded = jwt_decode(token);
+        const user = { 'memberId': decoded.user_name, 'name': decoded.name }
         localStorage.setItem('token', token)
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+        localStorage.setItem('user', user)
+        localStorage.setItem('refreshToken', refreshToken )
+        //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
         commit('auth_success', { token })
+        return token;
       })
       .catch(error => {
         console.log('refresh token error')
         commit('logout')
         localStorage.removeItem('token')
-        console.log(error)
-      }) */
+        localStorage.removeItem('user')
+        localStorage.removeItem('refreshToken')
+        router.push(`/`)
+      })
   },
   getTableList ({ commit }, tableName) {
     this.$http.get(`/${tableName}`)

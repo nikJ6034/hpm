@@ -80,6 +80,11 @@ export default {
         text: 'Dashboard'
       },
       {
+        to: '/dashboard/member',
+        icon: 'mdi-account',
+        text: '회원 관리'
+      },
+      {
         to: '/dashboard/company',
         icon: 'mdi-account',
         text: '사업자 관리'

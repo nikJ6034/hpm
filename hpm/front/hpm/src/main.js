@@ -41,13 +41,39 @@ Vue.use(IconsPlugin)
 
 Vue.prototype.$http = axios
 // Sets the default url used by all of this axios instance's requests
-axios.defaults.baseURL = 'http://127.0.0.1:8001/admin/'
+axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.headers.get['Accept'] = 'application/json'
+//axios.defaults.headers.get['Content-Type'] = 'application/json'
 
 const token = localStorage.getItem('token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }
+
+// Response interceptor for API calls
+// 리플레시 토큰 요청
+axios.interceptors.response.use((response) => {
+  return response
+}, 
+async function (error) {
+  const originalRequest = error.config;
+  if (error.response.status === 401 && !originalRequest._retry) {
+    console.log('토큰 만료')
+    originalRequest._retry = true;
+    const refreshToken = localStorage.getItem('refreshToken')||null;
+    if(refreshToken != null){
+      const token = await store.dispatch('refreshtoken')
+      originalRequest.headers['Authorization'] = 'Bearer ' + token;
+      return await axios(originalRequest);
+    }else{
+      return Promise.reject(error);
+    }
+  }
+  return Promise.reject(error);
+});
+
+
+
 
 // Sync store with router
 sync(store, router)

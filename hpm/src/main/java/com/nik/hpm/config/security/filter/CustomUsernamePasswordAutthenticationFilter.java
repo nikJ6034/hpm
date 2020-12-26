@@ -30,8 +30,6 @@ public class CustomUsernamePasswordAutthenticationFilter extends UsernamePasswor
 		if(postOnly && !request.getMethod().equals("POST")) {
 			throw new AuthenticationServiceException("로그인 요청은"+request.getMethod() +"만 지원합니다." );
 		}
-			String username1 = request.getParameter("username");
-			System.out.println(username1);
 		if(request.getHeader("Content-Type").equals(MediaType.APPLICATION_JSON_VALUE)) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {

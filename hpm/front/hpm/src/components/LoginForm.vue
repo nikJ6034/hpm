@@ -80,8 +80,8 @@
 export default {
   data: function () {
     return {
-      username: '',
-      password: '',
+      username: 'jmi7313',
+      password: '1234',
       errorMessages: 'Incorrect login info',
       snackbar: false,
       color: 'general',

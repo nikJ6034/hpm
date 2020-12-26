@@ -43,7 +43,8 @@
                   sm="2">
                   <b-button
                     block
-                    variant="outline-primary">조회</b-button>
+                    variant="outline-primary"
+                    @click="test2">조회</b-button>
                 </b-col>
               </b-row>
               <b-row>
@@ -127,6 +128,9 @@ export default {
     test: '1111',
     company: { id: null, name: null, postCode: null, address: null, address2: null, number: null }
   }),
+  beforeMount () {
+        
+  },
   methods: {
     companyClick: function (item) {
       this.company.id = item.id
@@ -156,6 +160,12 @@ export default {
           }
         })
       }
+    },
+    test2: function () {
+      this.$http.get("/api/members")
+      .then(response => {
+          console.log(response)
+        })
     }
   }
 }

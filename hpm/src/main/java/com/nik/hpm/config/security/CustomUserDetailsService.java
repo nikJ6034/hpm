@@ -1,7 +1,6 @@
 package com.nik.hpm.config.security;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,10 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nik.hpm.member.entity.Member;
-import com.nik.hpm.member.entity.MemberRolegroup;
 import com.nik.hpm.member.repository.MemberRepository;
-import com.nik.hpm.role.entity.Rolegroup;
-import com.nik.hpm.role.entity.RolegroupRole;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService{
@@ -31,16 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService{
 		return member.map(m-> {
 			
 			Set<GrantedAuthority> grantedAuthority = new HashSet<>();
-			List<MemberRolegroup> memberRolegroupList = m.getMemberRolegroupList();
-			memberRolegroupList.forEach(roleGroup ->{
-				Rolegroup rolegroup2 = roleGroup.getRolegroup();
-				List<RolegroupRole> roleGroupRoleList = rolegroup2.getRoleGroupRoleList();
-				
-				roleGroupRoleList.forEach(roles ->{
-					grantedAuthority.add(new SimpleGrantedAuthority(roles.getRole().getRoleName()))
-					;
-				});
-			});
+//			List<MemberRole> memberRolegroupList = m.getMemberRoleList();
+			grantedAuthority.add(new SimpleGrantedAuthority(m.getRole().getRoleName()));
+//			memberRolegroupList.forEach(memRole ->{
+//				Role role = memRole.getRole();
+//				grantedAuthority.add(new SimpleGrantedAuthority(role.getRoleName()));
+//			});
 			
 			SecurityMember securityMember = new SecurityMember(m, grantedAuthority);
 			return securityMember;

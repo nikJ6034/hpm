@@ -42,4 +42,17 @@ public class SpringSecurityOauth2Config extends WebSecurityConfigurerAdapter{
         return super.authenticationManagerBean();
     }
 	
+//	@Bean
+//	public OAuth2RestTemplate oauth2RestTemplate() {
+//	    ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
+//	    ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
+//	    resourceDetails.setAccessTokenUri("http://localhost:8080/oauth/token");
+//	    resourceDetails.setClientId("testClientId");
+//	    resourceDetails.setClientSecret("testSecret");
+//	    resourceDetails.setGrantType("password");
+//	    resourceDetails.setScope(Arrays.asList("read", "write"));
+//	    DefaultOAuth2ClientContext clientContext = new DefaultOAuth2ClientContext();
+//	    return new OAuth2RestTemplate(resourceDetails, clientContext);
+//	}
+	
 }

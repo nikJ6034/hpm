@@ -8,9 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nik.hpm.config.security.filter.CustomUsernamePasswordAutthenticationFilter;
 import com.nik.hpm.config.security.handler.RestAuthenticationFailureHandler;
@@ -48,7 +45,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		.csrf().disable()
 		.addFilterAt(getAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 		.formLogin().disable()
-		.cors().configurationSource(corsConfigurationSource()).and()
+//		.cors().configurationSource(corsConfigurationSource()).and()
 		.authorizeRequests()
 			.antMatchers("/login","/login/success").permitAll()
 		.and()
@@ -56,18 +53,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		;
 	}
 	
-   @Bean
-   public CorsConfigurationSource corsConfigurationSource() {
-	CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("http://localhost:8081");
-       configuration.addAllowedMethod("*");
-       configuration.addAllowedHeader("*");
-       configuration.setAllowCredentials(true);
-       configuration.setMaxAge(3600L);
-       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-       source.registerCorsConfiguration("/**", configuration);
-       return source;
-   }
+//   @Bean
+//   public CorsConfigurationSource corsConfigurationSource() {
+//	CorsConfiguration configuration = new CorsConfiguration();
+//		configuration.addAllowedOrigin("http://localhost:8081");
+//       configuration.addAllowedMethod("*");
+//       configuration.addAllowedHeader("*");
+//       configuration.setAllowCredentials(true);
+//       configuration.setMaxAge(3600L);
+//       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//       source.registerCorsConfiguration("/**", configuration);
+//       return source;
+//   }
 	
    @Bean
    public RestAuthenticationSuccessHandler authenticationSuccessHandler(){

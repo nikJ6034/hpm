@@ -14,13 +14,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.nik.hpm.config.oauth2.OAuthToken;
 import com.nik.hpm.config.security.SecurityMember;
+import com.nik.hpm.member.entity.Member;
 
 @RestController
 public class LoginController {
@@ -50,8 +52,8 @@ public class LoginController {
 		return map;
 	}
 	
-	@GetMapping("/oauth2/callback")
-	public OAuthToken callbackSocial(@RequestParam String code) {
+	@PostMapping(value = "/oauth2/callback")
+	public OAuthToken callbackSocial(@RequestBody Member member) {
 		String credentials = "testClientId:testSecret";
         String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
 
@@ -60,8 +62,10 @@ public class LoginController {
         headers.add("Authorization", "Basic " + encodedCredentials);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("code", code);
-        params.add("grant_type", "authorization_code");
+        
+        params.add("username", member.getMemberId());
+        params.add("password", member.getMemberPassword());
+        params.add("grant_type", "password");
         params.add("redirect_uri", "http://localhost:8080/oauth2/callback");
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         Gson gson = new Gson();
@@ -73,8 +77,8 @@ public class LoginController {
         return null;
 	}
 	
-	@GetMapping("/oauth2/token/refresh")
-	public OAuthToken refreshToken(@RequestParam String refreshToken) {
+	@PostMapping("/oauth2/token/refresh")
+	public OAuthToken refreshToken(@RequestBody OAuthToken token) {
 
         String credentials = "testClientId:testSecret";
         String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
@@ -85,7 +89,7 @@ public class LoginController {
         headers.add("Authorization", "Basic " + encodedCredentials);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("refresh_token", refreshToken);
+        params.add("refresh_token", token.getRefresh_token());
         params.add("grant_type", "refresh_token");
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
         ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/oauth/token", request, String.class);

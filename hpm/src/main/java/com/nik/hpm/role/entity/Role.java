@@ -16,4 +16,6 @@ public class Role {
 	private Long id;
 	@Column
 	private String roleName;
+	@Column
+	private String roleDesc;
 }

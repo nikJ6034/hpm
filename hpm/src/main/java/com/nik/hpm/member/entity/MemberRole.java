@@ -2,34 +2,32 @@ package com.nik.hpm.member.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nik.hpm.role.entity.Rolegroup;
+import com.nik.hpm.role.entity.Role;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity @IdClass(MemberRolePK.class)
 @Getter @Setter
-public class MemberRolegroup implements Serializable{
+public class MemberRole implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToOne
 	@JsonBackReference
 	private Member member;
 	
 	@Id
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JsonIgnore
-	private Rolegroup rolegroup;
+	@ManyToOne
+	//@JsonIgnore
+	private Role role;
 
 }
 
