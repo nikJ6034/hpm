@@ -264,7 +264,7 @@ export default {
     },
     register: function (){
       if(confirm("회원을 등록하시겠습니까?")){
-      this.$http.post(`/api/members`,this.member)
+      this.$http.post(`/api/member`,this.member)
       .then(response => {
         if(response.data.result === 'success'){
           alert("회원가입 되었습니다.")
@@ -284,7 +284,7 @@ export default {
         alert('아이디를 입력해주세요.')
         return false
       }
-      this.$http.put(`/api/members`,this.member)
+      this.$http.put(`/api/member`,this.member)
       .then(response => {
         if(response.data.result === 'success'){
           alert("회원정보가 변경되었습니다.")
@@ -294,7 +294,7 @@ export default {
     },
     search(num){
       const page = num-1|0;
-      this.$http.get(`/api/members?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
+      this.$http.get(`/api/member?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
       .then(response => {
         this.members = response.data.content;
         this.rows = response.data.totalElements
@@ -327,7 +327,7 @@ export default {
         bvModalEvt.preventDefault()
         return false;
       }
-      this.$http.put(`/api/members/changePassword`,this.member)
+      this.$http.put(`/api/member/changePassword`,this.member)
       .then(response => {
         if(response.data.result === 'success'){
           alert("비밀번호가 변경되었습니다.")
@@ -339,7 +339,7 @@ export default {
     },
     memeberDelete(){
       if(confirm("정말 회원을 삭제하시겠습니까?")){
-      this.$http.delete(`/api/members`,{data:this.member})
+      this.$http.delete(`/api/member`,{data:this.member})
       .then(response => {
         if(response.data.result === 'success'){
           alert("회원이 삭제되었습니다.")
