@@ -27,14 +27,19 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@GetMapping(value= "/api/member/{id}")
+	public Member member(Member member) {
+		return memberService.member(member);
+	}
 
-	@GetMapping(value= "/api/members")
-	public 	Page<Member> findMemberList(MemberSearchVO memberSearchVO, @PageableDefault(size = 10)Pageable pageable){
+	@GetMapping(value= "/api/member")
+	public 	Page<Member> memberService(MemberSearchVO memberSearchVO, @PageableDefault(size = 10)Pageable pageable){
 		Page<Member> memberList = memberService.memberList(memberSearchVO, pageable);
 		return memberList;
 	}
 	
-	@PostMapping(value= "/api/members")
+	@PostMapping(value= "/api/member")
 	public Map<String, Object> memberCreate(@RequestBody Member member){
 		Map<String, Object> map = new HashMap<>();
 		memberService.memberCreate(member);
@@ -45,7 +50,7 @@ public class MemberController {
 		return map;
 	}
 	
-	@DeleteMapping(value= "/api/members")
+	@DeleteMapping(value= "/api/member")
 	public Map<String, Object> memberDelete(@RequestBody Member member){
 		Map<String, Object> map = new HashMap<>();
 		memberService.memberDelete(member);
@@ -56,7 +61,7 @@ public class MemberController {
 		return map;
 	}
 	
-	@PutMapping(value= "/api/members")
+	@PutMapping(value= "/api/member")
 	public Map<String, Object> memberModify(@RequestBody MemberVO memberVO){
 		Map<String, Object> map = new HashMap<>();
 		memberService.memberModify(memberVO);
@@ -67,8 +72,8 @@ public class MemberController {
 		return map;
 	}
 	
-	@PutMapping(value= "/api/members/changePassword")
-	public Map<String, Object> memberChangePassword(@Valid @RequestBody MemberPasswordChangeVO memberPasswordChangeVO){
+	@PutMapping(value= "/api/member/changePassword")
+	public Map<String, Object> passwordChange(@Valid @RequestBody MemberPasswordChangeVO memberPasswordChangeVO){
 		Map<String, Object> map = new HashMap<>();
 		memberService.passwordChange(memberPasswordChangeVO);
 		

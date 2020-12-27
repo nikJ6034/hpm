@@ -27,9 +27,9 @@ public class MemberRepositoryDslImpl extends QuerydslRepositorySupport implement
 		
 		if(StringUtils.isNotBlank(memberSearchVO.getCondition())) {
 			
-			if(memberSearchVO.getCondition().equals("id")) {
+			if(memberSearchVO.getCondition().equals("id") && StringUtils.isNotBlank(memberSearchVO.getKeyword())) {
 				builder.and(member.memberId.contains(memberSearchVO.getKeyword()));
-			}else if(memberSearchVO.getCondition().equals("name")){
+			}else if(memberSearchVO.getCondition().equals("name") && StringUtils.isNotBlank(memberSearchVO.getKeyword())){
 				builder.and(member.name.contains(memberSearchVO.getKeyword()));
 			}
 			

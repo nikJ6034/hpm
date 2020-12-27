@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.nik.hpm.code.DelYn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.repository.MemberRepository;
-import com.nik.hpm.member.repository.MemberRoleRepository;
 import com.nik.hpm.member.vo.MemberPasswordChangeVO;
 import com.nik.hpm.member.vo.MemberSearchVO;
 import com.nik.hpm.member.vo.MemberVO;
@@ -26,9 +25,13 @@ public class MemberService {
 	@Autowired
 	MemberRepository memberRepository;
 	@Autowired
-	MemberRoleRepository memberRoleRepository;
-	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	public Member member(Member member) {
+		Optional<Member> findById = memberRepository.findById(member.getId());
+		
+		return findById.get();
+	}
 	
 	public Page<Member> memberList(MemberSearchVO memberSearchVO, Pageable pageable){
 		return memberRepository.memberList(memberSearchVO, pageable);
