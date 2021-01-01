@@ -44,7 +44,7 @@ public class MemberService {
 			mem.setEmail(memberVO.getEmail());
 			mem.setMobile(memberVO.getMobile());
 			Role role = new Role();
-			role.setId(memberVO.getRoleId());
+			role.setId(memberVO.getRole().getId());
 			mem.setRole(role);
 		});
 		

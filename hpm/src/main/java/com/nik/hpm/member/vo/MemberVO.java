@@ -1,5 +1,7 @@
 package com.nik.hpm.member.vo;
 
+import com.nik.hpm.role.entity.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +15,5 @@ public class MemberVO {
 	private String passwordConfirm;
 	private String email;
 	private String mobile;
-	private long roleId;
+	private Role role;
 }
