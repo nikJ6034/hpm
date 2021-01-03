@@ -19,19 +19,6 @@
               <b-row>
                 <h2 style="color:#000000">신청서 목록</h2>
               </b-row>
-              <b-row>
-                <b-col>
-                  <ag-grid-vue
-                    :column-defs="columns"
-                    :default-col-def="defaultColDef"
-                    :grid-options="gridOptions"
-                    :row-data="testData"
-                    :framework-components="frameworkComponents"
-                    class="ag-theme-alpine"
-                    style="height: 500px;"
-                    @grid-ready="onGridReady" />
-                </b-col>
-              </b-row>
               <b-row class="mt-1">
                 <b-col>
                   <!-- <numeric-editor v-model="value"></numeric-editor> -->
@@ -46,6 +33,13 @@
                     @click="rowDelete">삭제</b-button>
                 </b-col>
               </b-row>
+             <b-row>
+                <b-col style="height:600px">
+                  <grid ref="tuiGrid" :data="testData" :columns="columns" language="ko" :options="gridOptions"/>
+                </b-col>
+              </b-row>
+              
+              
             </b-container>
           </b-col>
         </b-row>
@@ -55,87 +49,68 @@
 </template>
 
 <script>
-import 'ag-grid-community/dist/styles/ag-grid.css'
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
-import { AgGridVue } from 'ag-grid-vue'
-import '@ag-grid-community/all-modules/dist/styles/ag-grid.css'
-import '@ag-grid-community/all-modules/dist/styles/ag-theme-alpine.css'
-import companis from '@/testdata/company'
-import instrumentCompany from '@/testdata/instrumentCompany'
 
-import SelectEditor from '@/components/agGrid/selectEditor.js'
-import SelectRenderer from '@/components/agGrid/selectRenderer.js'
-import NumericEditorVue from '@/components/agGrid/numericEditorVue.js'
-import NumericEditor from '@/components/agGrid/numericEditor.vue'
+import 'tui-grid/dist/tui-grid.css'
+import { Grid } from '@toast-ui/vue-grid'
 
 export default {
   components: {
-    AgGridVue
+    Grid
   },
   data: () => ({
-    defaultColDef: {
-      editable: true
-    },
-    gridOptions: null,
-    gridApi: null,
-    columns: [ { field: 'name',
-                  headerName: '사업자 이름',
-                  cellRenderer: 'selectRenderer',
-                  cellEditor: 'selectEditor',
-                  editable: true,
-                  cellEditorParams: {
-                    values: instrumentCompany
-                  }
-              },
-                { field: 'instrumentName', headerName: '계측기 이름' },
-                { field: 'quantity', headerName: '수량' },
-                { fieId: 'regDt', headerName: '작성일' }
-            ],
-    frameworkComponents: {
-      selectRenderer: SelectRenderer,
-      selectEditor: SelectEditor,
-      numericEditor: NumericEditorVue,
-      numberEditor: NumericEditor
-    },
+    gridOptions: {bodyHeight:'fitToParent',rowHeaders:['checkbox']},
     testData: [],
-    companis,
-    company: { id: null, name: null },
+    companis: [],
+    customer: { id: null, name: null },
     newLine: {
                 name: null,
                 instrumentName: null,
                 quantity: 0
               }
   }),
-  beforeMount () {
-    this.gridOptions = { undoRedoCellEditing: true, rowSelection: 'single', undoRedoCellEditingLimit: 20 }
+  async created () {
+    const _this = this;
+    this.columns = [ {  header: '사업자', name:"consignmentCompany",
+                  formatter: 'listItemText',
+                  editor: {
+                    type: 'select',
+                    options: {
+                      listItems: []
+                    }
+                  }
+              },
+                { header: '기기명', name:"deviceName", editor: 'text' },
+                { header: '수량', name:"quantity", editor: 'text'  },
+                { header: '성적서 번호', name:"reportNumber", editor: 'text'   },
+                { header: '제작 회사', name:"productionCompany", editor: 'text'   },
+                { header: '기기번호', name:"deviceNumber", editor: 'text'   },
+                { header: '규격', name:"standard", editor: 'text'   },
+                { header: '단위', name:"unit", editor: 'text'   },
+                { header: '교정일자', name:"correctionDate", editor: 'text'   },
+                { header: '장소', name:"place", editor: 'text'   },
+                { header: '실무자', name:"practitioner", editor: 'text'   },
+                { header: '중분류', name:"middleCategory", editor: 'text'   },
+                { header: '소분류', name:"smallCategory", editor: 'text'   },
+                { header: '발행일자', name:"publishedDate", editor: 'text'   },
+                { header: '기술책임자', name:"technicalManager", editor: 'text'   },
+                { header: '성적서 언어', name:"reportLanguage", editor: 'text'   }
+            ]
+    await this.companySearch()  
+    console.log(33);
+    
+    
     this.testData = [
-        // for rowData prop
-        {
-          name: 1,
-          instrumentName: '계측기1',
-          quantity: '1',
-          regDt: '2020-10-12'
-        },
-        {
-          name: 1,
-          instrumentName: '계측기2',
-          quantity: '2',
-          regDt: '2020-10-12'
-        }
+        
       ]
+
+      this.$refs.tuiGrid.invoke('setColumns', this.columns);
+      this.$refs.tuiGrid.invoke('resetData', this.testData);
   },
-  mounted () {
-     this.gridApi = this.gridOptions.api
-     this.gridColumnApi = this.gridOptions.columnApi
-   },
+  beforeMount () {
+    
+    
+  },
   methods: {
-    onGridReady (params) {
-      console.log(1111)
-    },
-    companyClick: function (item) {
-      this.company.id = item.id
-      this.company.name = item.name
-    },
     goApplicationWritePage: function () {
       if (this.company.id == null) {
         alert('사업자를 선택해주세요.')
@@ -145,11 +120,34 @@ export default {
       }
     },
     rowAdd () {
-      this.gridApi.updateRowData({ add: [this.newLine] })
+      this.$refs.tuiGrid.invoke('appendRow', {
+          name: 3,
+          instrumentName: '계측기3',
+          quantity: '3',
+          regDt: '2020-10-12'
+        });
     },
     rowDelete () {
-      const selectedRows = this.gridApi.getSelectedRows()
-      this.gridApi.updateRowData({ remove: selectedRows })
+      const _this = this;
+      const keys = this.$refs.tuiGrid.invoke('getCheckedRowKeys');
+      keys.forEach(function(key){
+        _this.$refs.tuiGrid.invoke('removeRow', key);
+
+      })
+    },
+    companySearch: async function (){
+      await this.$http.get(`/api/companyAll`)
+      .then(response => {
+        const com = [];
+        if(response.data){
+          response.data.forEach(function(item){
+            com.push({text:item.name, value:item.id+''})
+          })
+        }
+        this.columns[0].editor.options.listItems = com
+        //this.companis = com;
+        })
+      console.log(222);
     }
   }
 }

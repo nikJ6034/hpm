@@ -1,6 +1,7 @@
 package com.nik.hpm.web.consignmentCompany;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nik.hpm.code.DelYn;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.service.ConsignmentCompanyService;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
@@ -27,6 +29,14 @@ public class ConsignmentCompanyController {
 	@GetMapping(value= "/api/company/{id}")
 	public ConsignmentCompany company(ConsignmentCompany consignmentCompany) {
 		return consignmentCompanyService.company(consignmentCompany);
+	}
+	
+	@GetMapping(value= "/api/companyAll")
+	public 	List<ConsignmentCompany> companyAll(){
+		ConsignmentCompany consignmentCompany = new ConsignmentCompany();
+		consignmentCompany.setDelYn(DelYn.N);
+		List<ConsignmentCompany> companyList = consignmentCompanyService.companyAll(consignmentCompany);
+		return companyList;
 	}
 
 	@GetMapping(value= "/api/company")

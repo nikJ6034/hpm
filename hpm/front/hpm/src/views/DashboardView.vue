@@ -1,7 +1,7 @@
 <template>
   <v-app
     id="dashboard-view">
-    <core-filter />
+    <!-- <core-filter /> -->
 
     <core-toolbar />
 

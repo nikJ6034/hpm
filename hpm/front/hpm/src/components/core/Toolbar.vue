@@ -96,7 +96,7 @@ export default {
       'Another Notification',
       'Another One - Dj Khalid voice'
     ],
-    title: 'I got a digital dash -Future Hendrixx',
+    title: 'HPM 교정 신청 관리 시스템',
     responsive: false,
     responsiveInput: false
   }),

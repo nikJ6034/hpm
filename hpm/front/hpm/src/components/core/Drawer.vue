@@ -30,7 +30,7 @@
             />
           </v-list-tile-avatar>
           <v-list-tile-title class="title">
-            Vuetify Admin Dash
+            HPM
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
@@ -97,7 +97,7 @@ export default {
       {
         to: '/dashboard/application',
         icon: 'mdi-account',
-        text: '신청서작성 관리'
+        text: '접수대장 관리'
       }
       // ,
       // {

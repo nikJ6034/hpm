@@ -1,5 +1,6 @@
 package com.nik.hpm.consignmentcompany.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class ConsignmentCompanyService {
 		Optional<ConsignmentCompany> findById = consignmentCompanyRepository.findById(consignmentCompany.getId());
 		
 		return findById.get();
+	}
+	
+	public List<ConsignmentCompany> companyAll(ConsignmentCompany consignmentCompany) {
+		List<ConsignmentCompany> companyAll = consignmentCompanyRepository.findByDelYn(consignmentCompany.getDelYn());
+		
+		return companyAll;
 	}
 	
 	public Page<ConsignmentCompany> companyList(ConsignmentCompanySearchVO consignmentCompanySearchVO, Pageable pageable){

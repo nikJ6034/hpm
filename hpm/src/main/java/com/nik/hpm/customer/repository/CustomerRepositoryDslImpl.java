@@ -25,12 +25,18 @@ public class CustomerRepositoryDslImpl extends QuerydslRepositorySupport impleme
 		
 		BooleanBuilder builder = new BooleanBuilder();
 		
-		if(StringUtils.isNotBlank(customerSearchVO.getCondition())) {
+		if(StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
 			
-			if(customerSearchVO.getCondition().equals("name") && StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
+			if("name".equals(customerSearchVO.getCondition()) && StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
 				builder.and(customer.name.contains(customerSearchVO.getKeyword()));
-			}else if(customerSearchVO.getCondition().equals("picName") && StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
-				builder.and(customer.picName.contains(customerSearchVO.getKeyword()));
+			}else if("tel".equals(customerSearchVO.getCondition()) && StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
+				builder.and(customer.tel.contains(customerSearchVO.getKeyword()));
+			}else if("companyRegNumber".equals(customerSearchVO.getCondition()) && StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
+				builder.and(customer.companyRegNumber.contains(customerSearchVO.getKeyword()));
+			}else {
+				builder.or(customer.name.contains(customerSearchVO.getKeyword()))
+				.or(customer.tel.contains(customerSearchVO.getKeyword()))
+				.or(customer.companyRegNumber.contains(customerSearchVO.getKeyword()));
 			}
 			
 		}

@@ -11,7 +11,7 @@
   "dependencies": {
     "@ag-grid-enterprise/all-modules": "^24.1.0",
     "@babel/polyfill": "^7.12.1",
-    "@toast-ui/vue-grid": "^4.15.3",
+    "@toast-ui/vue-grid": "^4.16.1",
     "ag-grid-community": "^24.1.0",
     "ag-grid-vue": "^24.1.1",
     "bootstrap": "^4.5.3",
@@ -21,6 +21,7 @@
     "jwt-decode": "^3.1.2",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.3.1",
+    "tui-grid": "^4.16.1",
     "vue": "^2.6.12",
     "vue-chartist": "^2.2.1",
     "vue-class-component": "^7.2.6",
