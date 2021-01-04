@@ -2,8 +2,7 @@
   <v-toolbar
     id="core-toolbar"
     app
-    dark
-    style="background: #424242;"
+    style="background: #287be4;"
     flat
     prominent>
     <div class="v-toolbar-title">
@@ -25,6 +24,7 @@
         align-center
         layout
         py-2>
+        <!--
         <v-text-field
           v-if="responsiveInput"
           class="mr-4 mt-2 purple-input"
@@ -32,6 +32,7 @@
           hide-details
           color="purple"
         />
+        -->
         <router-link
           v-ripple
           class="toolbar-items"
@@ -44,6 +45,7 @@
           content-class
           offset-y
           transition="slide-y-transition">
+           <!--
           <router-link
             v-ripple
             slot="activator"
@@ -57,6 +59,7 @@
               <v-icon color>mdi-bell</v-icon>
             </v-badge>
           </router-link>
+          -->
           <v-card>
             <v-list dense>
               <v-list-tile

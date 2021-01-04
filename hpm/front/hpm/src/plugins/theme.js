@@ -7,5 +7,6 @@ export default {
   info: '#00d3ee',
   success: '#5cb860',
   warning: '#ffa21a',
-  general: '#2196F3'
+  general: '#2196F3',
+  normal: '#287be4'
 }

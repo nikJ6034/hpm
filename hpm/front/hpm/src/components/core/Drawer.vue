@@ -3,7 +3,6 @@
     id="app-drawer"
     v-model="inputValue"
     app
-    dark
     floating
     persistent
     mobile-break-point="991"
@@ -18,8 +17,12 @@
         class="fill-height"
         tag="v-list"
         column
+        style="background:white"
+        
       >
-        <v-list-tile avatar>
+        <v-list-tile avatar
+          style="background: #287be4;"
+        >
           <v-list-tile-avatar
             color="grey"
           >
@@ -29,20 +32,12 @@
               contain
             />
           </v-list-tile-avatar>
-          <v-list-tile-title class="title">
+          <v-list-tile-title class="title" style="color:white;" >
             HPM
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile
-          v-if="responsive"
-        >
-          <v-text-field
-            class="purple-input search-input"
-            label="Search..."
-            color="purple"
-          />
-        </v-list-tile>
+
         <v-list-tile
           v-for="(link, i) in links"
           :key="i"
@@ -50,13 +45,22 @@
           :active-class="color"
           avatar
           class="v-list-item"
+          @click="toggle(i)"
         >
-          <v-list-tile-action>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title
-            v-text="link.text"
+        <template v-if="selected == i">
+          <v-icon color="white"
+            >{{ link.icon }}</v-icon>
+          <v-list-tile-title v-text="link.text"
+            style="color:white;"
           />
+        </template>
+        <template v-else>
+          <v-icon color="normal"
+            >{{ link.icon }}</v-icon>
+          <v-list-tile-title v-text="link.text"
+            style="color:black;"
+          />
+        </template>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -72,6 +76,7 @@ import {
 
 export default {
   data: () => ({
+    selected : 2,
     logo: require('@/assets/img/redditicon.png'),
     links: [
       {
@@ -99,42 +104,6 @@ export default {
         icon: 'mdi-account',
         text: '접수대장 관리'
       }
-      // ,
-      // {
-      //   to: '/dashboard/user-profile',
-      //   icon: 'mdi-account',
-      //   text: 'User Profile'
-      // },
-      // {
-      //   to: '/dashboard/table-list',
-      //   icon: 'mdi-clipboard-outline',
-      //   text: 'Table List'
-      // },
-      // {
-      //   to: '/dashboard/user-tables',
-      //   icon: 'mdi-table-edit',
-      //   text: 'Users Table'
-      // },
-      // {
-      //   to: '/dashboard/typography',
-      //   icon: 'mdi-format-font',
-      //   text: 'Typography'
-      // },
-      // {
-      //   to: '/dashboard/icons',
-      //   icon: 'mdi-chart-bubble',
-      //   text: 'Icons'
-      // },
-      // {
-      //   to: '/dashboard/maps',
-      //   icon: 'mdi-map-marker',
-      //   text: 'Maps'
-      // },
-      // {
-      //   to: '/dashboard/notifications',
-      //   icon: 'mdi-bell',
-      //   text: 'Notifications'
-      // }
     ],
     responsive: false
   }),
@@ -159,6 +128,9 @@ export default {
   beforeDestroy () {
     window.removeEventListener('resize', this.onResponsiveInverted)
   },
+  beforeMount () {
+    
+  },
   methods: {
     ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
     onResponsiveInverted () {
@@ -167,6 +139,9 @@ export default {
       } else {
         this.responsive = false
       }
+    },
+    toggle(index) {
+      this.selected = index;
     }
   }
 }
