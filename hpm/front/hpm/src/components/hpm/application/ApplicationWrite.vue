@@ -19,26 +19,103 @@
               <b-row>
                 <h2 style="color:#000000">신청서 목록</h2>
               </b-row>
+
+                <b-table-simple small responsive bordered >
+                  <colgroup>
+                    <col style="width:*">
+                    <col style="width:10%;">
+                    <col style="width:20%;">
+                    <col style="width:10%;">
+                    <col style="width:20%;">
+                    <col style="width:10%;">
+                    <col style="width:20%;">
+                  </colgroup>
+                  <b-tbody>
+                    <b-tr style="background:white;">
+                      <b-th rowspan="4" style="vertical-align: middle; border:0px;"><font size="5">* 신청인</font></b-th>
+                      <b-th class="text-center">회사명</b-th>
+                      <b-td class="text-left">삼성</b-td>
+                      <b-th class="text-center">대표자</b-th>
+                      <b-td class="text-left" colspan="3">이재용</b-td>
+                    </b-tr>
+                    <b-tr style="background:white;">
+                      <b-th class="text-center">사업자등록번호</b-th>
+                      <b-td class="text-left">123-123-12345</b-td>
+                      <b-th class="text-center">업태</b-th>
+                      <b-td class="text-left">50</b-td>
+                      <b-th class="text-center">종목</b-th>
+                      <b-td class="text-left">15</b-td>
+                    </b-tr>
+                    <b-tr style="background:white;">
+                      <b-th class="text-center">주소</b-th>
+                      <b-td class="text-left" colspan="5">51</b-td>
+                    </b-tr>
+                    <b-tr style="background:white;">
+                      <b-th class="text-center">전화번호</b-th>
+                      <b-td class="text-left">114</b-td>
+                      <b-th class="text-center">팩스번호</b-th>
+                      <b-td class="text-left" colspan="3">114</b-td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
+
               <b-row class="mt-1">
                 <b-col>
-                  <!-- <numeric-editor v-model="value"></numeric-editor> -->
-                  <!-- <select-editor></select-editor> -->
+
+                  <b-icon class="float-right pointer"
+                    icon="file-plus-fill"
+                    @click="rowAdd"
+                    variant="primary"
+                    style="height:31px; width:31px;"
+                  ></b-icon>
+
+                  <b-icon class="float-right pointer"
+                    icon="file-minus"
+                    @click="rowDelete"
+                    variant="primary"
+                    style="height:31px; width:31px;"
+                  ></b-icon>
+                  
+                  <!--
                   <b-button
-                    class="float-right mr-1"
+                    class="float-right plus-square"
                     variant="outline-primary"
                     @click="rowAdd">추가</b-button>
+                  
                   <b-button
                     class="float-right mr-1"
                     variant="outline-primary"
                     @click="rowDelete">삭제</b-button>
+                  -->
+                  <b-button
+                    class="float-right mr-3"
+                    variant="outline-primary"
+                    size="sm"
+                  >신청서 보기</b-button>
+
+                  <b-button
+                    class="float-right mr-1"
+                    variant="outline-primary"
+                    size="sm"
+                  >접수</b-button>
+
+                  <!-- 허용 파일 타입 -->
+                  <!-- accept="image/*" -->
+                  <b-form-file id="file-small" 
+                    style="width:450px;float:right;" 
+                    size="sm" 
+                    browse-text="신청인 서명 업로드" 
+                    placeholder="서명 파일을 첨부해주세요." 
+                    class="float-right mr-3"
+                    color="primary"
+                    ></b-form-file>
                 </b-col>
               </b-row>
-             <b-row>
+             <b-row class="mt-1">
                 <b-col style="height:600px">
                   <grid ref="tuiGrid" :data="testData" :columns="columns" language="ko" :options="gridOptions"/>
                 </b-col>
               </b-row>
-              
               
             </b-container>
           </b-col>
@@ -154,4 +231,5 @@ export default {
 </script>
 
 <style>
+  .pointer {cursor: pointer;}
 </style>
