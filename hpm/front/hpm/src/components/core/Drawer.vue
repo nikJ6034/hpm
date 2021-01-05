@@ -45,22 +45,12 @@
           :active-class="color"
           avatar
           class="v-list-item"
-          @click="toggle(i)"
         >
-        <template v-if="selected == i">
-          <v-icon color="white"
-            >{{ link.icon }}</v-icon>
-          <v-list-tile-title v-text="link.text"
-            style="color:white;"
-          />
-        </template>
-        <template v-else>
-          <v-icon color="normal"
-            >{{ link.icon }}</v-icon>
-          <v-list-tile-title v-text="link.text"
-            style="color:black;"
-          />
-        </template>
+        <v-icon :color="iconColor(link.to)"
+          >{{ link.icon }}</v-icon>
+        <v-list-tile-title v-text="link.text"
+          :style="textColor(link.to)"
+        />
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -142,6 +132,20 @@ export default {
     },
     toggle(index) {
       this.selected = index;
+    },
+    iconColor (page) {
+      if(page.indexOf(this.$route.path) > -1){
+        return 'white'
+      }else{
+        return 'normal'
+      }
+    },
+    textColor (page) {
+      if(this.$route.path.indexOf(page) > -1){
+        return 'color:white;'
+      }else{
+        return 'color:black;'
+      }
     }
   }
 }
