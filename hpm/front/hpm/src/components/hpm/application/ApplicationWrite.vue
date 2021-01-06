@@ -17,9 +17,9 @@
               fluid
               style="background-color:#f5f4f4; border-radius: 15px; height: 750px;">
               <b-row>
-                <h2 style="color:#000000">신청서 목록</h2>
+                <b-col class="f25">신청서 목록</b-col>
               </b-row>
-
+              <hr/>
                 <b-table-simple small responsive bordered >
                   <colgroup>
                     <col style="width:*">
@@ -112,7 +112,7 @@
                 </b-col>
               </b-row>
              <b-row class="mt-1">
-                <b-col style="height:600px">
+                <b-col style="height:530px">
                   <grid ref="tuiGrid" :data="testData" :columns="columns" language="ko" :options="gridOptions"/>
                 </b-col>
               </b-row>
@@ -232,4 +232,5 @@ export default {
 
 <style>
   .pointer {cursor: pointer;}
+  .f25 {font-size: 25px; text-align: left; font-weight: bold;}
 </style>

@@ -82,17 +82,32 @@ export default {
       {
         to: '/dashboard/company',
         icon: 'mdi-account',
-        text: '사업자 관리'
+        text: '거래처 관리'
       },
       {
         to: '/dashboard/instrument/company',
         icon: 'mdi-account',
-        text: '계측사업자 관리'
+        text: '위탁업체 관리'
       },
       {
         to: '/dashboard/application',
         icon: 'mdi-account',
         text: '접수대장 관리'
+      },
+      {
+        to: '/dashboard/consign',
+        icon: 'mdi-account',
+        text: '위탁업체 접수대장 관리'
+      },
+      {
+        to: '/dashboard/roleManage',
+        icon: 'mdi-account',
+        text: '권한 관리'
+      },
+      {
+        to: '/dashboard/codeManage',
+        icon: 'mdi-account',
+        text: '코드 관리'
       }
     ],
     responsive: false

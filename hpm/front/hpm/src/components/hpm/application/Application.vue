@@ -10,16 +10,16 @@
         fluid>
         <b-row
           class="text-center"
-          style="padding: 0 10px 0 10px;">
+          style="padding: 0 0 0 10px;">
           <b-col
-            xl="5"
+            xl="6"
             style="padding:0 5px 0 5px">
             <b-container
-              style="background-color:#f5f4f4; border-radius: 15px; height: 750px;">
+              style="height: 750px;">
               <b-row>
-                <h2
-                  style="color:#000000">거래처 정보</h2>
+                <b-col class="f25">거래처 목록</b-col>
               </b-row>
+              <hr />
               <b-row>
                 <b-col
                   cols="3"
@@ -28,8 +28,8 @@
                   <b-form-select class="mb-3" v-model="condition">
                     <b-form-select-option value="">전체</b-form-select-option>
                     <b-form-select-option value="name">거래처명</b-form-select-option>
-                    <b-form-select-option value="tel">전화번호</b-form-select-option>
                     <b-form-select-option value="companyRegNumber">사업자번호</b-form-select-option>
+                    <b-form-select-option value="tel">전화번호</b-form-select-option>
                   </b-form-select>
                 </b-col>
                 <b-col
@@ -78,13 +78,14 @@
             </b-container>
           </b-col>
           <b-col
-            xl="7"
-            style="padding:0 5px 0 5px">
+            xl="6"
+            style="padding:0 5px 0 0; border-left:1px solid lightgrey;">
             <b-container
-              style="background-color:#f5f4f4; border-radius: 15px; height: 750px;">
+              style="height: 750px;">
               <b-row>
-                <h2 style="color:#000000">신청서 목록</h2>
+                <b-col class="f25">신청서 목록</b-col>
               </b-row>
+              <hr/>
               <b-row class="mt-1">
                 <b-col>
                   <b-button
@@ -104,7 +105,7 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'name', label: '사업자 이름' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
+    fields: [ { key: 'id', label: 'No' },{ key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
     customers: null,
     customer: { id: null, name: null },
     currentPage: 1,
@@ -147,5 +148,7 @@ export default {
 </script>
 
 <style>
-
+.mFormLbl { line-height: 2.3em; font-weight: bold;}
+.f25 {font-size: 25px; text-align: left; font-weight: bold;}
+.pointer {cursor: pointer;}
 </style>

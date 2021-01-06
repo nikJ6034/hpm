@@ -60,12 +60,12 @@ export default [
       },
       {
         path: 'company',
-        name: '사업자 관리',
+        name: '거래처 관리',
         component: () => import(`@/components/hpm/company/Company.vue`)
       },
       {
         path: 'instrument/company',
-        name: '계측 사업자 관리',
+        name: '위탁업체 관리',
         component: () => import(`@/components/hpm/instrumentCompany/InstrumentCompany.vue`)
       },
       {
@@ -77,6 +77,26 @@ export default [
         path: 'application/write',
         name: '신청서 작성',
         component: () => import(`@/components/hpm/application/ApplicationWrite.vue`)
+      },
+      {
+        path: 'consign',
+        name: '위탁업체 신청서 관리',
+        component: () => import(`@/components/hpm/consign/Consign.vue`)
+      },
+      {
+        path: 'consign/write',
+        name: '위탁업체 신청서 작성',
+        component: () => import(`@/components/hpm/consign/ConsignWrite.vue`)
+      },
+      {
+        path: 'roleManage',
+        name: '권한 관리',
+        component: () => import(`@/components/hpm/roleManage/RoleManage.vue`)
+      },
+      {
+        path: 'codeManage',
+        name: '코드 관리',
+        component: () => import(`@/components/hpm/codeManage/CodeManage.vue`)
       },
       {
         path: 'user-profile',

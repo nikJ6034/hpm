@@ -9,16 +9,16 @@
       <b-container fluid>
         <b-row
           class="text-center"
-          style="padding: 0 10px 0 10px;">
+          style="padding: 0 0 0 10px;">
           <b-col
-            xl="5"
+            xl="6"
             style="padding:0 5px 0 5px">
             <b-container
-              style="background-color:#f5f4f4; border-radius: 15px; height: 350px;">
+              style="height: 750px;">
               <b-row>
-                <h2
-                  style="color:#000000">회원 정보</h2>
+                <b-col class="f25">회원 목록</b-col>
               </b-row>
+              <hr />
               <b-row>
                 <b-col
                   cols="3"
@@ -40,7 +40,7 @@
                     id="companyName"
                     type="text"
                     v-model="keyword"
-                    placeholder="아직 구현되지 않았습니다." />
+                    placeholder="검색조건을 입력해주세요." />
                 </b-col>
                 <b-col
                   cols="3"
@@ -56,7 +56,10 @@
                 <b-table
                   :items="members"
                   :fields="fields"
-                  @row-clicked="companyClick" />
+                  @row-clicked="companyClick"
+                  class="pointer"
+                  hover
+                  />
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
@@ -70,51 +73,56 @@
             </b-container>
           </b-col>
           <b-col
-            xl="7"
-            style="padding:0 5px 0 5px">
+            xl="6"
+            style="padding:0 5px 0 0; border-left:1px solid lightgrey;">
             <b-container
-              style="background-color:#f5f4f4; border-radius: 15px; height: 750px;">
+              style="height: 750px;">
               <b-row>
-                <h2
-                  style="color:#000000">회원 상세정보</h2>
+                <b-col v-if="member.id == null" class="f25">회원 등록</b-col>
+                <b-col v-else class="f25">회원 정보</b-col>
               </b-row>
+              <hr />
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  <div>회원아이디</div>
+                  cols="2" 
+                  class="mFormLbl text-right">
+                  <span style="color:red;">*</span>
+                  ID
                 </b-col>
                 <b-col
-                  cols="9">
+                  cols="10">
                   <b-form-input
                     :readonly="member.id != null"
                     v-model="member.memberId"
-                    placeholder="회원아이디를 입력하세요." />
+                    placeholder="ID를 입력하세요." />
                 </b-col>
               </b-row>
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  <div>회원이름</div>
+                  cols="2" 
+                  class="mFormLbl text-right">
+                  <span style="color:red;">*</span> 
+                  이름
                 </b-col>
                 <b-col
-                  cols="9">
+                  cols="10">
                   <b-form-input
                     :readonly="member.id != null"
                     v-model="member.name"
-                    placeholder="회원 이름을 입력하세요." />
+                    placeholder="이름을 입력하세요." />
                 </b-col>
               </b-row>
               <b-row
                 v-if="member.id == null"
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  <div>비밀번호</div>
+                  cols="2" 
+                  class="mFormLbl text-right"><span style="color:red;">*</span> 비밀번호
                 </b-col>
                 <b-col
-                  cols="9">
+                  cols="10">
                   <b-form-input
                     type="password"
                     v-model="member.memberPassword"
@@ -125,11 +133,11 @@
                 v-if="member.id == null"
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  <div>비밀번호 확인</div>
+                  cols="2" 
+                  class="mFormLbl text-right">비밀번호 확인
                 </b-col>
                 <b-col
-                  cols="9">
+                  cols="10">
                   <b-form-input
                     type="password"
                     v-model="member.passwordConfirm"
@@ -139,10 +147,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  이메일주소
+                  cols="2" class="mFormLbl text-right">이메일주소
                 </b-col>
-                <b-col cols="9">
+                <b-col cols="10">
                   <b-form-input
                     v-model="member.email"
                     placeholder="이메일주소" />
@@ -151,10 +158,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  전화번호
+                  cols="2" class="mFormLbl text-right">전화번호
                 </b-col>
-                <b-col cols="9">
+                <b-col cols="10">
                   <b-form-input
                     v-model="member.mobile"
                     placeholder="전화번호" />
@@ -163,10 +169,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                  권한
+                  cols="2" class="mFormLbl text-right">권한
                 </b-col>
-                <b-col cols="9">
+                <b-col cols="10">
                   <b-form-select 
                     v-model="member.role.id" 
                     :options="roleList"
@@ -193,29 +198,29 @@
                   </b-modal>
                   <b-button
                     v-if="member.id != null"
-                    class="float-right mr-1"
-                    variant="outline-primary"
-                    @click="modalShow = !modalShow">비밀번호 수정</b-button>
-                  <b-button
-                    v-if="member.id != null"
-                    class="float-right mr-1"
+                    class="float-right"
                     variant="outline-primary"
                     @click="cancel">취소</b-button>
                   <b-button
                     v-if="member.id == null"
-                    class="float-right mr-1"
+                    class="float-right"
                     variant="outline-primary"
                     @click="register">등록</b-button>
-                  <b-button
+                    <b-button
+                    v-if="member.id != null"
+                    class="float-right mr-3"
+                    variant="outline-danger"
+                    @click="memeberDelete">삭제</b-button>
+                    <b-button
                     v-if="member.id != null"
                     class="float-right mr-1"
                     variant="outline-primary"
                     @click="memberModify">수정</b-button>
                     <b-button
                     v-if="member.id != null"
-                    class="float-right mr-1"
+                    class="float-right mr-3"
                     variant="outline-primary"
-                    @click="memeberDelete">삭제</b-button>
+                    @click="modalShow = !modalShow">비밀번호 수정</b-button>
                 </b-col>
               </b-row>
             </b-container>
@@ -230,7 +235,7 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'name', label: '이름' }, { key: 'email', label: '이메일' }, { key: 'mobile', label: '전화번호' } ],
+    fields: [ { key: 'memberId', label: 'ID' },{ key: 'name', label: '이름' }, { key: 'email', label: '이메일' }, { key: 'mobile', label: '전화번호' }, { key: 'role.roleDesc', label: '권한' } ],
     members: null,
     test: '1111',
     currentPage: 1,
@@ -353,5 +358,7 @@ export default {
 </script>
 
 <style>
-
+.mFormLbl { line-height: 2.3em; font-weight: bold;}
+.f25 {font-size: 25px; text-align: left; font-weight: bold;}
+.pointer {cursor: pointer;}
 </style>
