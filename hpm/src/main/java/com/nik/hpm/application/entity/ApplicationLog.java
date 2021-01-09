@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nik.hpm.code.ReportLanguage;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
+import com.nik.hpm.enumcode.ReportLanguage;
 
 import lombok.Getter;
 import lombok.Setter;

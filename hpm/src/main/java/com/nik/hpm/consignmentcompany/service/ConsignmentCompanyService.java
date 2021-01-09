@@ -3,17 +3,20 @@ package com.nik.hpm.consignmentcompany.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.nik.hpm.code.DelYn;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.repository.ConsignmentCompanyRepository;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
+import com.nik.hpm.enumcode.DelYn;
 
 @Service
+@Transactional
 public class ConsignmentCompanyService {
 
 	@Autowired

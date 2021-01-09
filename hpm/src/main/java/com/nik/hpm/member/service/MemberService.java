@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nik.hpm.code.DelYn;
+import com.nik.hpm.enumcode.DelYn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.repository.MemberRepository;
 import com.nik.hpm.member.vo.MemberPasswordChangeVO;

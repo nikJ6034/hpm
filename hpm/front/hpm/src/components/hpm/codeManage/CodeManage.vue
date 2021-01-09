@@ -25,8 +25,11 @@
                   sm="3"
                   class="pr-0">
                   <b-form-select
-                    class="mb-3">
-                    <b-form-select-option value="">선택해주세요.</b-form-select-option>
+                    class="mb-3"
+                    v-model="condition">
+                    <b-form-select-option value="">전체</b-form-select-option>
+                    <b-form-select-option value="code">분류코드</b-form-select-option>
+                    <b-form-select-option value="codeName">분류코드명</b-form-select-option>
                   </b-form-select>
                 </b-col>
                 <b-col
@@ -44,14 +47,14 @@
                   <b-button
                     block
                     variant="outline-primary"
-                    @click="test2">조회</b-button>
+                    @click="search">조회</b-button>
                 </b-col>
               </b-row>
               <b-row>
                 <b-table
-                  :items="companis"
+                  :items="codes"
                   :fields="fields"
-                  @row-clicked="companyClick" 
+                  @row-clicked="itemClick" 
                   class="pointer"
                   hover
                   />
@@ -73,7 +76,7 @@
             <b-container
               style="height: 450px;">
               <b-row>
-                <b-col v-if="company.id == null" class="f25">코드 등록</b-col>
+                <b-col v-if="code.id == null" class="f25">코드 등록</b-col>
                 <b-col v-else class="f25">코드 정보</b-col>
               </b-row>
               <hr/>
@@ -87,7 +90,8 @@
                 <b-col
                   cols="10">
                   <b-form-input
-                    v-model="company.name"
+                    :readonly="code.id != null"
+                    v-model="code.code"
                     placeholder="분류코드을 입력하세요." />
                 </b-col>
               </b-row>
@@ -101,7 +105,8 @@
                 <b-col
                   cols="10">
                   <b-form-input
-                    v-model="company.repName"
+                    :readonly="code.id != null"
+                    v-model="code.codeName"
                     placeholder="분류코드명을 입력하세요." />
                 </b-col>
               </b-row>
@@ -109,10 +114,11 @@
                 class="mt-1">
                 <b-col
                   cols="2"
-                  class="mFormLbl text-right">기타
+                  class="mFormLbl text-right">설명
                 </b-col>
                 <b-col cols="10">
-                  <b-form-textarea rows="3" />
+                  <b-form-textarea rows="3"
+                  v-model="code.codeDesc" />
                 </b-col>
               </b-row>
 
@@ -137,7 +143,7 @@
 
               <b-row class="mt-1">
                 <b-col style="height:300px">
-                  <grid ref="tuiGrid" :data="testData" :columns="columns" language="ko" :options="gridOptions"/>
+                  <grid ref="tuiGrid" :data="testData" :columns="columns" language="ko" :options="gridOptions" @editingFinish="rowChange"/>
                 </b-col>
               </b-row>
 
@@ -145,26 +151,28 @@
                 class="mt-1">
                 <b-col>
                   <b-button
-                    v-if="company.id == null"
+                    v-if="code.id == null"
                     class="float-right"
                     variant="outline-primary"
+                    @click="register"
                     >등록</b-button>
 
                   <b-button
-                    v-if="company.id != null"
+                    v-if="code.id != null"
                     class="float-right"
                     variant="outline-primary"
                     @click="cancel">취소</b-button>
                   <b-button
-                    v-if="company.id != null"
+                    v-if="code.id != null"
                     class="float-right mr-3"
                     variant="outline-danger"
+                    @click="remove"
                     >삭제</b-button>
                   <b-button
-                    v-if="company.id != null"
+                    v-if="code.id != null"
                     class="float-right mr-1"
                     variant="outline-primary"
-                    @click="companyModify">수정</b-button>
+                    @click="modify">수정</b-button>
                 </b-col>
               </b-row>
             </b-container>
@@ -176,7 +184,6 @@
 </template>
 
 <script>
-import companis from '@/testdata/company'
 import 'tui-grid/dist/tui-grid.css'
 import { Grid } from '@toast-ui/vue-grid'
 
@@ -186,79 +193,135 @@ export default {
   },
   data: () => ({
     gridOptions: {bodyHeight:'fitToParent',rowHeaders:['checkbox']},
+    columns: [ 
+                { header: '코드', name:"code", editor: 'text' },
+                { header: '코드명', name:"codeName", editor: 'text'  },
+                { header: '설명', name:"codeDesc", editor: 'text'  }
+                
+            ],
     testData: [],
-    fields: [ { key: 'id', label: 'No.'} ,{key: 'name', label: '분류코드' }, { key: 'number', label: '분류코드명' }],
-    companis: [],
-    test: '1111',
+    fields: [ { key: 'id', label: 'No.'} ,{key: 'code', label: '분류코드' }, { key: 'codeName', label: '분류코드명' }],
+    codes: [],
     currentPage: 1,
     perPage: 10,
     rows: 0,
     keyword: '',
     condition:'',
-    company: { id: null, name: null, postCode: null, address: null, address2: null, number: null }
+    code: { id: null, code: null, codeName: null, codeDesc: null, edite: null, pid: null, del: null, codeList: [] },
+    deleteChildCode: []
   }),
-  async created () {
-    const _this = this;
-    this.columns = [
-                { header: '공통코드', name:"deviceName", editor: 'text' },
-                { header: '공통코드명', name:"quantity", editor: 'text'  },
-                { header: '설명', name:"reportNumber", editor: 'text'   }
-               ]
-    await this.companySearch()  
-    console.log(33);
-    
-    
-    this.testData = [
-        
-      ]
-
-      this.$refs.tuiGrid.invoke('setColumns', this.columns);
-      this.$refs.tuiGrid.invoke('resetData', this.testData);
-  },
   beforeMount () {
-        
+    this.search()
   },
   methods: {
-    companyClick: function (item) {
-      this.company.id = item.id
-      this.company.name = item.name
-      this.company.postCode = item.postCode
-      this.company.address = item.address
-      this.company.address2 = item.address2
-      this.company.number = item.number
-    },
-    companyModify () {
-      const _this = this
-      if (this.company.name == null) {
-        alert('이름을 입력해주세요.')
-        return false
-      }
-
-      if (this.company.id == null) {
-        this.companis.push(this.company)
-      } else {
-        this.companis.some(function (item) {
-          if (item.id === _this.company.id) {
-            item.name = _this.company.name
-            item.postCode = _this.company.postCode
-            item.address = _this.company.address
-            item.address2 = _this.company.address2
-            item.number = _this.company.number
-          }
-        })
-      }
-    },
-    test2: function () {
-      this.$http.get("/api/members")
+    search(num){
+      const page = num-1|0;
+      this.$http.get(`/api/code?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
       .then(response => {
-          console.log(response)
+        this.codes = response.data.content;
+        this.rows = response.data.totalElements
+        this.perPage = response.data.size
+        this.currentPage = response.data.number+1
         })
-    },
-     cancel: function (){
-      this.company = { id: null, name: null, postCode: null, address: null, address2: null, number: null}
     },
     pageSearch(bvEvent, page){
       this.search(page);
+    },
+    itemClick: function (item) {
+      this.$http.get(`/api/code/${item.id}`)
+      .then(response => {
+        this.code = response.data
+        this.$refs.tuiGrid.invoke('resetData',this.code.codeList)
+        })
+      
+    },
+    register: function (){
+      if (this.code.codeName == null) {
+        alert('코드명을 입력해주세요.')
+        return false
+      }
+      if (this.code.code == null) {
+        alert('코드를 입력해주세요.')
+        return false
+      }
+      this.$refs.tuiGrid.invoke('finishEditing');
+      this.code.codeList = [...this.$refs.tuiGrid.invoke('getData'),...this.deleteChildCode]
+      if(confirm("코드를 등록하시겠습니까?")){
+      this.$http.post(`/api/code`,this.code)
+      .then(response => {
+        if(response.data.result === 'success'){
+          alert(response.data.msg)
+          this.search(this.currentPage)
+          this.code = response.data.code
+          this.itemClick(this.code)
+        }else{
+          alert(response.data.msg)
+        }
+        })
+      }
+    },
+    modify () {
+      if (this.code.codeName == null) {
+        alert('코드명을 입력해주세요.')
+        return false
+      }
+      if (this.code.code == null) {
+        alert('코드를 입력해주세요.')
+        return false
+      }
+      this.$refs.tuiGrid.invoke('finishEditing');
+      this.code.codeList = [...this.$refs.tuiGrid.invoke('getData'),...this.deleteChildCode]
+      if(confirm("코드를 수정하시겠습니까?")){
+      this.$http.put(`/api/code`,this.code)
+      .then(response => {
+        if(response.data.result === 'success'){
+          alert(response.data.msg)
+          this.search(this.currentPage)
+          this.itemClick(this.code)
+        }else{
+          alert(response.data.msg)
+        }
+        })
+      }
+
+    },
+    remove(){
+      if(confirm("부모코드를 삭제하시면 자식코드도 같이 삭제되며 복구되지 않습니다.\n코드를 삭제하시겠습니까?")){
+      this.$http.delete(`/api/code`,{data:this.code})
+      .then(response => {
+        if(response.data.result === 'success'){
+          alert("코드가 삭제되었습니다.")
+          this.search(this.currentPage);
+          this.cancel()
+        }
+        })
+      }
+    },
+     cancel: function (){
+      this.code = { id: null, code: null, codeName: null, codeDesc: null, edite: null, pid: null, del: null, codeList: [] }
+      this.$refs.tuiGrid.invoke('resetData',this.code.codeList)
+    },
+    rowAdd: function () {
+      const childCode = { id: null, code: null, codeName: null, codeDesc: "", edite: null, pid: null, del: null };
+      const key = this.$refs.tuiGrid.invoke('appendRow', childCode)
+    },
+    rowDelete () {
+      const _this = this;
+      const keys = this.$refs.tuiGrid.invoke('getCheckedRowKeys');
+      
+      keys.forEach(function(key){
+        const childCode = _this.$refs.tuiGrid.invoke('getRow', key);
+        if(childCode.id){
+          childCode.del = true
+          _this.deleteChildCode.push(childCode)
+        }
+        _this.$refs.tuiGrid.invoke('removeRow', key);
+
+      })
+    },
+    rowChange: function(data){
+      const rowkey = data.rowKey
+      this.$refs.tuiGrid.invoke('setValue',rowkey, 'edite', true);
     }
   }
 }

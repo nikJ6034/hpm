@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nik.hpm.code.DelYn;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.service.ConsignmentCompanyService;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
+import com.nik.hpm.enumcode.DelYn;
 
 @RestController
 public class ConsignmentCompanyController {

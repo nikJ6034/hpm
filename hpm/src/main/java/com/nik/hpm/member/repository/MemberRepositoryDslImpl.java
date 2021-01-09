@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import com.nik.hpm.code.DelYn;
+import com.nik.hpm.enumcode.DelYn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.entity.QMember;
 import com.nik.hpm.member.vo.MemberSearchVO;

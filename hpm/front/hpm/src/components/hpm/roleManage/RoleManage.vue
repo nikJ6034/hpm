@@ -152,7 +152,6 @@
 </template>
 
 <script>
-import companis from '@/testdata/company'
 
 export default {
   data: () => ({

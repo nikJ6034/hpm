@@ -1,4 +1,4 @@
-package com.nik.hpm.code;
+package com.nik.hpm.enumcode;
 
 public enum DelYn {
 	Y,
