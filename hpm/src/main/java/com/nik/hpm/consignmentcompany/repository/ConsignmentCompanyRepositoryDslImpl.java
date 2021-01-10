@@ -6,10 +6,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import com.nik.hpm.code.DelYn;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.entity.QConsignmentCompany;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
+import com.nik.hpm.enumcode.DelYn;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 

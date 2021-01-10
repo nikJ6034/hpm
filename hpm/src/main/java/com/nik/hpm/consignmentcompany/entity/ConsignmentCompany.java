@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import com.nik.hpm.code.DelYn;
+import com.nik.hpm.enumcode.DelYn;
 
 import lombok.Getter;
 import lombok.Setter;

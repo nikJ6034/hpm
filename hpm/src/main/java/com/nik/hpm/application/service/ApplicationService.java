@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.nik.hpm.application.entity.Application;
 import com.nik.hpm.application.repository.ApplicationRepository;
-import com.nik.hpm.code.DelYn;
+import com.nik.hpm.enumcode.DelYn;
 
 @Service
 @Transactional

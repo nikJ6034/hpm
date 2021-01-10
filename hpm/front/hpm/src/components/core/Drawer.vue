@@ -20,7 +20,8 @@
         style="background:white"
         
       >
-        <v-list-tile avatar
+        <v-list-tile 
+          avatar
           style="background: #287be4;"
         >
           <v-list-tile-avatar
@@ -32,7 +33,8 @@
               contain
             />
           </v-list-tile-avatar>
-          <v-list-tile-title class="title" style="color:white;" >
+          <v-list-tile-title class="title" 
+            style="color:white;" >
             HPM
           </v-list-tile-title>
         </v-list-tile>
@@ -48,9 +50,10 @@
         >
         <v-icon :color="iconColor(link.to)"
           >{{ link.icon }}</v-icon>
-        <v-list-tile-title v-text="link.text"
-          :style="textColor(link.to)"
-        />
+          <v-list-tile-title 
+            v-text="link.text"
+            :style="textColor(link.to)"
+          />
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -80,7 +83,7 @@ export default {
         text: '회원 관리'
       },
       {
-        to: '/dashboard/company',
+        to: '/dashboard/customer',
         icon: 'mdi-account',
         text: '거래처 관리'
       },
@@ -158,7 +161,7 @@ export default {
     textColor (page) {
       if(this.$route.path.indexOf(page) > -1){
         return 'color:white;'
-      }else{
+      } else{
         return 'color:black;'
       }
     }

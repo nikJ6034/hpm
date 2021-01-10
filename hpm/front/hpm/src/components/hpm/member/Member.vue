@@ -54,6 +54,7 @@
               </b-row>
               <b-row>
                 <b-table
+                  :striped="striped"
                   :items="members"
                   :fields="fields"
                   @row-clicked="companyClick"
@@ -242,6 +243,7 @@ export default {
     rows: 0,
     keyword: '',
     condition:'',
+    striped:false,
     member: { id: null, name: null, email: null, mobile: null, memberId: null, memberPassword: null, passwordConfirm: null, role:{id: null}},
     roleList: null,
     modalShow: false
@@ -260,11 +262,7 @@ export default {
   },
   methods: {
     companyClick: function (item) {
-      this.member.id = item.id
-      this.member.memberId = item.memberId
-      this.member.name = item.name
-      this.member.email = item.email
-      this.member.mobile = item.mobile
+      this.member = JSON.parse(JSON.stringify(item))
       if(item.role){
         this.member.role.id = item.role.id||null
       }else{
@@ -355,7 +353,8 @@ export default {
       .then(response => {
         if(response.data.result === 'success'){
           alert("회원이 삭제되었습니다.")
-          this.search(this.currentPage);
+          this.search(this.currentPage)
+          this.cancel()
         }
         })
       }

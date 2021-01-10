@@ -51,7 +51,7 @@ export default [
       {
         path: '',
         name: 'Dashboard',
-        component: () => import(`@/components/hpm/company/Company.vue`)
+        component: () => import(`@/components/hpm/customer/Customer.vue`)
       },
       {
         path: 'member',
@@ -59,14 +59,14 @@ export default [
         component: () => import(`@/components/hpm/member/Member.vue`)
       },
       {
-        path: 'company',
+        path: 'customer',
         name: '거래처 관리',
-        component: () => import(`@/components/hpm/company/Company.vue`)
+        component: () => import(`@/components/hpm/customer/Customer.vue`)
       },
       {
         path: 'instrument/company',
         name: '위탁업체 관리',
-        component: () => import(`@/components/hpm/instrumentCompany/InstrumentCompany.vue`)
+        component: () => import(`@/components/hpm/consignmentCompany/ConsignmentCompany.vue`)
       },
       {
         path: 'application',
