@@ -78,8 +78,7 @@
             <b-container
               style="height: 750px;">
               <b-row>
-                <b-col v-if="member.id == null" class="f25">회원 등록</b-col>
-                <b-col v-else class="f25">회원 정보</b-col>
+                <b-col class="f25">회원 {{titleInfo}}</b-col>
               </b-row>
               <hr />
               <b-row
@@ -250,6 +249,14 @@ export default {
   beforeMount () {
       this.search()
       this.getRoleList()
+  },
+  computed: {
+    titleInfo : function () {
+      if(!this.member.id) {
+        return "등록";
+      }
+      return "정보";
+    }
   },
   methods: {
     companyClick: function (item) {
