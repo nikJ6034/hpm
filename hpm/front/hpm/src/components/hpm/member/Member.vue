@@ -8,13 +8,14 @@
       wrap>
       <b-container fluid>
         <b-row
+          sm
           class="text-center"
           style="padding: 0 0 0 10px;">
           <b-col
             xl="6"
             style="padding:0 5px 0 5px">
             <b-container
-              style="height: 750px;">
+              style="min-height: 350px; max-height: 750px;">
               <b-row>
                 <b-col class="f25">회원 목록</b-col>
               </b-row>
@@ -74,10 +75,10 @@
             </b-container>
           </b-col>
           <b-col
-            xl="6"
-            style="padding:0 5px 0 0; border-left:1px solid lightgrey;">
+            v-bind:style="rightTbl"
+            xl="6">
             <b-container
-              style="height: 750px;">
+              style="min-height: 350px; max-height: 750px;">
               <b-row>
                 <b-col class="f25">회원 {{titleInfo}}</b-col>
               </b-row>
@@ -246,11 +247,19 @@ export default {
     striped:false,
     member: { id: null, name: null, email: null, mobile: null, memberId: null, memberPassword: null, passwordConfirm: null, role:{id: null}},
     roleList: null,
-    modalShow: false
+    modalShow: false,
+    rightTbl : {
+      padding:'0 5px 0 0',
+      borderLeft:'1px solid lightgrey',
+      height:'750px'
+    }
   }),
   beforeMount () {
       this.search()
       this.getRoleList()
+  },
+  mounted () {
+     window.addEventListener('resize', this.handleResize);
   },
   computed: {
     titleInfo : function () {
@@ -261,6 +270,15 @@ export default {
     }
   },
   methods: {
+    handleResize(event) {
+        if(window.innerWidth < 1330) {
+          this.rightTbl.borderLeft='0px';
+          this.rightTbl.height='350px';
+        } else {
+          this.rightTbl.borderLeft='1px solid lightgrey';
+          this.rightTbl.height='750px';
+        }
+    },
     companyClick: function (item) {
       this.member = JSON.parse(JSON.stringify(item))
       if(item.role){

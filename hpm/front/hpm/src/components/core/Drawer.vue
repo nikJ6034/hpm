@@ -8,6 +8,7 @@
     mobile-break-point="991"
     width="260"
     absolute
+    style="background: #eee;"
   >
     <v-img
       :src="image"
@@ -16,9 +17,7 @@
       <v-layout
         class="fill-height"
         tag="v-list"
-        column
-        style="background:white"
-        
+        column       
       >
         <v-list-tile 
           avatar
@@ -72,11 +71,11 @@ export default {
     selected : 2,
     logo: require('@/assets/img/redditicon.png'),
     links: [
-      {
-        to: '/',
-        icon: 'mdi-view-dashboard',
-        text: 'Dashboard'
-      },
+      // {
+      //   to: '/',
+      //   icon: 'mdi-view-dashboard',
+      //   text: 'Dashboard'
+      // },
       {
         to: '/dashboard/member',
         icon: 'mdi-account',
@@ -102,11 +101,11 @@ export default {
         icon: 'mdi-account',
         text: '위탁업체 접수대장 관리'
       },
-      {
-        to: '/dashboard/roleManage',
-        icon: 'mdi-account',
-        text: '권한 관리'
-      },
+      // {
+      //   to: '/dashboard/roleManage',
+      //   icon: 'mdi-account',
+      //   text: '권한 관리'
+      // },
       {
         to: '/dashboard/codeManage',
         icon: 'mdi-account',
