@@ -13,11 +13,9 @@ export default {
           const token = response.data.access_token
           const refreshToken = response.data.refresh_token
           var decoded = jwt_decode(token);
-          const user = { 'memberId': decoded.user_name, 'name': decoded.name }
+          const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'authorities':decoded.authorities }
           // storing jwt in localStorage. https cookie is safer place to store
-          localStorage.setItem('token', token )
           localStorage.setItem('refreshToken', refreshToken )
-          localStorage.setItem('user', user)
           //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
           // mutation to change state properties to the values passed along
           commit('auth_success', { token, user })
@@ -26,9 +24,7 @@ export default {
         .catch(err => {
           console.log('login error')
           commit('auth_error')
-          localStorage.removeItem('token')
           localStorage.removeItem('refreshToken')
-          localStorage.removeItem('user')
           reject(err)
         })
     })
@@ -36,34 +32,27 @@ export default {
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
       commit('logout')
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
       localStorage.removeItem('refreshToken')
       delete axios.defaults.headers.common['Authorization']
       resolve()
     })
   },
   async refreshtoken ({ commit }) {
-    console.log('refreshtoken')
     axios.defaults.headers.common['Authorization'] = ''
     return await axios.post('/oauth2/token/refresh', { refresh_token: localStorage.getItem('refreshToken') })
       .then(response => {
         const token = response.data.access_token
         const refreshToken = response.data.refresh_token
         var decoded = jwt_decode(token);
-        const user = { 'memberId': decoded.user_name, 'name': decoded.name }
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', user)
+        const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'authorities':decoded.authorities }
         localStorage.setItem('refreshToken', refreshToken )
         //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-        commit('auth_success', { token })
+        commit('auth_success', { token, user })
         return token;
       })
       .catch(error => {
         console.log('refresh token error')
         commit('logout')
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
         localStorage.removeItem('refreshToken')
         router.push(`/`)
       })

@@ -12,7 +12,7 @@ export default [
       requiresAuth: true
     },
     redirect: {
-      path: '/dashboard'
+      path: '/'
     }
   },
   // This  allows you to have pages apart of the app but no rendered inside the dash
@@ -27,7 +27,7 @@ export default [
     // redirect if already signed in
     beforeEnter: (to, from, next) => {
       if (store.getters.authorized) {
-        next('/dashboard')
+        next('/dashboard/application')
       } else {
         next()
       }

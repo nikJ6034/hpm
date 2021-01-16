@@ -2,7 +2,7 @@
 
 export default {
   authStatus: '',
-  token: localStorage.getItem('token') || '',
+  token: localStorage.getItem('refreshToken') || '',
   user: {},
   tableList: []
 }
