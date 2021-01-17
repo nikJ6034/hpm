@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.nik.hpm.config.oauth2.OAuthToken;
-import com.nik.hpm.config.security.SecurityMember;
 import com.nik.hpm.member.entity.Member;
 
 @RestController
@@ -33,11 +33,9 @@ public class LoginController {
 	@GetMapping("/login/success")
 	public Map<String, Object> loginSuccess(Authentication authentication){
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(authentication);
-		SecurityMember securityMember = (SecurityMember)authentication.getPrincipal();
-		
-		map.put("memberId", securityMember.getMemberId());
-		map.put("name", securityMember.getName());
+		System.out.println(authentication.getClass().getName());
+		String securityMember = (String)authentication.getPrincipal();
+		map.put("memberId", securityMember);
 		map.put("result", "success");
 		
 		return map;

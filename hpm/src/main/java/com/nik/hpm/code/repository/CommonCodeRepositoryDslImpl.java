@@ -43,5 +43,18 @@ public class CommonCodeRepositoryDslImpl extends QuerydslRepositorySupport imple
 		
 		return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());
 	}
+	
+
+	@Override
+	public CommonCode code(CommonCode cmmon) {
+		QCommonCode commonCode = new QCommonCode("code1");
+		QCommonCode commonCode2 = new QCommonCode("code2");
+		
+		return from(commonCode)
+		.join(commonCode2)
+		.on(commonCode.eq(commonCode2.pid))
+		.where(commonCode.code.eq(cmmon.getCode()))
+		.fetchOne();
+	}
 
 }

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.repository.MemberRepository;
 import com.nik.hpm.member.vo.MemberPasswordChangeVO;
@@ -64,7 +64,7 @@ public class MemberService {
 
 	public void memberCreate(Member member) {
 		String encode = passwordEncoder.encode(member.getMemberPassword());
-		member.setDelYn(DelYn.N);
+		member.setDelYn(Yn.N);
 		member.setMemberPassword(encode);
 		memberRepository.save(member);
 	}
@@ -72,7 +72,7 @@ public class MemberService {
 	public void memberDelete(Member member) {
 		Optional<Member> findById = memberRepository.findById(member.getId());
 		findById.ifPresent(mem->{
-			mem.setDelYn(DelYn.Y);
+			mem.setDelYn(Yn.Y);
 		});
 		
 	}

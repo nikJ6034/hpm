@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.entity.QMember;
 import com.nik.hpm.member.vo.MemberSearchVO;
@@ -36,7 +36,7 @@ public class MemberRepositoryDslImpl extends QuerydslRepositorySupport implement
 		}
 		
 		QueryResults<Member> fetchResults = from(member)
-		.where(member.delYn.eq(DelYn.N),builder)
+		.where(member.delYn.eq(Yn.N),builder)
 		.offset(pageable.getOffset())
 		.limit(pageable.getPageSize())
 		.fetchResults();

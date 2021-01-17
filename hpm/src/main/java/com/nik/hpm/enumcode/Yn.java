@@ -1,6 +1,6 @@
 package com.nik.hpm.enumcode;
 
-public enum DelYn {
+public enum Yn {
 	Y,
 	N
 }

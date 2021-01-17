@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.entity.QConsignmentCompany;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 
@@ -34,7 +34,7 @@ public class ConsignmentCompanyRepositoryDslImpl extends QuerydslRepositorySuppo
 		}
 		
 		QueryResults<ConsignmentCompany> fetchResults = from(consignmentcompany)
-		.where(consignmentcompany.delYn.eq(DelYn.N),builder)
+		.where(consignmentcompany.delYn.eq(Yn.N),builder)
 		.offset(pageable.getOffset())
 		.limit(pageable.getPageSize())
 		.fetchResults();

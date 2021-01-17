@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.nik.hpm.customer.enitity.Customer;
 import com.nik.hpm.customer.repository.CustomerRepository;
 import com.nik.hpm.customer.vo.CustomerSearchVO;
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 
 @Service
 @Transactional
@@ -22,9 +22,9 @@ public class CustomerService {
 	CustomerRepository customerRepository;
 	
 	public Customer customer(Customer customer) {
-		Optional<Customer> findById = customerRepository.findById(customer.getId());
-		
-		return findById.get();
+		//Optional<Customer> findById = customerRepository.findById(customer.getId());
+		//return findById.get();
+		return customerRepository.customer(customer);
 	}
 	
 	public Page<Customer> customerList(CustomerSearchVO customerSearchVO, Pageable pageable){
@@ -51,14 +51,14 @@ public class CustomerService {
 	}
 	
 	public void customerCreate(Customer customer) {
-		customer.setDelYn(DelYn.N);
+		customer.setDelYn(Yn.N);
 		customerRepository.save(customer);
 	}
 	
 	public void customerDelete(Customer customer) {
 		Optional<Customer> findById = customerRepository.findById(customer.getId());
 		findById.ifPresent(cus->{
-			cus.setDelYn(DelYn.Y);
+			cus.setDelYn(Yn.Y);
 		});
 		
 	}

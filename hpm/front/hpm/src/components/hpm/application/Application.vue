@@ -55,7 +55,11 @@
                 <b-table
                   :items="customers"
                   :fields="fields"
-                  @row-clicked="customerClick" />
+                  @row-clicked="customerClick" >
+                  <template #cell(index)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                </b-table>
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
@@ -68,6 +72,11 @@
               </b-row>
               <b-row>
                 <b-col>
+                  <b-button
+                    v-if="customer.id != null"
+                    class="float-right mr-1"
+                    variant="outline-danger"
+                    @click="selectCancel">선택취소</b-button>
                   <b-button
                     v-if="customer.id != null"
                     class="float-right mr-1"
@@ -85,7 +94,25 @@
               <b-row>
                 <b-col class="f25">신청서 목록</b-col>
               </b-row>
-              <hr/>
+              <b-row>
+                <b-table
+                  :items="applicationList"
+                  :fields="appFields"
+                  @row-clicked="appClick" >
+                  <template #cell(index)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                </b-table>
+              </b-row>
+              <b-row class="d-inline-block">
+                <b-pagination
+                    v-model="appCurrentPage"
+                    :total-rows="appRows"
+                    :per-page="appPerPage"
+                    @page-click="appPageSearch"
+                    align="center"
+                  ></b-pagination>
+              </b-row>
               <b-row class="mt-1">
                 <b-col>
                   <b-button
@@ -105,7 +132,8 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'id', label: 'No' },{ key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
+    fields: [ { key: 'index', label: 'No' },{ key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
+    appFields: [ { key: 'index', label: 'No' },{ key: 'customer.name', label: '거래처명' }, { key: 'regDate', label: '신청일' } ],
     customers: null,
     customer: { id: null, name: null },
     currentPage: 1,
@@ -113,14 +141,23 @@ export default {
     rows: 0,
     keyword: '',
     condition:'',
+    applicationList: [],
+    appPerPage: 10,
+    appCurrenttPage: 1,
+    appRows: 0
   }),
   beforeMount () {
       this.customerSearch()
+      this.applicationSearch()
   },
   methods: {
     customerClick: function (item) {
-      this.customer.id = item.id
-      this.customer.name = item.name
+      this.customer = item;
+      this.applicationSearch()
+    },
+    selectCancel: function (){
+      this.customer = {id: null, name: null}
+      this.applicationSearch()
     },
     goApplicationWritePage: function () {
       if (this.customer.id == null) {
@@ -140,8 +177,25 @@ export default {
         this.currentPage = response.data.number+1
         })
     },
+    applicationSearch: function(num){
+      const page = num-1|0;
+      const customer = this.customer.id||0
+      this.$http.get(`/api/application?page=${page}&customer=${customer}`)
+      .then(response => {
+        this.applicationList = response.data.content;
+        this.appRows = response.data.totalElements
+        this.appPerPage = response.data.size
+        this.appcurrentPage = response.data.number+1
+        })
+    },
+    appPageSearch(bvEvent, page){
+      this.applicationSearch(page);
+    },
     pageSearch(bvEvent, page){
       this.customerSearch(page);
+    },
+    appClick(item){
+      this.$router.push(`/dashboard/application/write?id=${item.id}`)
     }
   }
 }

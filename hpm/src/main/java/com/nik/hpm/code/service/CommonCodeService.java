@@ -33,6 +33,10 @@ public class CommonCodeService {
 		return commonCodeRepository.codeList(commonCodeSearchVO, pageable);
 	}
 	
+	public CommonCode codeList(CommonCode commonCode){
+		return commonCodeRepository.code(commonCode);
+	}
+	
 	public void codeModify(CommonCodeVO commonCodeVO) {
 		Optional<CommonCode> findById = commonCodeRepository.findById(commonCodeVO.getId());
 
@@ -72,9 +76,9 @@ public class CommonCodeService {
 		
 		commonCodeVO.getCodeList().forEach(code->{
 			CommonCode commonCode = new CommonCode();
-			commonCode.setCode(commonCodeVO.getCode());
-			commonCode.setCodeName(commonCodeVO.getCodeName());
-			commonCode.setCodeDesc(commonCodeVO.getCodeDesc());
+			commonCode.setCode(code.getCode());
+			commonCode.setCodeName(code.getCodeName());
+			commonCode.setCodeDesc(code.getCodeDesc());
 			commonCode.setPid(pcode);
 			commonCodeRepository.save(commonCode);
 		});

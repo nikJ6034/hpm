@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.role.entity.Role;
 
 import lombok.Getter;
@@ -44,7 +44,7 @@ public class Member {
 	private String mobile;
 	
 	@Enumerated(EnumType.STRING)
-	@Column DelYn delYn;
+	@Column Yn delYn;
 	
 //	@OneToMany(fetch = FetchType.EAGER)
 //	@JoinColumn(name="member_id", referencedColumnName = "id")

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -73,5 +73,5 @@ public class Customer {
 	
 	@Enumerated(EnumType.STRING)
 	/** 삭제 구분 */
-	@Column DelYn delYn;
+	@Column Yn delYn;
 }

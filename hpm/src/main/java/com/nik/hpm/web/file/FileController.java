@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +65,26 @@ public class FileController {
                 return null;
             }
         }).get();
+    }
+    
+    @GetMapping(value = "/api/img/file/{id}")
+    public void imgfileDownload(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        Optional<AttachFile> one = fileService.one(id);
+        
+        AttachFile attachFile = one.get();
+        
+        File file = new File(attachFile.getFullPath() +File.separator+ attachFile.getVirtualName());
+        response.setContentType("image/*");
+        response.setHeader("Content-Disposition", "attachment;filename=\""+attachFile.getRealName()+"\";");
+
+        try(
+        		FileInputStream fileInputStream = new FileInputStream(file);
+        		ServletOutputStream outputStream = response.getOutputStream();
+        ){
+        	FileCopyUtils.copy(fileInputStream, outputStream);
+        	
+        }
+        
     }
     
     @PostMapping(value = "/api/img", consumes = "multipart/form-data")

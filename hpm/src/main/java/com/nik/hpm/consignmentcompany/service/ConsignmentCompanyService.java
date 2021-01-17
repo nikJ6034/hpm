@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.repository.ConsignmentCompanyRepository;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 
 @Service
 @Transactional
@@ -53,14 +53,14 @@ public class ConsignmentCompanyService {
 	}
 	
 	public void companyCreate(ConsignmentCompany consignmentCompany) {
-		consignmentCompany.setDelYn(DelYn.N);
+		consignmentCompany.setDelYn(Yn.N);
 		consignmentCompanyRepository.save(consignmentCompany);
 	}
 	
 	public void companyDelete(ConsignmentCompany consignmentCompany) {
 		Optional<ConsignmentCompany> findById = consignmentCompanyRepository.findById(consignmentCompany.getId());
 		findById.ifPresent(com->{
-			com.setDelYn(DelYn.Y);
+			com.setDelYn(Yn.Y);
 		});
 		
 	}

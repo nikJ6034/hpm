@@ -13,7 +13,7 @@ export default {
           const token = response.data.access_token
           const refreshToken = response.data.refresh_token
           var decoded = jwt_decode(token);
-          const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'authorities':decoded.authorities }
+          const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id':decoded.id, 'authorities':decoded.authorities }
           // storing jwt in localStorage. https cookie is safer place to store
           localStorage.setItem('refreshToken', refreshToken )
           //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
@@ -44,7 +44,7 @@ export default {
         const token = response.data.access_token
         const refreshToken = response.data.refresh_token
         var decoded = jwt_decode(token);
-        const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'authorities':decoded.authorities }
+        const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id':decoded.id , 'authorities':decoded.authorities }
         localStorage.setItem('refreshToken', refreshToken )
         //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
         commit('auth_success', { token, user })

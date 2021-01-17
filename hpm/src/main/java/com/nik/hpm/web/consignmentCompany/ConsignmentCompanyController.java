@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.consignmentcompany.service.ConsignmentCompanyService;
 import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanySearchVO;
-import com.nik.hpm.enumcode.DelYn;
+import com.nik.hpm.enumcode.Yn;
 
 @RestController
 public class ConsignmentCompanyController {
@@ -34,7 +34,7 @@ public class ConsignmentCompanyController {
 	@GetMapping(value= "/api/companyAll")
 	public 	List<ConsignmentCompany> companyAll(){
 		ConsignmentCompany consignmentCompany = new ConsignmentCompany();
-		consignmentCompany.setDelYn(DelYn.N);
+		consignmentCompany.setDelYn(Yn.N);
 		List<ConsignmentCompany> companyList = consignmentCompanyService.companyAll(consignmentCompany);
 		return companyList;
 	}
