@@ -11,7 +11,7 @@
           class="text-center"
           style="padding: 0 0 0 10px;">
           <b-col
-            xl="6"
+            xl="5"
             style="padding:0 5px 0 5px">
             <b-container
               style="height: 750px;">
@@ -24,13 +24,10 @@
                   cols="3"
                   sm="3"
                   class="pr-0">
-                  <b-form-select
-                    v-model="condition"
-                    class="mb-3">
+                  <b-form-select class="mb-3"
+                    v-model="condition">
                     <b-form-select-option value="">전체</b-form-select-option>
-                    <b-form-select-option value="name">거래처명</b-form-select-option>
-                    <b-form-select-option value="companyRegNumber">사업자번호</b-form-select-option>
-                    <b-form-select-option value="tel">전화번호</b-form-select-option>
+                    <b-form-select-option value="name">이름</b-form-select-option>
                   </b-form-select>
                 </b-col>
                 <b-col
@@ -55,12 +52,26 @@
               </b-row>
               <b-row>
                 <b-table
-                  :items="members"
+                  :items="consignmentCompanise"
                   :fields="fields"
-                  @row-clicked="companyClick"
+                  @row-clicked="itemClick"
                   class="pointer"
                   hover
-                  />
+                  >
+                  <template #cell(app)="row">
+                    <b-button size="sm" class="mr-2" @click="appWindowOpen(row.item)">
+                      신청서 작성
+                    </b-button>
+                  </template>
+                </b-table>
+                <b-modal 
+                    v-model="modalShow" 
+                    @ok="appPage"
+                    @hide="cancel"
+                    title="신청서 작성">
+                    시작일 : <b-form-datepicker v-model="startDt" class="mb-2" placeholder="YYYY-MM-DD"></b-form-datepicker>
+                    종료일 : <b-form-datepicker v-model="endDt" class="mb-2" placeholder="YYYY-MM-DD"></b-form-datepicker>
+                  </b-modal>
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
@@ -74,57 +85,31 @@
             </b-container>
           </b-col>
           <b-col
-            xl="6"
+            xl="7"
             style="padding:0 5px 0 0; border-left:1px solid lightgrey;">
             <b-container
               style="height: 750px;">
               <b-row>
-                <b-col class="f25">접수 신청 이력</b-col>
+                <b-col class="f25">신청 이력</b-col>
               </b-row>
-              <hr />
-              
-              <b-row
-                class="mt-1">
-                <b-col>
-                  <b-modal 
-                    v-model="modalShow" 
-                    @ok="changPassword"
-                    title="비밀번호 변경">
-                    <b-form-input
-                      type="password"
-                      v-model="member.memberPassword"
-                      placeholder="비밀번호를 입력하세요." />
-                    <b-form-input
-                      type="password"
-                      v-model="member.passwordConfirm"
-                      placeholder="비밀번호 확인" />
-                  </b-modal>
-                  <b-button
-                    v-if="member.id != null"
-                    class="float-right"
-                    variant="outline-primary"
-                    @click="cancel">취소</b-button>
-                  <b-button
-                    v-if="member.id == null"
-                    class="float-right"
-                    variant="outline-primary"
-                    @click="register">등록</b-button>
-                    <b-button
-                    v-if="member.id != null"
-                    class="float-right mr-3"
-                    variant="outline-danger"
-                    @click="memeberDelete">삭제</b-button>
-                    <b-button
-                    v-if="member.id != null"
-                    class="float-right mr-1"
-                    variant="outline-primary"
-                    @click="memberModify">수정</b-button>
-                    <b-button
-                    v-if="member.id != null"
-                    class="float-right mr-3"
-                    variant="outline-primary"
-                    @click="modalShow = !modalShow">비밀번호 수정</b-button>
-                </b-col>
+              <b-row>
+                <b-table
+                  :items="applicationList"
+                  :fields="appFields"
+                  @row-clicked="appClick" >
+                  <template #cell(index)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                </b-table>
+              </b-row>
+              <b-row class="d-inline-block">
+                <b-pagination
+                    v-model="appCurrentPage"
+                    :total-rows="appRows"
+                    :per-page="appPerPage"
+                    @page-click="appPageSearch"
+                    align="center"
+                  ></b-pagination>
               </b-row>
             </b-container>
           </b-col>
@@ -138,73 +123,43 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'memberId', label: 'No' },{ key: 'name', label: '위탁업체명' }, { key: 'email', label: '담당자' }, { key: 'mobile', label: '사업자번호' }, { key: 'role.roleDesc', label: '전화번호' } ],
-    members: null,
-    test: '1111',
+    fields: [ { key: 'name', label: '사업자 이름' }, { key: 'tel', label: '전화번호' }, { key: 'app', label: '신청서작성' } ],
+    appFields: [ { key: 'index', label: 'No' },{ key: 'consignmentCompany.name', label: '거래처명' }, { key: 'startDt', label: '시작일' }, { key: 'endDt', label: '종료일' } ],
+    consignmentCompanise: [],
     currentPage: 1,
     perPage: 10,
     rows: 0,
     keyword: '',
     condition:'',
-    member: { id: null, name: null, email: null, mobile: null, memberId: null, memberPassword: null, passwordConfirm: null, role:{id: null}},
-    roleList: null,
-    modalShow: false
+    consignmentCompany: { id: null, name: null, tel: null, fax: null, postNumber: null, adress: null, adressDetail: null, etc: null },
+    modalShow: false,
+    startDt: '',
+    endDt: '',
+    applicationList: [],
+    appPerPage: 10,
+    appCurrentPage: 1,
+    appRows: 0
   }),
   beforeMount () {
       this.search()
-      this.getRoleList()
+      this.applicationSearch()
   },
   methods: {
-    companyClick: function (item) {
-      this.member.id = item.id
-      this.member.memberId = item.memberId
-      this.member.name = item.name
-      this.member.email = item.email
-      this.member.mobile = item.mobile
-      if(item.role){
-        this.member.role.id = item.role.id||null
-      }else{
-        this.member.role.id = null
-      }
+    itemClick: function (item) {
+      this.consignmentCompany = item
+      this.applicationSearch()
     },
     cancel: function (){
-      this.member = { id: null, name: null, email: null, mobile: null, memberId: null, memberPassword: null, passwordConfirm: null, role:{id: null}}
-    },
-    register: function (){
-      if(confirm("회원을 등록하시겠습니까?")){
-      this.$http.post(`/api/member`,this.member)
-      .then(response => {
-        if(response.data.result === 'success'){
-          alert("회원가입 되었습니다.")
-          this.search(this.currentPage);
-        }
-        })
-      }
-       
-    },
-    memberModify () {
-      const _this = this
-      if (this.member.name == null) {
-        alert('이름을 입력해주세요.')
-        return false
-      }
-      if (this.member.memberId == null) {
-        alert('아이디를 입력해주세요.')
-        return false
-      }
-      this.$http.put(`/api/member`,this.member)
-      .then(response => {
-        if(response.data.result === 'success'){
-          alert("회원정보가 변경되었습니다.")
-          this.search(this.currentPage);
-        }
-        })
+      this.consignmentCompany = { id: null, name: null, tel: null, fax: null, postNumber: null, adress: null, adressDetail: null, etc: null }
+      this.startDt = ''
+      this.endDt = ''
+      this.applicationSearch()
     },
     search(num){
       const page = num-1|0;
-      this.$http.get(`/api/member?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
+      this.$http.get(`/api/company?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
       .then(response => {
-        this.members = response.data.content;
+        this.consignmentCompanise = response.data.content;
         this.rows = response.data.totalElements
         this.perPage = response.data.size
         this.currentPage = response.data.number+1
@@ -213,48 +168,46 @@ export default {
     pageSearch(bvEvent, page){
       this.search(page);
     },
-    async getRoleList(){
-      await this.$http.get(`/api/role`)
+    applicationSearch: function(num){
+      const page = num-1|0;
+      const consignmentCompany = this.consignmentCompany.id||0
+      this.$http.get(`/api/companyApp?page=${page}&consignmentCompany.id=${consignmentCompany}`)
       .then(response => {
-        this.roleList = response.data
+        this.applicationList = response.data.content;
+        this.appRows = response.data.totalElements
+        this.appPerPage = response.data.size
+        this.appcurrentPage = response.data.number+1
         })
     },
-    passwordCheck(){
-      if(this.member.memberPassword != this.member.passwordConfirm){
-        alert('비밀번호가 일치하지 않습니다.')
-        return false;
-      }else if(this.member.memberPassword.length <= 10){
-        alert('비밀번호는 10자리 이상이어야합니다.')
-        return false;
-      }
+    appPageSearch(bvEvent, page){
+      this.applicationSearch(page);
+    },
+    appRemove(){
       
-      return true;
     },
-    changPassword(bvModalEvt){
-      if(!this.passwordCheck()){
+    appWindowOpen(item){
+      this.itemClick(item)
+      this.modalShow = true
+    },
+    appPage(bvModalEvt){
+
+      if(!this.startDt){
+        alert("시작일을 입력해주세요.")
         bvModalEvt.preventDefault()
-        return false;
+        return false
+      }else if(!this.startDt){
+        alert("종료일을 입력해주세요.")
+        bvModalEvt.preventDefault()
+        return false
+      }else if(!this.consignmentCompany.id){
+        alert("사업자가 선택되지 않았습니다.")
+        bvModalEvt.preventDefault()
+        return false
       }
-      this.$http.put(`/api/member/changePassword`,this.member)
-      .then(response => {
-        if(response.data.result === 'success'){
-          alert("비밀번호가 변경되었습니다.")
-          this.search(this.currentPage);
-        }else{
-          bvModalEvt.preventDefault()
-        }
-        })
+      this.$router.push(`/dashboard/consign/write?companyId=${this.consignmentCompany.id}&startDt=${this.startDt}&endDt=${this.endDt}`)
     },
-    memeberDelete(){
-      if(confirm("정말 회원을 삭제하시겠습니까?")){
-      this.$http.delete(`/api/member`,{data:this.member})
-      .then(response => {
-        if(response.data.result === 'success'){
-          alert("회원이 삭제되었습니다.")
-          this.search(this.currentPage);
-        }
-        })
-      }
+    appClick(item){
+      this.$router.push(`/dashboard/consign/write?id=${item.id}`)
     }
   }
 }

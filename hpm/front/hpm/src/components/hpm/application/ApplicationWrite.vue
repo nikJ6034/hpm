@@ -356,9 +356,15 @@ export default {
         { header: '실무자', name:"practitioner", editor: 'text'   },
         { header: '중분류', name:"middleCategory", editor: 'text'   },
         { header: '소분류', name:"smallCategory", editor: 'text'   },
-        { header: '발행일자', name:"publishedDate", editor: 'text'   },
+        { header: '발행일자', name:"publishedDate", editor: {type:'datePicker' , options: { language: 'ko' }}  },
         { header: '기술책임자', name:"technicalManager", editor: 'text'   },
-        { header: '성적서 언어', name:"reportLanguage", editor: 'text'   }
+        { header: '성적서 언어', name:"reportLanguage",formatter: 'listItemText', editor: {
+            type: 'select',
+            options: {
+              listItems: [{text:'한국어', value:'KO'},{text:'영어', value:'EN'}]
+            }
+          }   
+        }
     ]
     await this.companySearch()  
     

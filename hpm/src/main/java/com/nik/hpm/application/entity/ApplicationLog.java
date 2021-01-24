@@ -1,5 +1,6 @@
 package com.nik.hpm.application.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
@@ -23,8 +24,10 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class ApplicationLog {
+public class ApplicationLog implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	

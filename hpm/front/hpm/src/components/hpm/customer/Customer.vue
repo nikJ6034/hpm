@@ -85,12 +85,12 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                   거래처명
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     v-model="customer.name"
                     placeholder="거래처명을 입력하세요." />
@@ -99,12 +99,12 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                   대표자명
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     v-model="customer.repName"
                     placeholder="대표자명을 입력하세요." />
@@ -113,11 +113,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                   사업자번호
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="customer.companyRegNumber"
                     placeholder="사업자번호를 입력하세요." />
@@ -126,11 +126,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    업태
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-select 
                     :options="codeList"
                     v-model="customer.bizCondition"
@@ -143,11 +143,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    종목
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="customer.item"
                     placeholder="종목을 입력하세요." />
@@ -156,11 +156,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    전화번호
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="customer.tel"
                     placeholder="전화번호를 입력하세요." />
@@ -169,11 +169,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    팩스번호
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="customer.fax"
                     placeholder="팩스번호를 입력하세요." />
@@ -182,11 +182,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    담당자
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="customer.picName"
                     placeholder="담당자를 입력하세요." />
@@ -195,11 +195,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                   주소
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input style="width:150px;"
                     class="float-left mr-1"
                     readonly=readonly
@@ -215,9 +215,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2">
+                  cols="3">
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input readonly=readonly
                     v-model="customer.adress"
                     placeholder="주소를 입력하세요." />
@@ -226,9 +226,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2">
+                  cols="3">
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input 
                     v-model="customer.adressDetail"
                     placeholder="상세주소를 입력하세요." />
@@ -237,10 +237,10 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">기타
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-textarea 
                     v-model="customer.etc" />
                 </b-col>

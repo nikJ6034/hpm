@@ -1,5 +1,7 @@
 package com.nik.hpm.consignmentcompany.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +18,9 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class ConsignmentCompany {
+public class ConsignmentCompany implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

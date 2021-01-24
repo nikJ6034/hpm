@@ -82,12 +82,12 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                   위탁업체명
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     v-model="consignmentCompany.name"
                     placeholder="위탁업체명을 입력하세요." />
@@ -96,11 +96,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    전화번호
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="consignmentCompany.tel"
                     placeholder="전화번호를 입력하세요." />
@@ -109,11 +109,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    팩스번호
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="consignmentCompany.fax"
                     placeholder="팩스번호를 입력하세요." />
@@ -122,11 +122,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                   주소
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input style="width:150px;"
                     class="float-left mr-1"
                     v-model="consignmentCompany.postNumber"
@@ -142,10 +142,10 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input readonly=readonly
                     v-model="consignmentCompany.adress"
                     placeholder="주소를 입력하세요." />
@@ -154,9 +154,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2">
+                  cols="3">
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input 
                     v-model="consignmentCompany.adressDetail"
                     placeholder="상세주소를 입력하세요." />
@@ -165,11 +165,11 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2"
+                  cols="3"
                   class="mFormLbl text-right">
                    기타
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-textarea 
                   v-model="consignmentCompany.etc"/>
                 </b-col>

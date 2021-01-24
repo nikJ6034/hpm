@@ -86,13 +86,13 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2" 
+                  cols="3" 
                   class="mFormLbl text-right">
                   <span style="color:red;">*</span>
                   ID
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     :readonly="member.id != null"
                     v-model="member.memberId"
@@ -102,13 +102,13 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2" 
+                  cols="3" 
                   class="mFormLbl text-right">
                   <span style="color:red;">*</span> 
                   이름
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     :readonly="member.id != null"
                     v-model="member.name"
@@ -119,11 +119,11 @@
                 v-if="member.id == null"
                 class="mt-1">
                 <b-col
-                  cols="2" 
+                  cols="3" 
                   class="mFormLbl text-right"><span style="color:red;">*</span> 비밀번호
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     type="password"
                     v-model="member.memberPassword"
@@ -134,11 +134,11 @@
                 v-if="member.id == null"
                 class="mt-1">
                 <b-col
-                  cols="2" 
+                  cols="3" 
                   class="mFormLbl text-right">비밀번호 확인
                 </b-col>
                 <b-col
-                  cols="10">
+                  cols="9">
                   <b-form-input
                     type="password"
                     v-model="member.passwordConfirm"
@@ -148,9 +148,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2" class="mFormLbl text-right">이메일주소
+                  cols="3" class="mFormLbl text-right">이메일주소
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="member.email"
                     placeholder="이메일주소" />
@@ -159,9 +159,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2" class="mFormLbl text-right">전화번호
+                  cols="3" class="mFormLbl text-right">전화번호
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-input
                     v-model="member.mobile"
                     placeholder="전화번호" />
@@ -170,9 +170,9 @@
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="2" class="mFormLbl text-right">권한
+                  cols="3" class="mFormLbl text-right">권한
                 </b-col>
-                <b-col cols="10">
+                <b-col cols="9">
                   <b-form-select 
                     v-model="member.role.id" 
                     :options="roleList"

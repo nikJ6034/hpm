@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -24,8 +21,6 @@ import com.nik.hpm.application.vo.ApplicationSearchVO;
 import com.nik.hpm.application.vo.ApplicationVO;
 import com.nik.hpm.attachfile.entity.AttachFile;
 import com.nik.hpm.attachfile.repository.AttachFileRepository;
-import com.nik.hpm.code.entity.CommonCode;
-import com.nik.hpm.code.service.CommonCodeService;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.util.file.image.UploadResourceImageFileUtil;
