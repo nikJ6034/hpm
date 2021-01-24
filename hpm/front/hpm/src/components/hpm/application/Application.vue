@@ -143,7 +143,7 @@ export default {
     condition:'',
     applicationList: [],
     appPerPage: 10,
-    appCurrenttPage: 1,
+    appCurrentPage: 1,
     appRows: 0
   }),
   beforeMount () {
