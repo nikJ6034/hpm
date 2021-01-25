@@ -4,6 +4,19 @@
  * official documentation https://router.vuejs.org/en/
  */
 import store from '../store'
+
+const requireManager = () => (to, from, next) => {
+  if (!store.state.user.authorities) {
+    next('/')
+    return
+  }
+  if (store.state.user.authorities.includes('ROLE_MANAGER')) {
+    return next()
+  } else {
+    next('/')
+  }
+}
+
 export default [
   {
     path: '*',
@@ -56,17 +69,20 @@ export default [
       {
         path: 'member',
         name: '회원 관리',
-        component: () => import(`@/components/hpm/member/Member.vue`)
+        component: () => import(`@/components/hpm/member/Member.vue`),
+        beforeEnter: requireManager()
       },
       {
         path: 'customer',
         name: '거래처 관리',
-        component: () => import(`@/components/hpm/customer/Customer.vue`)
+        component: () => import(`@/components/hpm/customer/Customer.vue`),
+        beforeEnter: requireManager()
       },
       {
         path: 'instrument/company',
         name: '위탁업체 관리',
-        component: () => import(`@/components/hpm/consignmentCompany/ConsignmentCompany.vue`)
+        component: () => import(`@/components/hpm/consignmentCompany/ConsignmentCompany.vue`),
+        beforeEnter: requireManager()
       },
       {
         path: 'application',
@@ -91,12 +107,14 @@ export default [
       {
         path: 'roleManage',
         name: '권한 관리',
-        component: () => import(`@/components/hpm/roleManage/RoleManage.vue`)
+        component: () => import(`@/components/hpm/roleManage/RoleManage.vue`),
+        beforeEnter: requireManager()
       },
       {
         path: 'codeManage',
         name: '코드 관리',
-        component: () => import(`@/components/hpm/codeManage/CodeManage.vue`)
+        component: () => import(`@/components/hpm/codeManage/CodeManage.vue`),
+        beforeEnter: requireManager()
       },
       {
         path: 'user-profile',

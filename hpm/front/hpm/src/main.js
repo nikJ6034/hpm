@@ -75,7 +75,6 @@ async function (error) {
       return Promise.reject(error)
     }
   }
-
   router.push(`/`)
   return Promise.reject(error)
 })

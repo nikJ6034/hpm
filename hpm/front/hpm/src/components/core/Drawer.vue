@@ -40,7 +40,7 @@
         </v-list-tile>
         <v-divider/>
         <v-list-tile
-          v-for="(link, i) in links"
+          v-for="(link, i) in authLink"
           :key="i"
           :to="link.to"
           :active-class="color"
@@ -77,27 +77,32 @@ export default {
       {
         to: '/dashboard/member',
         icon: 'mdi-account',
-        text: '회원 관리'
+        text: '회원 관리',
+        auth: ['ROLE_MANAGER']
       },
       {
         to: '/dashboard/customer',
         icon: 'mdi-account',
-        text: '거래처 관리'
+        text: '거래처 관리',
+        auth: ['ROLE_MANAGER']
       },
       {
         to: '/dashboard/instrument/company',
         icon: 'mdi-account',
-        text: '위탁업체 관리'
+        text: '위탁업체 관리',
+        auth: ['ROLE_MANAGER']
       },
       {
         to: '/dashboard/application',
         icon: 'mdi-account',
-        text: '접수대장 관리'
+        text: '접수대장 관리',
+        auth: ['ROLE_MANAGER', 'ROLE_USER']
       },
       {
         to: '/dashboard/consign',
         icon: 'mdi-account',
-        text: '위탁업체 접수대장 관리'
+        text: '위탁업체 접수대장 관리',
+        auth: ['ROLE_MANAGER', 'ROLE_USER']
       },
       // {
       //   to: '/dashboard/roleManage',
@@ -107,7 +112,8 @@ export default {
       {
         to: '/dashboard/codeManage',
         icon: 'mdi-account',
-        text: '코드 관리'
+        text: '코드 관리',
+        auth: ['ROLE_MANAGER']
       }
     ],
     responsive: false
@@ -124,6 +130,17 @@ export default {
     },
     items () {
       return this.$t('Layout.View.items')
+    },
+    authLink (){
+      const linkList = [];
+      const _this = this;
+      this.links.forEach(function(item){
+        if(_this.isAuth(item.auth)){
+          linkList.push(item)
+        }
+      })
+
+      return linkList
     }
   },
   mounted () {
@@ -161,6 +178,17 @@ export default {
       } else {
         return 'color:black;'
       }
+    },
+    isAuth: function(auth){
+      var result = false
+      const _this = this
+      if(!this.$store.state.user.authorities){
+        return false
+      }
+      auth.forEach(function(item){
+        result = _this.$store.state.user.authorities.includes(item) || result
+      })
+        return result
     }
   }
 }

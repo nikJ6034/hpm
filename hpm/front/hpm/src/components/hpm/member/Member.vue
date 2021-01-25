@@ -189,8 +189,8 @@
                 <b-col>
                   <b-modal
                     v-model="modalShow"
-                    title="비밀번호 변경">
-                    @ok="changPassword"
+                    title="비밀번호 변경"
+                    @ok="changPassword">
                     <b-form-input
                       v-model="member.memberPassword"
                       type="password"
