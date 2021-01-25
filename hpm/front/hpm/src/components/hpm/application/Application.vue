@@ -19,13 +19,15 @@
               <b-row>
                 <b-col class="f25">거래처 목록</b-col>
               </b-row>
-              <hr />
+              <hr>
               <b-row>
                 <b-col
                   cols="3"
                   sm="3"
                   class="pr-0">
-                  <b-form-select class="mb-3" v-model="condition">
+                  <b-form-select
+                    v-model="condition"
+                    class="mb-3">
                     <b-form-select-option value="">전체</b-form-select-option>
                     <b-form-select-option value="name">거래처명</b-form-select-option>
                     <b-form-select-option value="companyRegNumber">사업자번호</b-form-select-option>
@@ -37,8 +39,8 @@
                   sm="7"
                   class="pr-0">
                   <b-form-input
-                    v-model="keyword"
                     id="customerName"
+                    v-model="keyword"
                     type="text"
                     placeholder="키워드를 입력해주세요." />
                 </b-col>
@@ -47,8 +49,8 @@
                   sm="2">
                   <b-button
                     block
-                    @click="customerSearch"
-                    variant="outline-primary">조회</b-button>
+                    variant="outline-primary"
+                    @click="customerSearch">조회</b-button>
                 </b-col>
               </b-row>
               <b-row>
@@ -63,12 +65,12 @@
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    @page-click="pageSearch"
-                    align="center"
-                  ></b-pagination>
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                  align="center"
+                  @page-click="pageSearch"
+                />
               </b-row>
               <b-row>
                 <b-col>
@@ -106,12 +108,12 @@
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
-                    v-model="appCurrentPage"
-                    :total-rows="appRows"
-                    :per-page="appPerPage"
-                    @page-click="appPageSearch"
-                    align="center"
-                  ></b-pagination>
+                  v-model="appCurrentPage"
+                  :total-rows="appRows"
+                  :per-page="appPerPage"
+                  align="center"
+                  @page-click="appPageSearch"
+                />
               </b-row>
               <b-row class="mt-1">
                 <b-col>
@@ -132,15 +134,15 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'index', label: 'No' },{ key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
-    appFields: [ { key: 'index', label: 'No' },{ key: 'customer.name', label: '거래처명' }, { key: 'regDate', label: '신청일' } ],
+    fields: [ { key: 'index', label: 'No' }, { key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
+    appFields: [ { key: 'index', label: 'No' }, { key: 'customer.name', label: '거래처명' }, { key: 'regDate', label: '신청일' } ],
     customers: null,
     customer: { id: null, name: null },
     currentPage: 1,
     perPage: 10,
     rows: 0,
     keyword: '',
-    condition:'',
+    condition: '',
     applicationList: [],
     appPerPage: 10,
     appCurrentPage: 1,
@@ -152,11 +154,11 @@ export default {
   },
   methods: {
     customerClick: function (item) {
-      this.customer = item;
+      this.customer = item
       this.applicationSearch()
     },
-    selectCancel: function (){
-      this.customer = {id: null, name: null}
+    selectCancel: function () {
+      this.customer = { id: null, name: null }
       this.applicationSearch()
     },
     goApplicationWritePage: function () {
@@ -167,34 +169,34 @@ export default {
         this.$router.push(`/dashboard/application/write?customerId=${this.customer.id}`)
       }
     },
-    customerSearch: function (num){
-      const page = num-1|0;
+    customerSearch: function (num) {
+      const page = num - 1 || 0
       this.$http.get(`/api/customer?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
       .then(response => {
-        this.customers = response.data.content;
+        this.customers = response.data.content
         this.rows = response.data.totalElements
         this.perPage = response.data.size
-        this.currentPage = response.data.number+1
+        this.currentPage = response.data.number + 1
         })
     },
-    applicationSearch: function(num){
-      const page = num-1|0;
-      const customer = this.customer.id||0
+    applicationSearch: function (num) {
+      const page = num - 1 || 0
+      const customer = this.customer.id || 0
       this.$http.get(`/api/application?page=${page}&customer=${customer}`)
       .then(response => {
-        this.applicationList = response.data.content;
+        this.applicationList = response.data.content
         this.appRows = response.data.totalElements
         this.appPerPage = response.data.size
-        this.appcurrentPage = response.data.number+1
+        this.appcurrentPage = response.data.number + 1
         })
     },
-    appPageSearch(bvEvent, page){
-      this.applicationSearch(page);
+    appPageSearch (bvEvent, page) {
+      this.applicationSearch(page)
     },
-    pageSearch(bvEvent, page){
-      this.customerSearch(page);
+    pageSearch (bvEvent, page) {
+      this.customerSearch(page)
     },
-    appClick(item){
+    appClick (item) {
       this.$router.push(`/dashboard/application/write?id=${item.id}`)
     }
   }

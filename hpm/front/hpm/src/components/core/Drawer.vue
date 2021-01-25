@@ -17,9 +17,9 @@
       <v-layout
         class="fill-height"
         tag="v-list"
-        column       
+        column
       >
-        <v-list-tile 
+        <v-list-tile
           avatar
           style="background: #287be4;"
         >
@@ -32,27 +32,25 @@
               contain
             />
           </v-list-tile-avatar>
-          <v-list-tile-title class="title" 
+          <v-list-tile-title
+            class="title"
             style="color:white;" >
             HPM
           </v-list-tile-title>
         </v-list-tile>
         <v-divider/>
-
         <v-list-tile
           v-for="(link, i) in links"
           :key="i"
           :to="link.to"
           :active-class="color"
           avatar
-          class="v-list-item"
-        >
-        <v-icon :color="iconColor(link.to)"
-          >{{ link.icon }}</v-icon>
-          <v-list-tile-title 
-            v-text="link.text"
+          class="v-list-item">
+          <v-icon
+            :color="iconColor(link.to)">{{ link.icon }}</v-icon>
+          <v-list-tile-title
             :style="textColor(link.to)"
-          />
+            v-text="link.text"/>
         </v-list-tile>
       </v-layout>
     </v-img>
@@ -68,7 +66,7 @@ import {
 
 export default {
   data: () => ({
-    selected : 2,
+    selected: 2,
     logo: require('@/assets/img/redditicon.png'),
     links: [
       // {
@@ -147,20 +145,20 @@ export default {
         this.responsive = false
       }
     },
-    toggle(index) {
-      this.selected = index;
+    toggle (index) {
+      this.selected = index
     },
     iconColor (page) {
-      if(page.indexOf(this.$route.path) > -1){
+      if (page.indexOf(this.$route.path) > -1) {
         return 'white'
-      }else{
+      } else {
         return 'normal'
       }
     },
     textColor (page) {
-      if(this.$route.path.indexOf(page) > -1){
+      if (this.$route.path.indexOf(page) > -1) {
         return 'color:white;'
-      } else{
+      } else {
         return 'color:black;'
       }
     }

@@ -15,17 +15,17 @@
             style="padding:0 5px 0 5px">
             <b-container
               fluid
-              >
+            >
               <b-row>
                 <b-col class="f25">신청서 목록</b-col>
               </b-row>
 
-              <hr/>
+              <hr>
 
               <b-row>
-                <b-table-simple 
-                  small 
-                  responsive 
+                <b-table-simple
+                  small
+                  responsive
                   bordered
                   class="tbl-mgb10">
                   <colgroup>
@@ -41,32 +41,39 @@
                     <b-tr class="trBgW">
                       <b-th rowspan="4"><font size="5">* 신청인</font></b-th>
                       <b-th class="text-center">회사명</b-th>
-                      <b-td class="text-left"></b-td>
+                      <b-td class="text-left" />
                       <b-th class="text-center">대표자</b-th>
-                      <b-td class="text-left" colspan="3"></b-td>
+                      <b-td
+                        class="text-left"
+                        colspan="3" />
                     </b-tr>
                     <b-tr class="trBgW">
                       <b-th class="text-center">사업자등록번호</b-th>
-                      <b-td class="text-left"></b-td>
+                      <b-td class="text-left" />
                       <b-th class="text-center">업태</b-th>
-                      <b-td class="text-left"></b-td>
+                      <b-td class="text-left" />
                       <b-th class="text-center">종목</b-th>
-                      <b-td class="text-left"></b-td>
+                      <b-td class="text-left" />
                     </b-tr>
                     <b-tr class="trBgW">
                       <b-th class="text-center">주소</b-th>
-                      <b-td class="text-left" colspan="5"></b-td>
+                      <b-td
+                        class="text-left"
+                        colspan="5"/>
                     </b-tr>
                     <b-tr class="trBgW">
                       <b-th class="text-center">전화번호</b-th>
-                      <b-td class="text-left"></b-td>
+                      <b-td class="text-left" />
                       <b-th class="text-center">팩스번호</b-th>
-                      <b-td class="text-left" colspan="3"></b-td>
+                      <b-td
+                        class="text-left"
+                        colspan="3"
+                      />
                     </b-tr>
                   </b-tbody>
                 </b-table-simple>
-                <b-table-simple 
-                  small 
+                <b-table-simple
+                  small
                   bordered
                   class="tbl-mgb10">
                   <colgroup>
@@ -79,7 +86,7 @@
                   <b-tbody>
                     <b-tr class="trBgW">
                       <b-th colspan="2">
-                        ★ 현장교정 : 
+                        ★ 현장교정 :
                         <b-form-checkbox
                           id="checkbox-1"
                           name="checkbox-1"
@@ -107,30 +114,32 @@
                     </b-tr>
                     <b-tr class="trBgW">
                       <b-th rowspan="2">기준일타입</b-th>
-                      <b-td rowspan="2" class="text-center">
-                          <b-form-radio-group
-                            :options="options2"
-                            name="radios-stacked2"
-                            class="fl mr-1"
-                          ></b-form-radio-group>
-
-                          <b-form-input
-                            id="example-input"
-                            :readonly="true"
-                            type="text"
-                            placeholder="YYYY-MM-DD"
-                            autocomplete="off"
-                            size="sm"
-                            class="fl"
-                            style="width:120px;"
-                          ></b-form-input>
-                          <b-form-datepicker
-                              button-only
-                              locale="ko-KR"
-                              aria-controls="example-input"
-                              size="sm"
-                              class="fl"
-                            ></b-form-datepicker>
+                      <b-td
+                        rowspan="2"
+                        class="text-center"
+                      >
+                        <b-form-radio-group
+                          :options="options2"
+                          name="radios-stacked2"
+                          class="fl mr-1"
+                        />
+                        <b-form-input
+                          id="example-input"
+                          :readonly="true"
+                          type="text"
+                          placeholder="YYYY-MM-DD"
+                          autocomplete="off"
+                          size="sm"
+                          class="fl"
+                          style="width:120px;"
+                        />
+                        <b-form-datepicker
+                          button-only
+                          locale="ko-KR"
+                          aria-controls="example-input"
+                          size="sm"
+                          class="fl"
+                        />
                       </b-td>
                       <b-th>신청인</b-th>
                       <b-td>
@@ -138,7 +147,12 @@
                           placeholder="신청인을 입력하세요." />
                       </b-td>
                       <b-td rowspan="3">
-                        <b-img :src="uploadFileImg" width="100px;" height="100px;" alt="서명 이미지" />
+                        <b-img
+                          :src="uploadFileImg"
+                          width="100px;"
+                          height="100px;"
+                          alt="서명 이미지"
+                        />
                       </b-td>
                     </b-tr>
                     <b-tr class="trBgW">
@@ -155,22 +169,23 @@
                           :options="options3"
                           name="radios-stacked3"
                           class="fl mr-1"
-                        ></b-form-radio-group>
+                        />
                       </b-td>
                       <b-th>
                         서명
                       </b-th>
                       <b-td>
                         <!-- accept="image/*" -->
-                        <b-form-file id="file-small" 
-                          style="width:450px;float:right;" 
-                          size="sm" 
-                          browse-text="신청인 서명 업로드" 
-                          placeholder="서명 파일을 첨부해주세요." 
+                        <b-form-file
+                          id="file-small"
+                          style="width:450px;float:right;"
+                          size="sm"
+                          browse-text="신청인 서명 업로드"
+                          placeholder="서명 파일을 첨부해주세요."
                           class="float-right mr-3"
                           color="primary"
                           @change="fnChangeImage"
-                        ></b-form-file>
+                        />
                       </b-td>
                     </b-tr>
                   </b-tbody>
@@ -180,7 +195,14 @@
                   fluid>
                   <b-row class="mt-1">
                     <b-col>
-                      <grid style="height:400px" ref="tuiGrid" :columns="columns" language="ko" :data="consignmentCompanyApplication.applicationLogList" :options="gridOptions" />
+                      <grid
+                        ref="tuiGrid"
+                        :columns="columns"
+                        :data="consignmentCompanyApplication.applicationLogList"
+                        :options="gridOptions"
+                        style="height:400px"
+                        language="ko"
+                      />
                     </b-col>
                   </b-row>
 
@@ -227,10 +249,10 @@ export default {
     Grid
   },
   data: () => ({
-    gridOptions: {bodyHeight:'fitToParent'},
+    gridOptions: { bodyHeight: 'fitToParent' },
     companis: [],
     uploadFileImg: null,
-    consignmentCompanyApplication: { id: 0, consignmentCompany: {id: 0, name: ''}, startDt: '', endDt: '', applicationLogList: [], regMember: {id:null} },
+    consignmentCompanyApplication: { id: 0, consignmentCompany: { id: 0, name: '' }, startDt: '', endDt: '', applicationLogList: [], regMember: { id: null } },
     newLine: {
                 name: null,
                 instrumentName: null,
@@ -252,65 +274,65 @@ export default {
     ],
     columns: []
   }),
+  computed: {
+
+  },
   async created () {
-    const _this = this;
     this.columns = [
-        {  header: '사업자', name:"consignmentCompanyName"},
-        { header: '기기명', name:"deviceName"},
-        { header: '수량', name:"quantity"},
-        { header: '성적서 번호', name:"reportNumber"},
-        { header: '제작 회사', name:"productionCompany"},
-        { header: '기기번호', name:"deviceNumber"},
-        { header: '규격', name:"standard"},
-        { header: '단위', name:"unit"},
-        { header: '교정일자', name:"correctionDate"},
-        { header: '장소', name:"place"},
-        { header: '실무자', name:"practitioner"},
-        { header: '중분류', name:"middleCategory"},
-        { header: '소분류', name:"smallCategory"},
-        { header: '발행일자', name:"publishedDate"},
-        { header: '기술책임자', name:"technicalManager"},
-        { header: '성적서 언어', name:"reportLanguage"}
+        { header: '사업자', name: 'consignmentCompanyName' },
+        { header: '기기명', name: 'deviceName' },
+        { header: '수량', name: 'quantity' },
+        { header: '성적서 번호', name: 'reportNumber' },
+        { header: '제작 회사', name: 'productionCompany' },
+        { header: '기기번호', name: 'deviceNumber' },
+        { header: '규격', name: 'standard' },
+        { header: '단위', name: 'unit' },
+        { header: '교정일자', name: 'correctionDate' },
+        { header: '장소', name: 'place' },
+        { header: '실무자', name: 'practitioner' },
+        { header: '중분류', name: 'middleCategory' },
+        { header: '소분류', name: 'smallCategory' },
+        { header: '발행일자', name: 'publishedDate' },
+        { header: '기술책임자', name: 'technicalManager' },
+        { header: '성적서 언어', name: 'reportLanguage' }
     ]
-    
-    //this.$refs.tuiGrid.invoke('setColumns', this.columns);
+    // this.$refs.tuiGrid.invoke('setColumns', this.columns);
   },
   beforeMount () {
     const id = this.$route.query.id
     const companyId = this.$route.query.companyId
     const startDt = this.$route.query.startDt
     const endDt = this.$route.query.endDt
-    if(id){
+    if (id) {
     this.consignmentCompanyApplication.id = id
     }
-    if(companyId){
+    if (companyId) {
       this.consignmentCompanyApplication.consignmentCompany.id = companyId
     }
 
-    if(startDt){
+    if (startDt) {
       this.consignmentCompanyApplication.startDt = startDt
     }
 
-    if(endDt){
+    if (endDt) {
       this.consignmentCompanyApplication.endDt = endDt
     }
-  
     this.getApplication()
-    this.uploadFileImg = 'http://placehold.it/150x150';
+    this.uploadFileImg = 'http://placehold.it/150x150'
   },
   methods: {
-    getApplication: function(){
+    getApplication: function () {
       this.$http.get(`/api/companyApp/${this.consignmentCompanyApplication.id}?consignmentCompany.id=${this.consignmentCompanyApplication.consignmentCompany.id}&startDt=${this.consignmentCompanyApplication.startDt}&endDt=${this.consignmentCompanyApplication.endDt}`)
       .then(response => {
-        if(response){
-          this.consignmentCompanyApplication = response.data;
-          const logList = [];
-          this.consignmentCompanyApplication.applicationLogList.forEach(function(item){
+        if (response) {
+          this.consignmentCompanyApplication = response.data
+          const logList = []
+          this.consignmentCompanyApplication.applicationLogList.forEach(function (item) {
             item.consignmentCompanyName = item.consignmentCompany.name
             item.reportLanguage = item.reportLanguage.name
             logList.push(item)
           })
-          this.$refs.tuiGrid.invoke('resetData',logList)
+          this.$refs.tuiGrid.invoke('resetData', logList)
         }
         })
     },
@@ -323,29 +345,28 @@ export default {
       }
     },
     fnChangeImage: function (e) {
-      const file = e.target.files[0]; // Get first index in files
-      this.uploadFileImg = URL.createObjectURL(file); // Create File URL
+      const file = e.target.files[0] // Get first index in files
+      this.uploadFileImg = URL.createObjectURL(file) // Create File URL
     },
-    /*signImageUrl: function(){
+    /* signImageUrl: function(){
       this.$http.get(`/api/img/file/${this.consignmentCompanyApplication.customerSignImg.id}`,{ responseType:"blob" }).then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
             this.uploadFileImg = url
       }).catch(err => console.log(err));
-    },*/
-    register: function (){
-
-      if(this.consignmentCompanyApplication.consignmentCompany.id == 0){
-        alert("위탁업체 데이터가 없습니다.")
+    }, */
+    register: function () {
+      if (this.consignmentCompanyApplication.consignmentCompany.id === 0) {
+        alert('위탁업체 데이터가 없습니다.')
         return
-      }else if(!this.consignmentCompanyApplication.startDt){
-        alert("시작일이 존재하지 않습니다.")
+      } else if (!this.consignmentCompanyApplication.startDt) {
+        alert('시작일이 존재하지 않습니다.')
         return
-      }else if(!this.consignmentCompanyApplication.endDt){
-        alert("종료일이 존재하지 않습니다.")
+      } else if (!this.consignmentCompanyApplication.endDt) {
+        alert('종료일이 존재하지 않습니다.')
         return
       }
 
-      if(confirm("신청서를 등록하시겠습니까?")){
+      if (confirm('신청서를 등록하시겠습니까?')) {
         // const formData = new FormData();
         // this.consignmentCompanyApplication.regMember = {id:this.$store.state.user.id}
         // const consignmentCompanyApplication = this.consignmentCompanyApplication
@@ -359,32 +380,29 @@ export default {
 
         // formData.append('consignmentCompanyApplication',blob)
 
-        this.consignmentCompanyApplication.regMember = {id:this.$store.state.user.id}
+        this.consignmentCompanyApplication.regMember = { id: this.$store.state.user.id }
         this.consignmentCompanyApplication.applicationLogList = []
-        this.$http.post(`/api/companyApp`,this.consignmentCompanyApplication)
+        this.$http.post(`/api/companyApp`, this.consignmentCompanyApplication)
         .then(response => {
-          if(response.data.result === 'success'){
+          if (response.data.result === 'success') {
             alert(response.data.msg)
-          }else{
+          } else {
             alert(response.data.msg)
           }
           })
       }
     },
-    remove: function(){
-      if(confirm("삭제후에는 복구가 불가능합니다. 삭제하시겠습니까?")){
-      this.$http.delete(`/api/application`,{data:this.application})
+    remove: function () {
+      if (confirm('삭제후에는 복구가 불가능합니다. 삭제하시겠습니까?')) {
+      this.$http.delete(`/api/application`, { data: this.application })
       .then(response => {
-        if(response.data.result === 'success'){
-          alert("삭제되었습니다.")
+        if (response.data.result === 'success') {
+          alert('삭제되었습니다.')
           this.$router.push(`/dashboard/application`)
         }
         })
       }
     }
-  },
-  computed:{
-
   }
 }
 </script>

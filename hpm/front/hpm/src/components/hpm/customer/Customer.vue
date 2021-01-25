@@ -16,9 +16,9 @@
             <b-container
               style="height: 750px;">
               <b-row>
-                  <b-col class="f25">거래처 목록</b-col>
+                <b-col class="f25">거래처 목록</b-col>
               </b-row>
-              <hr/>
+              <hr>
               <b-row>
                 <b-col
                   cols="3"
@@ -39,8 +39,8 @@
                   class="pr-0">
                   <b-form-input
                     id="customerName"
-                    type="text"
                     v-model="keyword"
+                    type="text"
                     placeholder="검색조건을 입력해주세요." />
                 </b-col>
                 <b-col
@@ -56,19 +56,19 @@
                 <b-table
                   :items="customers"
                   :fields="fields"
-                  @row-clicked="itemClick" 
                   class="pointer"
                   hover
-                  />
+                  @row-clicked="itemClick"
+                />
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    @page-click="pageSearch"
-                    align="center"
-                  ></b-pagination>
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                  align="center"
+                  @page-click="pageSearch"
+                />
               </b-row>
             </b-container>
           </b-col>
@@ -78,10 +78,18 @@
             <b-container
               style="height: 750px;">
               <b-row>
-                <b-col v-if="customer.id == null" class="f25">거래처 등록</b-col>
-                <b-col v-else class="f25">거래처 정보</b-col>
+                <b-col
+                  v-if="customer.id == null"
+                  class="f25">
+                  거래처 등록
+                </b-col>
+                <b-col
+                  v-else
+                  class="f25">
+                  거래처 정보
+                </b-col>
               </b-row>
-              <hr/>
+              <hr>
               <b-row
                 class="mt-1">
                 <b-col
@@ -128,16 +136,15 @@
                 <b-col
                   cols="3"
                   class="mFormLbl text-right">
-                   업태
+                  업태
                 </b-col>
                 <b-col cols="9">
-                  <b-form-select 
+                  <b-form-select
                     :options="codeList"
                     v-model="customer.bizCondition"
                     value-field="code"
                     text-field="codeName"
-                  >
-                  </b-form-select>
+                  />
                 </b-col>
               </b-row>
               <b-row
@@ -145,7 +152,7 @@
                 <b-col
                   cols="3"
                   class="mFormLbl text-right">
-                   종목
+                  종목
                 </b-col>
                 <b-col cols="9">
                   <b-form-input
@@ -158,7 +165,7 @@
                 <b-col
                   cols="3"
                   class="mFormLbl text-right">
-                   전화번호
+                  전화번호
                 </b-col>
                 <b-col cols="9">
                   <b-form-input
@@ -171,7 +178,7 @@
                 <b-col
                   cols="3"
                   class="mFormLbl text-right">
-                   팩스번호
+                  팩스번호
                 </b-col>
                 <b-col cols="9">
                   <b-form-input
@@ -184,7 +191,7 @@
                 <b-col
                   cols="3"
                   class="mFormLbl text-right">
-                   담당자
+                  담당자
                 </b-col>
                 <b-col cols="9">
                   <b-form-input
@@ -200,36 +207,36 @@
                   주소
                 </b-col>
                 <b-col cols="9">
-                  <b-form-input style="width:150px;"
-                    class="float-left mr-1"
-                    readonly=readonly
+                  <b-form-input
                     v-model="customer.postNumber"
+                    style="width:150px;"
+                    class="float-left mr-1"
+                    readonly="readonly"
                     placeholder="우편번호" />
-                   <b-button
+                  <b-button
                     class="float-left mr-1"
                     variant="outline-primary"
                     @click="postPopupOpen"
-                    >주소검색</b-button>
+                  >주소검색</b-button>
                 </b-col>
               </b-row>
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                </b-col>
+                  cols="3" />
                 <b-col cols="9">
-                  <b-form-input readonly=readonly
+                  <b-form-input
                     v-model="customer.adress"
+                    readonly="readonly"
                     placeholder="주소를 입력하세요." />
                 </b-col>
               </b-row>
               <b-row
                 class="mt-1">
                 <b-col
-                  cols="3">
-                </b-col>
+                  cols="3" />
                 <b-col cols="9">
-                  <b-form-input 
+                  <b-form-input
                     v-model="customer.adressDetail"
                     placeholder="상세주소를 입력하세요." />
                 </b-col>
@@ -241,7 +248,7 @@
                   class="mFormLbl text-right">기타
                 </b-col>
                 <b-col cols="9">
-                  <b-form-textarea 
+                  <b-form-textarea
                     v-model="customer.etc" />
                 </b-col>
               </b-row>
@@ -253,7 +260,7 @@
                     class="float-right"
                     variant="outline-primary"
                     @click="register"
-                    >등록</b-button>
+                  >등록</b-button>
 
                   <b-button
                     v-if="customer.id != null"
@@ -265,7 +272,7 @@
                     class="float-right mr-3"
                     variant="outline-danger"
                     @click="remove"
-                    >삭제</b-button>
+                  >삭제</b-button>
                   <b-button
                     v-if="customer.id != null"
                     class="float-right mr-1"
@@ -285,96 +292,94 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'id', label: 'No.'} ,{key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자번호' }, { key: 'picName', label: '담당자' } , { key: 'tel', label: '전화번호' }],
+    fields: [{ key: 'id', label: 'No.' }, { key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자번호' }, { key: 'picName', label: '담당자' }, { key: 'tel', label: '전화번호' }],
     customers: [],
     currentPage: 1,
     perPage: 10,
     rows: 0,
     keyword: '',
-    condition:'',
-    customer: { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: '', item: null, tel: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null},
-    codeList : []
+    condition: '',
+    customer: { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: '', item: null, tel: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null },
+    codeList: []
   }),
   beforeMount () {
     this.search()
     this.codeSearch()
   },
   methods: {
-    search(num){
-      const page = num-1|0;
+    search (num) {
+      const page = num - 1 | 0
       this.$http.get(`/api/customer?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
       .then(response => {
-        this.customers = response.data.content;
+        this.customers = response.data.content
         this.rows = response.data.totalElements
         this.perPage = response.data.size
-        this.currentPage = response.data.number+1
+        this.currentPage = response.data.number + 1
         })
     },
-    pageSearch(bvEvent, page){
-      this.search(page);
+    pageSearch (bvEvent, page) {
+      this.search(page)
     },
-    codeSearch(){
+    codeSearch () {
       this.$http.get(`/api/code/code/bizCondition`)
       .then(response => {
-        this.codeList = [...[{code:'',codeName:'선택해주세요.'}],...response.data.codeList];
+        this.codeList = [...[{ code: '', codeName: '선택해주세요.' }], ...response.data.codeList]
         })
     },
     itemClick: function (item) {
       this.customer = JSON.parse(JSON.stringify(item))
     },
-    register: function (){
-      if(confirm("거래처를 등록하시겠습니까?")){
-      this.$http.post(`/api/customer`,this.customer)
+    register: function () {
+      if (confirm('거래처를 등록하시겠습니까?')) {
+      this.$http.post(`/api/customer`, this.customer)
       .then(response => {
-        if(response.data.result === 'success'){
-          alert("거래처가 등록되었습니다.")
-          this.search(this.currentPage);
+        if (response.data.result === 'success') {
+          alert('거래처가 등록되었습니다.')
+          this.search(this.currentPage)
         }
         })
       }
-       
     },
     modify: function () {
       if (this.customer.name == null) {
         alert('이름을 입력해주세요.')
         return false
       }
-      if(confirm("거래처 정보를 수정하시겠습니까?")){
-        this.$http.put(`/api/customer`,this.customer)
+      if (confirm('거래처 정보를 수정하시겠습니까?')) {
+        this.$http.put(`/api/customer`, this.customer)
         .then(response => {
-          if(response.data.result === 'success'){
-            alert("거래처 정보가 변경되었습니다.")
-            this.search(this.currentPage);
+          if (response.data.result === 'success') {
+            alert('거래처 정보가 변경되었습니다.')
+            this.search(this.currentPage)
           }
           })
       }
-      
     },
-    remove(){
-      if(confirm("정말 거래처를 삭제하시겠습니까?")){
-      this.$http.delete(`/api/customer`,{data:this.customer})
+    remove () {
+      if (confirm('정말 거래처를 삭제하시겠습니까?')) {
+      this.$http.delete(`/api/customer`, { data: this.customer })
       .then(response => {
-        if(response.data.result === 'success'){
-          alert("거래처가 삭제되었습니다.")
-          this.search(this.currentPage);
+        if (response.data.result === 'success') {
+          alert('거래처가 삭제되었습니다.')
+          this.search(this.currentPage)
           this.cancel()
         }
         })
       }
     },
-     cancel: function (){
-      this.customer = { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: null, item: null, tel: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null}
+     cancel: function () {
+      this.customer = { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: null, item: null, tel: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null }
     },
-    postPopupOpen: function (){
-      const _this = this;
+    postPopupOpen: function () {
+      const _this = this
       new daum.Postcode({
-          oncomplete: function(data) {
+          oncomplete: function (data) {
               // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
               // 예제를 참고하여 다양한 활용법을 확인해 보세요.
               _this.customer.postNumber = data.zonecode
               _this.customer.adress = data.jibunAddress
           }
-      }).open();
+      }).open()
     }
   }
 }

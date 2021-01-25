@@ -1,6 +1,6 @@
 // https://vuex.vuejs.org/en/actions.html
 import axios from 'axios'
-import jwt_decode from "jwt-decode";
+import jwtDecode from 'jwt-decode'
 import router from '@/router'
 
 // The login action passes vuex commit helper that we will use to trigger mutations.
@@ -12,11 +12,11 @@ export default {
         .then(response => {
           const token = response.data.access_token
           const refreshToken = response.data.refresh_token
-          var decoded = jwt_decode(token);
-          const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id':decoded.id, 'authorities':decoded.authorities }
+          var decoded = jwtDecode(token)
+          const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id': decoded.id, 'authorities': decoded.authorities }
           // storing jwt in localStorage. https cookie is safer place to store
-          localStorage.setItem('refreshToken', refreshToken )
-          //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+          localStorage.setItem('refreshToken', refreshToken)
+          // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
           // mutation to change state properties to the values passed along
           commit('auth_success', { token, user })
           resolve(response)
@@ -43,12 +43,12 @@ export default {
       .then(response => {
         const token = response.data.access_token
         const refreshToken = response.data.refresh_token
-        var decoded = jwt_decode(token);
-        const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id':decoded.id , 'authorities':decoded.authorities }
-        localStorage.setItem('refreshToken', refreshToken )
-        //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+        var decoded = jwtDecode(token)
+        const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id': decoded.id, 'authorities': decoded.authorities }
+        localStorage.setItem('refreshToken', refreshToken)
+        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
         commit('auth_success', { token, user })
-        return token;
+        return token
       })
       .catch(error => {
         console.log('refresh token error')

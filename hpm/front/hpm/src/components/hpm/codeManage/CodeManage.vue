@@ -16,17 +16,18 @@
             <b-container
               style="height: 750px;">
               <b-row>
-                  <b-col class="f25">코드 목록</b-col>
+                <b-col class="f25">코드 목록</b-col>
               </b-row>
-              <hr/>
+              <hr>
               <b-row>
                 <b-col
                   cols="3"
                   sm="3"
                   class="pr-0">
                   <b-form-select
+                    v-model="condition"
                     class="mb-3"
-                    v-model="condition">
+                  >
                     <b-form-select-option value="">전체</b-form-select-option>
                     <b-form-select-option value="code">분류코드</b-form-select-option>
                     <b-form-select-option value="codeName">분류코드명</b-form-select-option>
@@ -54,19 +55,19 @@
                 <b-table
                   :items="codes"
                   :fields="fields"
-                  @row-clicked="itemClick" 
                   class="pointer"
                   hover
-                  />
+                  @row-clicked="itemClick"
+                />
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    @page-click="pageSearch"
-                    align="center"
-                  ></b-pagination>
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                  align="center"
+                  @page-click="pageSearch"
+                />
               </b-row>
             </b-container>
           </b-col>
@@ -76,10 +77,16 @@
             <b-container
               style="height: 450px;">
               <b-row>
-                <b-col v-if="code.id == null" class="f25">코드 등록</b-col>
-                <b-col v-else class="f25">코드 정보</b-col>
+                <b-col
+                  v-if="code.id == null"
+                  class="f25"
+                >코드 등록</b-col>
+                <b-col
+                  v-else
+                  class="f25"
+                >코드 정보</b-col>
               </b-row>
-              <hr/>
+              <hr>
               <b-row
                 class="mt-1">
                 <b-col
@@ -117,33 +124,43 @@
                   class="mFormLbl text-right">설명
                 </b-col>
                 <b-col cols="10">
-                  <b-form-textarea rows="3"
-                  v-model="code.codeDesc" />
+                  <b-form-textarea
+                    v-model="code.codeDesc"
+                    rows="3"
+                  />
                 </b-col>
               </b-row>
 
-              <hr/>
+              <hr>
               <b-row class="mt-1">
                 <b-col>
                   <b-icon
                     class="float-right pointer"
                     icon="file-plus-fill"
+                    variant="primary"
+                    style="height:31px; width:31px;"
                     @click="rowAdd"
-                    variant="primary"
-                    style="height:31px; width:31px;"
-                  ></b-icon>
-                  <b-icon class="float-right pointer"
+                  />
+                  <b-icon
+                    class="float-right pointer"
                     icon="file-minus"
-                    @click="rowDelete"
                     variant="primary"
                     style="height:31px; width:31px;"
-                  ></b-icon>
+                    @click="rowDelete"
+                  />
                 </b-col>
               </b-row>
 
               <b-row class="mt-1">
                 <b-col style="height:300px">
-                  <grid ref="tuiGrid" :data="testData" :columns="columns" language="ko" :options="gridOptions" @editingFinish="rowChange"/>
+                  <grid
+                    ref="tuiGrid"
+                    :data="testData"
+                    :columns="columns"
+                    :options="gridOptions"
+                    language="ko"
+                    @editingFinish="rowChange"
+                  />
                 </b-col>
               </b-row>
 
@@ -155,19 +172,20 @@
                     class="float-right"
                     variant="outline-primary"
                     @click="register"
-                    >등록</b-button>
+                  >등록</b-button>
 
                   <b-button
                     v-if="code.id != null"
                     class="float-right"
                     variant="outline-primary"
-                    @click="cancel">취소</b-button>
+                    @click="cancel"
+                  >취소</b-button>
                   <b-button
                     v-if="code.id != null"
                     class="float-right mr-3"
                     variant="outline-danger"
                     @click="remove"
-                    >삭제</b-button>
+                  >삭제</b-button>
                   <b-button
                     v-if="code.id != null"
                     class="float-right mr-1"
@@ -192,21 +210,20 @@ export default {
     Grid
   },
   data: () => ({
-    gridOptions: {bodyHeight:'fitToParent',rowHeaders:['checkbox']},
-    columns: [ 
-                { header: '코드', name:"code", editor: 'text' },
-                { header: '코드명', name:"codeName", editor: 'text'  },
-                { header: '설명', name:"codeDesc", editor: 'text'  }
-                
+    gridOptions: { bodyHeight: 'fitToParent', rowHeaders: ['checkbox'] },
+    columns: [
+                { header: '코드', name: 'code', editor: 'text' },
+                { header: '코드명', name: 'codeName', editor: 'text' },
+                { header: '설명', name: 'codeDesc', editor: 'text' }
             ],
     testData: [],
-    fields: [ { key: 'id', label: 'No.'} ,{key: 'code', label: '분류코드' }, { key: 'codeName', label: '분류코드명' }],
+    fields: [{ key: 'id', label: 'No.' }, { key: 'code', label: '분류코드' }, { key: 'codeName', label: '분류코드명' }],
     codes: [],
     currentPage: 1,
     perPage: 10,
     rows: 0,
     keyword: '',
-    condition:'',
+    condition: '',
     code: { id: null, code: null, codeName: null, codeDesc: null, edite: null, pid: null, del: null, codeList: [] },
     deleteChildCode: []
   }),
@@ -214,28 +231,27 @@ export default {
     this.search()
   },
   methods: {
-    search(num){
-      const page = num-1|0;
+    search (num) {
+      const page = num - 1 | 0
       this.$http.get(`/api/code?page=${page}&keyword=${this.keyword}&condition=${this.condition}`)
       .then(response => {
-        this.codes = response.data.content;
+        this.codes = response.data.content
         this.rows = response.data.totalElements
         this.perPage = response.data.size
-        this.currentPage = response.data.number+1
+        this.currentPage = response.data.number + 1
         })
     },
-    pageSearch(bvEvent, page){
-      this.search(page);
+    pageSearch (bvEvent, page) {
+      this.search(page)
     },
     itemClick: function (item) {
       this.$http.get(`/api/code/${item.id}`)
       .then(response => {
         this.code = response.data
-        this.$refs.tuiGrid.invoke('resetData',this.code.codeList)
+        this.$refs.tuiGrid.invoke('resetData', this.code.codeList)
         })
-      
     },
-    register: function (){
+    register: function () {
       if (this.code.codeName == null) {
         alert('코드명을 입력해주세요.')
         return false
@@ -244,17 +260,17 @@ export default {
         alert('코드를 입력해주세요.')
         return false
       }
-      this.$refs.tuiGrid.invoke('finishEditing');
-      this.code.codeList = [...this.$refs.tuiGrid.invoke('getData'),...this.deleteChildCode]
-      if(confirm("코드를 등록하시겠습니까?")){
-      this.$http.post(`/api/code`,this.code)
+      this.$refs.tuiGrid.invoke('finishEditing')
+      this.code.codeList = [...this.$refs.tuiGrid.invoke('getData'), ...this.deleteChildCode]
+      if (confirm('코드를 등록하시겠습니까?')) {
+      this.$http.post(`/api/code`, this.code)
       .then(response => {
-        if(response.data.result === 'success'){
+        if (response.data.result === 'success') {
           alert(response.data.msg)
           this.search(this.currentPage)
           this.code = response.data.code
           this.itemClick(this.code)
-        }else{
+        } else {
           alert(response.data.msg)
         }
         })
@@ -269,59 +285,56 @@ export default {
         alert('코드를 입력해주세요.')
         return false
       }
-      this.$refs.tuiGrid.invoke('finishEditing');
-      this.code.codeList = [...this.$refs.tuiGrid.invoke('getData'),...this.deleteChildCode]
-      if(confirm("코드를 수정하시겠습니까?")){
-      this.$http.put(`/api/code`,this.code)
+      this.$refs.tuiGrid.invoke('finishEditing')
+      this.code.codeList = [...this.$refs.tuiGrid.invoke('getData'), ...this.deleteChildCode]
+      if (confirm('코드를 수정하시겠습니까?')) {
+      this.$http.put(`/api/code`, this.code)
       .then(response => {
-        if(response.data.result === 'success'){
+        if (response.data.result === 'success') {
           alert(response.data.msg)
           this.search(this.currentPage)
           this.itemClick(this.code)
-        }else{
+        } else {
           alert(response.data.msg)
         }
         })
       }
-
     },
-    remove(){
-      if(confirm("부모코드를 삭제하시면 자식코드도 같이 삭제되며 복구되지 않습니다.\n코드를 삭제하시겠습니까?")){
-      this.$http.delete(`/api/code`,{data:this.code})
+    remove () {
+      if (confirm('부모코드를 삭제하시면 자식코드도 같이 삭제되며 복구되지 않습니다.\n코드를 삭제하시겠습니까?')) {
+      this.$http.delete(`/api/code`, { data: this.code })
       .then(response => {
-        if(response.data.result === 'success'){
-          alert("코드가 삭제되었습니다.")
-          this.search(this.currentPage);
+        if (response.data.result === 'success') {
+          alert('코드가 삭제되었습니다.')
+          this.search(this.currentPage)
           this.cancel()
         }
         })
       }
     },
-     cancel: function (){
+     cancel: function () {
       this.code = { id: null, code: null, codeName: null, codeDesc: null, edite: null, pid: null, del: null, codeList: [] }
-      this.$refs.tuiGrid.invoke('resetData',this.code.codeList)
+      this.$refs.tuiGrid.invoke('resetData', this.code.codeList)
     },
     rowAdd: function () {
-      const childCode = { id: null, code: null, codeName: null, codeDesc: "", edite: null, pid: null, del: null };
-      const key = this.$refs.tuiGrid.invoke('appendRow', childCode)
+      const childCode = { id: null, code: null, codeName: null, codeDesc: '', edite: null, pid: null, del: null }
+      this.$refs.tuiGrid.invoke('appendRow', childCode)
     },
     rowDelete () {
-      const _this = this;
-      const keys = this.$refs.tuiGrid.invoke('getCheckedRowKeys');
-      
-      keys.forEach(function(key){
-        const childCode = _this.$refs.tuiGrid.invoke('getRow', key);
-        if(childCode.id){
+      const _this = this
+      const keys = this.$refs.tuiGrid.invoke('getCheckedRowKeys')
+      keys.forEach(function (key) {
+        const childCode = _this.$refs.tuiGrid.invoke('getRow', key)
+        if (childCode.id) {
           childCode.del = true
           _this.deleteChildCode.push(childCode)
         }
-        _this.$refs.tuiGrid.invoke('removeRow', key);
-
+        _this.$refs.tuiGrid.invoke('removeRow', key)
       })
     },
-    rowChange: function(data){
+    rowChange: function (data) {
       const rowkey = data.rowKey
-      this.$refs.tuiGrid.invoke('setValue',rowkey, 'edite', true);
+      this.$refs.tuiGrid.invoke('setValue', rowkey, 'edite', true)
     }
   }
 }
