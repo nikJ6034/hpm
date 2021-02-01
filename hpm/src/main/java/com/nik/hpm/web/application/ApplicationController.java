@@ -2,6 +2,7 @@ package com.nik.hpm.web.application;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nik.hpm.application.entity.Application;
 import com.nik.hpm.application.service.ApplicationLogService;
 import com.nik.hpm.application.service.ApplicationService;
+import com.nik.hpm.application.vo.AppLogAllListVO;
 import com.nik.hpm.application.vo.ApplicationSearchVO;
 import com.nik.hpm.application.vo.ApplicationVO;
 import com.nik.hpm.code.entity.CommonCode;
@@ -59,10 +61,20 @@ public class ApplicationController {
 		return applicationList;
 	}
 	
+	@GetMapping(value= "/api/applicationAll")
+    public  List<AppLogAllListVO> applicationAll(ApplicationSearchVO applicationSearchVO){
+        
+        return applicationService.applicationAll(applicationSearchVO);
+    }
+	
+	
+	
+	
 	@PostMapping(value= "/api/application")
 	public Map<String, Object> applicationCreate(MultipartFile customerSignImgFile, @RequestPart("applicationVO")ApplicationVO applicationVO) throws IOException, Exception{
 		Map<String, Object> map = new HashMap<>();
-		applicationService.applicationCreate(applicationVO, customerSignImgFile);
+		Application applicationCreate = applicationService.applicationCreate(applicationVO, customerSignImgFile);
+		map.put("id", applicationCreate.getId());
 		map.put("result", "success");
 		map.put("msg", "등록 성공");
 		

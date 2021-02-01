@@ -197,7 +197,7 @@ export default {
       this.customerSearch(page)
     },
     appClick (item) {
-      this.$router.push(`/dashboard/application/write?id=${item.id}`)
+      this.$router.push(`/dashboard/application/view?id=${item.id}`)
     }
   }
 }

@@ -95,6 +95,16 @@ export default [
         component: () => import(`@/components/hpm/application/ApplicationWrite.vue`)
       },
       {
+        path: 'application/view',
+        name: '신청서 상세',
+        component: () => import(`@/components/hpm/application/ApplicationView.vue`)
+      },
+      {
+        path: '/dashboard/appLog',
+        name: '신청서 상세',
+        component: () => import(`@/components/hpm/applicationLog/ApplicationLogView.vue`)
+      },
+      {
         path: 'consign',
         name: '위탁업체 신청서 관리',
         component: () => import(`@/components/hpm/consign/Consign.vue`)

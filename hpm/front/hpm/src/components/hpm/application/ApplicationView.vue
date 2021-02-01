@@ -97,6 +97,7 @@
                             :aria-describedby="ariaDescribedby"
                             name="radios-stacked"
                             stacked
+                            :disabled="true"
                             @change="customerSameChange"
                           />
                         </b-form-group>
@@ -129,10 +130,34 @@
                   <b-tbody>
                     <b-tr class="trBgW">
                       <b-th colspan="2">
-                        ★ 현장교정 : {{ application.fieldCorrectionNeedYn }}
+                        ★ 현장교정 :
+                        <b-form-checkbox
+                          id="checkbox-1"
+                          v-model="application.fieldCorrectionNeedYn"
+                          name="checkbox-1"
+                          value="Y"
+                          unchecked-value="N"
+                          :disabled="true"
+                          inline
+                          class="ml-5"
+                        >
+                          필요
+                        </b-form-checkbox>
                       </b-th>
                       <b-th colspan="3">
-                        ★ 필증상에 권장교정일 주기 기입여부 : {{ application.recCalibrationDayYn }}
+                        ★ 필증상에 권장교정일 주기 기입여부 :
+                        <b-form-checkbox
+                          id="checkbox-2"
+                          v-model="application.recCalibrationDayYn"
+                          name="checkbox-2"
+                          value="Y"
+                          unchecked-value="N"
+                          inline
+                          :disabled="true"
+                          class="ml-5"
+                        >
+                          필요
+                        </b-form-checkbox>
                       </b-th>
                     </b-tr>
                     <b-tr class="trBgW">
@@ -140,7 +165,13 @@
                       <b-td
                         rowspan="2"
                         class="text-center">
-                        {{ application.appliRegDateType }}
+                        <b-form-radio-group
+                          v-model="application.appliRegDateType"
+                          :options="options2"
+                          :disabled="true"
+                          name="radios-stacked2"
+                          class="fl mr-1"
+                        />
                         {{ application.appliRegDate }}
                       </b-td>
                       <b-th>신청인</b-th>
@@ -163,8 +194,14 @@
                     </b-tr>
                     <b-tr class="trBgW">
                       <b-th>인수방법</b-th>
-                      <b-td>
-                        {{ application.takeOverType }}
+                      <b-td colspan="4">
+                        <b-form-radio-group
+                          v-model="application.takeOverType"
+                          :options="options3"
+                          :disabled="true"
+                          name="radios-stacked3"
+                          class="fl mr-1"
+                        />
                       </b-td>
                     </b-tr>
                   </b-tbody>
@@ -174,32 +211,12 @@
                   fluid>
                   <b-row class="mt-1">
                     <b-col>
-                      <b-icon
-                        class="float-right pointer"
-                        icon="file-plus-fill"
-                        variant="primary"
-                        style="height:31px; width:31px;"
-                        @click="rowAdd"
-                      />
-
-                      <b-icon
-                        class="float-right pointer"
-                        icon="file-minus"
-                        variant="primary"
-                        style="height:31px; width:31px;"
-                        @click="rowDelete"
-                      />
-                    </b-col>
-                  </b-row>
-                  <b-row class="mt-1">
-                    <b-col>
                       <grid
                         ref="tuiGrid"
                         :columns="columns"
                         :options="gridOptions"
                         style="height:400px"
                         language="ko"
-                        @editingFinish="rowChange"
                       />
                     </b-col>
                   </b-row>
@@ -247,7 +264,7 @@ export default {
     Grid
   },
   data: () => ({
-    gridOptions: { bodyHeight: 'fitToParent', rowHeaders: ['checkbox'] },
+    gridOptions: { bodyHeight: 'fitToParent'},
     companis: [],
     uploadFileImg: null,
     application: {
@@ -302,43 +319,23 @@ export default {
   },
   async created () {
     this.columns = [
-        { header: '사업자',
-          name: 'consignmentCompany',
-          formatter: 'listItemText',
-          editor: {
-            type: 'select',
-            options: {
-              listItems: []
-            }
-          }
-        },
-        { header: '기기명', name: 'deviceName', editor: 'text' },
-        { header: '수량', name: 'quantity', editor: 'text', validation: { dataType: 'number' } },
-        { header: '성적서 번호', name: 'reportNumber', editor: 'text' },
-        { header: '제작 회사', name: 'productionCompany', editor: 'text' },
-        { header: '기기번호', name: 'deviceNumber', editor: 'text' },
-        { header: '규격', name: 'standard', editor: 'text' },
-        { header: '단위', name: 'unit', editor: 'text' },
-        { header: '교정일자', name: 'correctionDate', editor: { type: 'datePicker', options: { language: 'ko' } } },
-        { header: '장소', name: 'place', editor: 'text' },
-        { header: '실무자', name: 'practitioner', editor: 'text' },
-        { header: '중분류', name: 'middleCategory', editor: 'text' },
-        { header: '소분류', name: 'smallCategory', editor: 'text' },
-        { header: '발행일자', name: 'publishedDate', editor: { type: 'datePicker', options: { language: 'ko' } } },
-        { header: '기술책임자', name: 'technicalManager', editor: 'text' },
-        { header: '성적서 언어',
-          name: 'reportLanguage',
-          formatter: 'listItemText',
-          editor: {
-            type: 'select',
-            options: {
-              listItems: [{ text: '한국어', value: 'KO' }, { text: '영어', value: 'EN' }]
-            }
-          }
-        }
+        { header: '사업자', name: 'consignmentCompany' },
+        { header: '기기명', name: 'deviceName' },
+        { header: '수량', name: 'quantity' },
+        { header: '성적서 번호', name: 'reportNumber' },
+        { header: '제작 회사', name: 'productionCompany' },
+        { header: '기기번호', name: 'deviceNumber' },
+        { header: '규격', name: 'standard' },
+        { header: '단위', name: 'unit' },
+        { header: '교정일자', name: 'correctionDate' },
+        { header: '장소', name: 'place' },
+        { header: '실무자', name: 'practitioner'},
+        { header: '중분류', name: 'middleCategory'},
+        { header: '소분류', name: 'smallCategory'},
+        { header: '발행일자', name: 'publishedDate'},
+        { header: '기술책임자', name: 'technicalManager'},
+        { header: '성적서 언어', name: 'reportLanguage' }
     ]
-    await this.companySearch()
-    this.$refs.tuiGrid.invoke('setColumns', this.columns)
   },
   beforeMount () {
     const customerId = this.$route.query.customerId
@@ -360,9 +357,10 @@ export default {
           this.application = response.data
           const logList = []
           this.application.applicationLogList.forEach(function (item) {
-            item.consignmentCompany = item.consignmentCompany.id + ''
-            item.edite = false
-            item.del = false
+            item.consignmentCompany = item.consignmentCompany.name
+            if(item.reportLanguage){
+              item.reportLanguage = item.reportLanguage.name
+            }
             logList.push(item)
           })
           this.signImageUrl()
@@ -384,39 +382,6 @@ export default {
         this.$router.push(`/application/write?companyId=${this.company.id}`)
       }
     },
-    rowAdd () {
-      const applicationLog = { id: null, consignmentCompany: null, deviceName: null, quantity: 0, reportNumber: null, productionCompany: null, deviceNumber: null, standard: null, unit: null, correctionDate: null, place: null, practitioner: null, middleCategory: null, smallCategory: null, publishedDate: null, technicalManager: null, reportLanguage: null, edite: true, del: null }
-      this.$refs.tuiGrid.invoke('appendRow', applicationLog)
-    },
-    rowDelete () {
-      const _this = this
-      const keys = this.$refs.tuiGrid.invoke('getCheckedRowKeys')
-      keys.forEach(function (key) {
-        const appLog = _this.$refs.tuiGrid.invoke('getRow', key)
-        if (appLog.id) {
-          appLog.del = true
-          _this.deleteApplicationLogList.push(appLog)
-        }
-        _this.$refs.tuiGrid.invoke('removeRow', key)
-      })
-    },
-    rowChange: function (data) {
-      const rowkey = data.rowKey
-      this.$refs.tuiGrid.invoke('setValue', rowkey, 'edite', true)
-    },
-    companySearch: async function () {
-      await this.$http.get(`/api/companyAll`)
-      .then(response => {
-        const com = []
-        if (response.data) {
-          response.data.forEach(function (item) {
-            com.push({ text: item.name, value: item.id + '' })
-          })
-        }
-        this.columns[0].editor.options.listItems = com
-        // this.companis = com;
-        })
-    },
     fnChangeImage: function (e) {
       const file = e.target.files[0] // Get first index in files
       this.uploadFileImg = URL.createObjectURL(file) // Create File URL
@@ -428,48 +393,7 @@ export default {
       }
     },
     register: function () {
-      this.$refs.tuiGrid.invoke('finishEditing')
-      var validate = this.$refs.tuiGrid.invoke('validate')
-      if (this.application.customer.id === 0) {
-        alert('신청인 회사 데이터가 없습니다.')
-        return
-      } else if (!this.application.appliRegDateType) {
-        alert('기준일 타입을 선택해주세요.')
-        return
-      } else if (!this.application.appliRegDate) {
-        alert('기준일을 입력해주세요.')
-        return
-      } else if (!this.application.applicant) {
-        alert('신청인을 입력해주세요.')
-        return
-      }
-      if (validate.length > 0) {
-        alert('값검증이 안된 셀이 있습니다.')
-        return false
-      }
-      if (confirm('신청서를 등록/저장하시겠습니까?')) {
-        const formData = new FormData()
-        this.application.applicationLogList = [...this.$refs.tuiGrid.invoke('getData'), ...this.deleteApplicationLogList]
-        this.application.regMember.id = this.$store.state.user.id
-        const application = this.application
-        if (application['customerSignImgFile']) {
-          formData.append('customerSignImgFile', application['customerSignImgFile'])
-        }
-        const json = JSON.stringify(application)
-          const blob = new Blob([json], {
-            type: 'application/json'
-        })
-        formData.append('applicationVO', blob)
-
-        this.$http.post(`/api/application`, formData)
-        .then(response => {
-          if (response.data.result === 'success') {
-            alert(response.data.msg)
-          } else {
-            alert(response.data.msg)
-          }
-          })
-      }
+      this.$router.push(`/dashboard/application/write?id=${this.application.id}`)
     },
     remove: function () {
       if (confirm('삭제후에는 복구가 불가능합니다. 삭제하시겠습니까?')) {
@@ -483,10 +407,12 @@ export default {
       }
     },
     signImageUrl: function () {
-      this.$http.get(`/api/img/file/${this.application.customerSignImg.id}`, { responseType: 'blob' }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]))
-            this.uploadFileImg = url
-      }).catch(err => console.log(err))
+      if(this.application.customerSignImg){
+        this.$http.get(`/api/img/file/${this.application.customerSignImg.id}`, { responseType: 'blob' }).then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+              this.uploadFileImg = url
+        }).catch(err => console.log(err))
+      }
     }
   }
 }

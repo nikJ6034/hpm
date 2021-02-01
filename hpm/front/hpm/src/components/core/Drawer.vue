@@ -93,6 +93,12 @@ export default {
         auth: ['ROLE_MANAGER']
       },
       {
+        to: '/dashboard/codeManage',
+        icon: 'mdi-account',
+        text: '코드 관리',
+        auth: ['ROLE_MANAGER']
+      },
+      {
         to: '/dashboard/application',
         icon: 'mdi-account',
         text: '접수대장 관리',
@@ -104,17 +110,18 @@ export default {
         text: '위탁업체 접수대장 관리',
         auth: ['ROLE_MANAGER', 'ROLE_USER']
       },
+      {
+        to: '/dashboard/appLog',
+        icon: 'mdi-account',
+        text: '접수대장 이력',
+        auth: ['ROLE_MANAGER', 'ROLE_USER']
+      }
       // {
       //   to: '/dashboard/roleManage',
       //   icon: 'mdi-account',
       //   text: '권한 관리'
       // },
-      {
-        to: '/dashboard/codeManage',
-        icon: 'mdi-account',
-        text: '코드 관리',
-        auth: ['ROLE_MANAGER']
-      }
+      
     ],
     responsive: false
   }),

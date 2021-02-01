@@ -284,23 +284,10 @@
                     <b-col>
                       <b-button
                         class="float-right mr-1"
-                        variant="outline-danger"
-                        size="sm"
-                        @click="remove"
-                      >삭제</b-button>
-
-                      <b-button
-                        class="float-right mr-1"
                         variant="outline-primary"
                         size="sm"
                         @click="register"
                       >{{ saveButtonName }}</b-button>
-
-                      <b-button
-                        class="float-right mr-1"
-                        variant="outline-primary"
-                        size="sm"
-                      >신청서 보기</b-button>
                     </b-col>
                   </b-row>
                 </b-container>
@@ -370,7 +357,7 @@ export default {
   computed: {
     saveButtonName: function () {
       if (this.application.id) {
-        return '수정'
+        return '저장'
       } else {
         return '접수'
       }
@@ -543,28 +530,20 @@ export default {
         .then(response => {
           if (response.data.result === 'success') {
             alert(response.data.msg)
+            this.$router.push(`/dashboard/application/view?id=${response.data.id}`)
           } else {
             alert(response.data.msg)
           }
           })
       }
     },
-    remove: function () {
-      if (confirm('삭제후에는 복구가 불가능합니다. 삭제하시겠습니까?')) {
-      this.$http.delete(`/api/application`, { data: this.application })
-      .then(response => {
-        if (response.data.result === 'success') {
-          alert('삭제되었습니다.')
-          this.$router.push(`/dashboard/application`)
-        }
-        })
-      }
-    },
     signImageUrl: function () {
-      this.$http.get(`/api/img/file/${this.application.customerSignImg.id}`, { responseType: 'blob' }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]))
-            this.uploadFileImg = url
-      }).catch(err => console.log(err))
+      if(this.application.customerSignImg){
+        this.$http.get(`/api/img/file/${this.application.customerSignImg.id}`, { responseType: 'blob' }).then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+              this.uploadFileImg = url
+        }).catch(err => console.log(err))
+      }
     }
   }
 }

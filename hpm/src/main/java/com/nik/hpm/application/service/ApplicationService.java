@@ -2,6 +2,7 @@ package com.nik.hpm.application.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,7 @@ import com.nik.hpm.application.entity.Application;
 import com.nik.hpm.application.entity.ApplicationLog;
 import com.nik.hpm.application.repository.ApplicationLogRepository;
 import com.nik.hpm.application.repository.ApplicationRepository;
+import com.nik.hpm.application.vo.AppLogAllListVO;
 import com.nik.hpm.application.vo.ApplicationSearchVO;
 import com.nik.hpm.application.vo.ApplicationVO;
 import com.nik.hpm.attachfile.entity.AttachFile;
@@ -51,6 +53,10 @@ public class ApplicationService {
 	public Page<Application> applicationList(ApplicationSearchVO applicationSearchVO, Pageable pageable){
 		return applicationRepository.applicationList(applicationSearchVO, pageable);
 	}
+	
+	public List<AppLogAllListVO> applicationAll(ApplicationSearchVO applicationSearchVO){
+        return applicationRepository.applicationAll(applicationSearchVO);
+    }
 	
 	public void applicationModify(ApplicationVO applicationVO, MultipartFile customerSignImgFile) throws IOException, Exception {
 		
@@ -89,7 +95,7 @@ public class ApplicationService {
 		
 	}
 	
-	public void applicationCreate(ApplicationVO applicationVO, MultipartFile customerSignImgFile) throws IOException, Exception {
+	public Application applicationCreate(ApplicationVO applicationVO, MultipartFile customerSignImgFile) throws IOException, Exception {
 		
 		ModelMapper modelMapper = new ModelMapper();
 		Application application = modelMapper.map(applicationVO, Application.class);
@@ -124,6 +130,7 @@ public class ApplicationService {
 			});
 		}
 		
+		return app;
 		
 	}
 	
