@@ -43,7 +43,7 @@ Vue.use(IconsPlugin)
 
 Vue.prototype.$http = axios
 // Sets the default url used by all of this axios instance's requests
-axios.defaults.baseURL = 'http://localhost:8080'
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
 axios.defaults.headers.get['Accept'] = 'application/json'
 // axios.defaults.headers.get['Content-Type'] = 'application/json'
 
