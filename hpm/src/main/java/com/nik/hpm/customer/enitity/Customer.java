@@ -1,5 +1,7 @@
 package com.nik.hpm.customer.enitity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +19,12 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-public class Customer {
+public class Customer implements Serializable {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	/** serialVersionUID */
+    private static final long serialVersionUID = 1L;
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@Column
@@ -46,6 +51,14 @@ public class Customer {
 	@Column
 	/** 전화번호 */
 	private String tel;
+	
+	@Column
+    /** 연락처 */
+    private String mobile;
+	
+	@Column
+    /** 이메일 */
+    private String email;
 	
 	@Column
 	/** 팩스번호 */

@@ -2,19 +2,12 @@
   <v-toolbar
     id="core-toolbar"
     app
-    style="background: #287be4;"
+    style="background: #287be4;z-index:100;"
     flat
     prominent>
     <div class="v-toolbar-title">
-      <v-toolbar-title class="font-weight-light text-general">
-        <v-btn
-          v-if="responsive"
-          class="default v-btn--simple"
-          icon
-          @click.stop="onClickBtn">
-          <v-icon>mdi-view-list</v-icon>
-        </v-btn>
-        {{ title }}
+      <v-toolbar-title class="v-list__tile__title title" style="color: white;">
+        HPM 교정 신청 관리 시스템
       </v-toolbar-title>
     </div>
 

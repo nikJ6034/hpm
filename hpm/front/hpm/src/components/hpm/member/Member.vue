@@ -344,7 +344,7 @@ export default {
       if (this.member.memberPassword !== this.member.passwordConfirm) {
         alert('비밀번호가 일치하지 않습니다.')
         return false
-      } else if (this.member.memberPassword.length <= 10) {
+      } else if (this.member.memberPassword.length < 10) {
         alert('비밀번호는 10자리 이상이어야합니다.')
         return false
       }

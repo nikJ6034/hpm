@@ -2,6 +2,8 @@ package com.nik.hpm.application.vo;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -20,6 +22,18 @@ public class AppLogAllListVO {
     
     /** 업체 */
     private String customerName;
+    
+    /** 담당자 */
+    private String customerPicName;
+    
+    /** 전화번호 */
+    private String customerTel;
+    
+    /** 연락처 */
+    private String customerMobile;
+    
+    /** 이메일 */
+    private String customerEmail;
     
     private String requestCustomerName;
     
@@ -60,6 +74,8 @@ public class AppLogAllListVO {
     private String regMemberName;
     
     /** 접수일 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate regDate;
     
 //    private List<ApplicationLog> applicationLogList;

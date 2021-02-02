@@ -39,7 +39,7 @@ public class CustomerRepositoryDslImpl extends QuerydslRepositorySupport impleme
 			}else if("companyRegNumber".equals(customerSearchVO.getCondition()) && StringUtils.isNotBlank(customerSearchVO.getKeyword())) {
 				builder.and(customer.companyRegNumber.contains(customerSearchVO.getKeyword()));
 			}else {
-				builder.or(customer.name.contains(customerSearchVO.getKeyword()))
+				builder.and(customer.name.contains(customerSearchVO.getKeyword()))
 				.or(customer.tel.contains(customerSearchVO.getKeyword()))
 				.or(customer.companyRegNumber.contains(customerSearchVO.getKeyword()));
 			}

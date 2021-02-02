@@ -34,7 +34,7 @@
                 </b-col>
                 <b-col
                   cols="6"
-                  sm="7"
+                  sm="6"
                   class="pr-0">
                   <b-form-input
                     id="companyName"
@@ -43,7 +43,7 @@
                 </b-col>
                 <b-col
                   cols="3"
-                  sm="2">
+                  sm="3">
                   <b-button
                     block
                     variant="outline-primary"

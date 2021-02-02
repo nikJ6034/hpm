@@ -58,7 +58,11 @@
                   class="pointer"
                   hover
                   @row-clicked="itemClick"
-                />
+                >
+                  <template #cell(index)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                </b-table>
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
@@ -217,7 +221,7 @@ export default {
                 { header: '설명', name: 'codeDesc', editor: 'text' }
             ],
     testData: [],
-    fields: [{ key: 'id', label: 'No.' }, { key: 'code', label: '분류코드' }, { key: 'codeName', label: '분류코드명' }],
+    fields: [{ key: 'index', label: 'No.' }, { key: 'code', label: '분류코드' }, { key: 'codeName', label: '분류코드명' }],
     codes: [],
     currentPage: 1,
     perPage: 10,

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.repository.MemberRepository;
 
@@ -23,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Member> member = memberRepository.findByMemberId(username);
+		Optional<Member> member = memberRepository.findByMemberIdAndDelYn(username, Yn.N);
 		return member.map(m-> {
 			
 			Set<GrantedAuthority> grantedAuthority = new HashSet<>();

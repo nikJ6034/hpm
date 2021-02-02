@@ -42,11 +42,11 @@ export default {
     return await axios.post('/oauth2/token/refresh', { refresh_token: localStorage.getItem('refreshToken') })
       .then(response => {
         const token = response.data.access_token
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
         const refreshToken = response.data.refresh_token
         var decoded = jwtDecode(token)
         const user = { 'memberId': decoded.user_name, 'name': decoded.name, 'id': decoded.id, 'authorities': decoded.authorities }
         localStorage.setItem('refreshToken', refreshToken)
-        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
         commit('auth_success', { token, user })
         return token
       })

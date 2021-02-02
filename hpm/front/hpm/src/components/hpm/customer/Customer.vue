@@ -59,7 +59,11 @@
                   class="pointer"
                   hover
                   @row-clicked="itemClick"
-                />
+                >
+                  <template #cell(index)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                </b-table>
               </b-row>
               <b-row class="d-inline-block">
                 <b-pagination
@@ -165,12 +169,38 @@
                 <b-col
                   cols="3"
                   class="mFormLbl text-right">
-                  전화번호
+                  회사전화번호
                 </b-col>
                 <b-col cols="9">
                   <b-form-input
                     v-model="customer.tel"
                     placeholder="전화번호를 입력하세요." />
+                </b-col>
+              </b-row>
+              <b-row
+                class="mt-1">
+                <b-col
+                  cols="3"
+                  class="mFormLbl text-right">
+                  연락처
+                </b-col>
+                <b-col cols="9">
+                  <b-form-input
+                    v-model="customer.mobile"
+                    placeholder="연락처를 입력하세요." />
+                </b-col>
+              </b-row>
+              <b-row
+                class="mt-1">
+                <b-col
+                  cols="3"
+                  class="mFormLbl text-right">
+                  이메일주소
+                </b-col>
+                <b-col cols="9">
+                  <b-form-input
+                    v-model="customer.email"
+                    placeholder="이메일주소를 입력하세요." />
                 </b-col>
               </b-row>
               <b-row
@@ -292,14 +322,14 @@
 
 export default {
   data: () => ({
-    fields: [{ key: 'id', label: 'No.' }, { key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자번호' }, { key: 'picName', label: '담당자' }, { key: 'tel', label: '전화번호' }],
+    fields: [{ key: 'index', label: 'No.' }, { key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자번호' }, { key: 'picName', label: '담당자' }, { key: 'tel', label: '전화번호' }],
     customers: [],
     currentPage: 1,
     perPage: 10,
     rows: 0,
     keyword: '',
     condition: '',
-    customer: { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: '', item: null, tel: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null },
+    customer: { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: '', item: null, tel: null, mobile: null, email: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null },
     codeList: []
   }),
   beforeMount () {
@@ -368,7 +398,7 @@ export default {
       }
     },
      cancel: function () {
-      this.customer = { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: null, item: null, tel: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null }
+      this.customer = { id: null, name: null, repName: null, companyRegNumber: null, bizCondition: null, item: null, tel: null, mobile: null, email: null, fax: null, picName: null, postNumber: null, adress: null, adressDetail: null, etc: null }
     },
     postPopupOpen: function () {
       const _this = this

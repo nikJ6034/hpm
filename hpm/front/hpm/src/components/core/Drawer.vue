@@ -8,7 +8,7 @@
     mobile-break-point="991"
     width="260"
     absolute
-    style="background: #eee;"
+    style="background: #eee; z-index:101"
   >
     <v-img
       :src="image"

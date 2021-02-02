@@ -33,7 +33,7 @@
                 </b-col>
                 <b-col
                   cols="6"
-                  sm="7"
+                  sm="6"
                   class="pr-0">
                   <b-form-input
                     id="companyName"
@@ -43,7 +43,7 @@
                 </b-col>
                 <b-col
                   cols="3"
-                  sm="2">
+                  sm="3">
                   <b-button
                     block
                     variant="outline-primary"
@@ -92,6 +92,16 @@
                   align="center"
                   @page-click="pageSearch"
                 />
+                
+              </b-row>
+              <b-row>
+                <b-col>
+                  <b-button
+                      v-if="consignmentCompany.id != null"
+                      variant="outline-danger"
+                      class="float-right mr-1"
+                      @click="cancel">선택취소</b-button>
+                </b-col>
               </b-row>
             </b-container>
           </b-col>

@@ -40,6 +40,8 @@ public class CustomerService {
 			cus.setBizCondition(customer.getBizCondition());
 			cus.setItem(customer.getItem());
 			cus.setTel(customer.getTel());
+			cus.setMobile(customer.getMobile());
+			cus.setEmail(customer.getEmail());
 			cus.setFax(customer.getFax());
 			cus.setPicName(customer.getPicName());
 			cus.setPostNumber(customer.getPostNumber());

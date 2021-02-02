@@ -32,7 +32,6 @@ public class LoginController {
 	@GetMapping("/login/success")
 	public Map<String, Object> loginSuccess(Authentication authentication){
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(authentication.getClass().getName());
 		String securityMember = (String)authentication.getPrincipal();
 		map.put("memberId", securityMember);
 		map.put("result", "success");
@@ -68,7 +67,6 @@ public class LoginController {
         Gson gson = new Gson();
         ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/oauth/token", request, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-        	System.out.println(response.getBody());
             return gson.fromJson(response.getBody(), OAuthToken.class);
         }
         return null;

@@ -329,7 +329,7 @@ export default {
       takeOverDate: '',
       takeOverType: '',
       regDate: '',
-      regMember: { id: 0 },
+      regMember: { id: null },
       customerSignImgFile: [],
       applicationLogList: []
     },
@@ -515,7 +515,7 @@ export default {
       if (confirm('신청서를 등록/저장하시겠습니까?')) {
         const formData = new FormData()
         this.application.applicationLogList = [...this.$refs.tuiGrid.invoke('getData'), ...this.deleteApplicationLogList]
-        this.application.regMember.id = this.$store.state.user.id
+        //this.application.regMember.id = this.$store.state.user.id
         const application = this.application
         if (application['customerSignImgFile']) {
           formData.append('customerSignImgFile', application['customerSignImgFile'])
