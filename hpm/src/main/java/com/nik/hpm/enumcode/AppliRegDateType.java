@@ -10,8 +10,10 @@ public enum AppliRegDateType {
 	EXPORT("장비 반출일");
 	
 	private String name;
+	private String value;
 	
 	AppliRegDateType(String name){
 		this.name = name;
+		this.value= this.toString();
 	}
 }

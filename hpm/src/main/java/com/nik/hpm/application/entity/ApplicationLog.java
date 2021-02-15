@@ -17,6 +17,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
+import com.nik.hpm.enumcode.CarryType;
+import com.nik.hpm.enumcode.InspectionType;
 import com.nik.hpm.enumcode.ReportLanguage;
 
 import lombok.Getter;
@@ -36,12 +38,36 @@ public class ApplicationLog implements Serializable{
 	@JsonBackReference
 	private Application application;
 	
+	
+	/** 위탁기관 */
 	@ManyToOne
 	@NotNull
 	private ConsignmentCompany consignmentCompany;
 	
-	/** 기기명 */
+	/** 검수 타입 */
+	@Enumerated(EnumType.STRING)
+	private InspectionType inspectionType;
+	
+	/** 접수번호 */
+	private String regNumber;
+	
+	/** 장비명 */
 	private String deviceName;
+	
+	/** 기기번호 */
+	private String deviceNumber;
+	
+	/** 제조사 */
+	private String productionCompany;
+	
+	/** 모델 */
+	private String model;
+	
+	/** 규격 */
+	private String standard;
+	
+	/** 분해능 */
+	private String resolution;
 	
 	/** 수량 */
 	private int quantity;
@@ -49,17 +75,18 @@ public class ApplicationLog implements Serializable{
 	/** 성적서 번호 */
 	private String reportNumber;
 	
-	/** 제작 회사 */
-	private String productionCompany;
-	
-	/** 기기번호 */
-	private String deviceNumber;
-	
-	/** 규격 */
-	private String standard;
-	
 	/** 단위 */
 	private String unit;
+	
+	/** 비고 */
+	private String etc;
+	
+	/** 입출 타입 */
+	@Enumerated(EnumType.STRING)
+	private CarryType carryType;
+	
+	/** 교정료 */
+	private Long correctionFee;
 	
 	/** 교정일자 */
 	@JsonFormat(pattern = "yyyy-MM-dd")

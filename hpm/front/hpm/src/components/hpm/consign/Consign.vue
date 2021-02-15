@@ -92,15 +92,14 @@
                   align="center"
                   @page-click="pageSearch"
                 />
-                
               </b-row>
               <b-row>
                 <b-col>
                   <b-button
-                      v-if="consignmentCompany.id != null"
-                      variant="outline-danger"
-                      class="float-right mr-1"
-                      @click="cancel">선택취소</b-button>
+                    v-if="consignmentCompany.id != null"
+                    variant="outline-danger"
+                    class="float-right mr-1"
+                    @click="cancel">선택취소</b-button>
                 </b-col>
               </b-row>
             </b-container>
@@ -204,7 +203,6 @@ export default {
       this.applicationSearch(page)
     },
     appRemove () {
-      
     },
     appWindowOpen (item) {
       this.itemClick(item)

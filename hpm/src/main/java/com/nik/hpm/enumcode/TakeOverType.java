@@ -10,8 +10,10 @@ public enum TakeOverType {
 	DELIVERY("택배");
 	
 	private String name;
+	private String value;
 	
 	TakeOverType(String name){
 		this.name = name;
+		this.value= this.toString();
 	}
 }

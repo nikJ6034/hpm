@@ -115,13 +115,6 @@
                   @page-click="appPageSearch"
                 />
               </b-row>
-              <b-row class="mt-1">
-                <b-col>
-                  <b-button
-                    class="float-right mr-1"
-                    variant="outline-primary">수정</b-button>
-                </b-col>
-              </b-row>
             </b-container>
           </b-col>
         </b-row>

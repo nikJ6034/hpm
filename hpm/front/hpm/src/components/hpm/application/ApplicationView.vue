@@ -215,6 +215,7 @@
                         ref="tuiGrid"
                         :columns="columns"
                         :options="gridOptions"
+                        :data="application.applicationLogList"
                         style="height:400px"
                         language="ko"
                       />
@@ -306,6 +307,31 @@ export default {
       { text: '직접전달', value: 'DIRECTLY' },
       { text: '고객방문', value: 'VISIT' },
       { text: '택배', value: 'DELIVERY' }
+    ],
+    columns: [
+        { header: '위탁기관', name: 'consignmentCompany' },
+        { header: '검수타입', name: 'inspectionType' },
+        { header: '접수번호', name: 'regNumber' },
+        { header: '장비명', name: 'deviceName' },
+        { header: '기기번호', name: 'deviceNumber' },
+        { header: '제조사', name: 'productionCompany' },
+        { header: '모델', name: 'model'},
+        { header: '규격', name: 'standard' },
+        { header: '분해능', name: 'resolution' },
+        { header: '출장/반출/입고', name: 'carryType' },
+        { header: '교정료', name: 'correctionFee' },
+        { header: '수량', name: 'quantity' },
+        { header: '성적서 번호', name: 'reportNumber' },
+        { header: '단위', name: 'unit' },
+        { header: '교정일자', name: 'correctionDate' },
+        { header: '장소', name: 'place' },
+        { header: '실무자', name: 'practitioner'},
+        { header: '중분류', name: 'middleCategory'},
+        { header: '소분류', name: 'smallCategory'},
+        { header: '발행일자', name: 'publishedDate'},
+        { header: '기술책임자', name: 'technicalManager'},
+        { header: '성적서 언어', name: 'reportLanguage' },
+        { header: '비고', name: 'etc'}
     ]
   }),
   computed: {
@@ -318,24 +344,6 @@ export default {
     }
   },
   async created () {
-    this.columns = [
-        { header: '사업자', name: 'consignmentCompany' },
-        { header: '기기명', name: 'deviceName' },
-        { header: '수량', name: 'quantity' },
-        { header: '성적서 번호', name: 'reportNumber' },
-        { header: '제작 회사', name: 'productionCompany' },
-        { header: '기기번호', name: 'deviceNumber' },
-        { header: '규격', name: 'standard' },
-        { header: '단위', name: 'unit' },
-        { header: '교정일자', name: 'correctionDate' },
-        { header: '장소', name: 'place' },
-        { header: '실무자', name: 'practitioner'},
-        { header: '중분류', name: 'middleCategory'},
-        { header: '소분류', name: 'smallCategory'},
-        { header: '발행일자', name: 'publishedDate'},
-        { header: '기술책임자', name: 'technicalManager'},
-        { header: '성적서 언어', name: 'reportLanguage' }
-    ]
   },
   beforeMount () {
     const customerId = this.$route.query.customerId

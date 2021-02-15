@@ -2,8 +2,6 @@ package com.nik.hpm.application.vo;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

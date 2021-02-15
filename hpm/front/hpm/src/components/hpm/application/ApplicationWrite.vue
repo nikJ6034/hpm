@@ -274,6 +274,7 @@
                         ref="tuiGrid"
                         :columns="columns"
                         :options="gridOptions"
+                        :data="application.applicationLogList"
                         language="ko"
                         style="height:400px"
                         @editingFinish="rowChange"/>
@@ -365,7 +366,7 @@ export default {
   },
   async created () {
     this.columns = [
-        { header: '사업자',
+        { header: '위탁기관',
           name: 'consignmentCompany',
           formatter: 'listItemText',
           editor: {
@@ -375,12 +376,36 @@ export default {
             }
           }
         },
-        { header: '기기명', name: 'deviceName', editor: 'text' },
+        { header: '검수타입',
+          name: 'inspectionType',
+          formatter: 'listItemText',
+          editor: {
+            type: 'select',
+            options: {
+              listItems: [{ text: '교정', value: 'CORRECTION' }, { text: '시험', value: 'TEST' }, { text: '자체', value: 'SELF' }]
+            }
+          }
+        },
+        { header: '접수번호', name: 'regNumber', editor: 'text' },
+        { header: '장비명', name: 'deviceName', editor: 'text' },
+        { header: '기기번호', name: 'deviceNumber', editor: 'text' },
+        { header: '제조사', name: 'productionCompany', editor: 'text' },
+        { header: '모델', name: 'model', editor: 'text' },
+        { header: '규격', name: 'standard', editor: 'text' },
+        { header: '분해능', name: 'resolution', editor: 'text' },
+        { header: '출장/반출/입고',
+          name: 'carryType',
+          formatter: 'listItemText',
+          editor: {
+            type: 'select',
+            options: {
+              listItems: [{ text: '출장', value: 'PARTICIPATION' }, { text: '반출', value: 'EXPORT' }, { text: '입고', value: 'IMPORT' }]
+            }
+          }
+        },
+        { header: '교정료', name: 'correctionFee', editor: 'text', validation: { dataType: 'number' } },
         { header: '수량', name: 'quantity', editor: 'text', validation: { dataType: 'number' } },
         { header: '성적서 번호', name: 'reportNumber', editor: 'text' },
-        { header: '제작 회사', name: 'productionCompany', editor: 'text' },
-        { header: '기기번호', name: 'deviceNumber', editor: 'text' },
-        { header: '규격', name: 'standard', editor: 'text' },
         { header: '단위', name: 'unit', editor: 'text' },
         { header: '교정일자', name: 'correctionDate', editor: { type: 'datePicker', options: { language: 'ko' } } },
         { header: '장소', name: 'place', editor: 'text' },
@@ -398,7 +423,8 @@ export default {
               listItems: [{ text: '한국어', value: 'KO' }, { text: '영어', value: 'EN' }]
             }
           }
-        }
+        },
+        { header: '비고', name: 'etc', editor: 'text' }
     ]
     await this.companySearch()
     this.$refs.tuiGrid.invoke('setColumns', this.columns)
@@ -424,6 +450,11 @@ export default {
           const logList = []
           this.application.applicationLogList.forEach(function (item) {
             item.consignmentCompany = item.consignmentCompany.id + ''
+            
+            if(item.inspectionType) item.inspectionType = item.inspectionType.value
+            if(item.carryType) item.carryType = item.carryType.value
+            if(item.reportLanguage) item.reportLanguage = item.reportLanguage.value
+            
             item.edite = false
             item.del = false
             logList.push(item)
@@ -512,9 +543,13 @@ export default {
         alert('값검증이 안된 셀이 있습니다.')
         return false
       }
+
+      console.log([...this.$refs.tuiGrid.invoke('getData'), ...this.deleteApplicationLogList])
+        
       if (confirm('신청서를 등록/저장하시겠습니까?')) {
         const formData = new FormData()
         this.application.applicationLogList = [...this.$refs.tuiGrid.invoke('getData'), ...this.deleteApplicationLogList]
+
         //this.application.regMember.id = this.$store.state.user.id
         const application = this.application
         if (application['customerSignImgFile']) {

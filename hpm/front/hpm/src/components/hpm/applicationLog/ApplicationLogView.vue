@@ -52,8 +52,8 @@
                     </b-col>
                   </b-row>
                   <b-row class="mt-1">
-                    <b-col style="overflow-x:scroll">
-                      <b-table striped hover :items="applicationLogList" :fields="fields"></b-table>
+                    <b-col>
+                      <b-table width="4000px" sticky-header="600px" responsive :items="applicationLogList" :fields="fields"></b-table>
                     </b-col>
                   </b-row>
                 </b-container>
@@ -78,18 +78,37 @@ export default {
   data: () => ({
     applicationLogList: [],
     fields: [
-              {key: 'regDate', label: '접수일'},
-              {key: 'requestCustomerName', label: '대행 업체'},
-              {key: 'customerName', label: '거래처'},
-              {key: 'customerPicName', label: '담당자'},
-              {key: 'customerTel', label: '회사전화번호'},
-              {key: 'customerMobile', label: '연락처'},
-              {key: 'customerEmail', label: '이메일주소'},
-              {key: 'consignmentCompanyName', label: '위탁기관'},
-              {key: 'deviceName', label: '장비명'},
-              {key: 'deviceNumber', label: '기기번호'},
-              {key: 'productionCompany', label: '제조사'},
-              {key: 'standard', label: '규격'},
+              {key: 'regDate', label: '접수일', thStyle: { width: '150px'} },
+              {key: 'requestCustomerName', label: '대행 업체', thStyle: { width: '200px'} },
+              {key: 'customerName', label: '거래처', thStyle: { width: '200px'} },
+              {key: 'customerPicName', label: '담당자', thStyle: { width: '150px'} },
+              {key: 'customerTel', label: '회사전화번호', thStyle: { width: '150px'} },
+              {key: 'customerMobile', label: '연락처', thStyle: { width: '150px'} },
+              {key: 'customerEmail', label: '이메일주소', thStyle: { width: '200px'} },
+              {key: 'inspectionType', label: '검수타입', thStyle: { width: '100px'} },
+              {key: 'consignmentCompanyName', label: '위탁기관', thStyle: { width: '100px'} },
+              {key: 'regNumber', label: '접수번호', thStyle: { width: '100px'} },
+              {key: 'deviceName', label: '장비명', thStyle: { width: '200px'} },
+              {key: 'deviceNumber', label: '기기번호', thStyle: { width: '150px'} },
+              {key: 'productionCompany', label: '제조사', thStyle: { width: '150px'} },
+              {key: 'model', label: '모델', thStyle: { width: '150px'} },
+              {key: 'standard', label: '규격', thStyle: { width: '150px'} },
+              {key: 'resolution', label: '분해능', thStyle: { width: '150px'} },
+              {key: 'carryType', label: '출장/반출/입고', thStyle: { width: '200px'} },
+              {key: 'correctionFee', label: '교정료', thStyle: { width: '150px'} },
+              {key: 'quantity', label: '수량', thStyle: { width: '100px'} },
+              {key: 'reportNumber', label: '성적서 번호', thStyle: { width: '150px'} },
+              {key: 'unit', label: '단위', thStyle: { width: '100px'} },
+              {key: 'correctionDate', label: '교정일자', thStyle: { width: '150px'} },
+              {key: 'place', label: '장소', thStyle: { width: '150px'} },
+              {key: 'practitioner', label: '실무자', thStyle: { width: '150px'} },
+              {key: 'middleCategory', label: '중분류', thStyle: { width: '150px'} },
+              {key: 'smallCategory', label: '소분류', thStyle: { width: '150px'} },
+              {key: 'publishedDate', label: '발행일자', thStyle: { width: '150px'} },
+              {key: 'technicalManager', label: '기술책임자', thStyle: { width: '150px'} },
+              {key: 'reportLanguage.name', label: '성적서 언어', thStyle: { width: '200px'} },
+              {key: 'etc', label: '비고', thStyle: { width: '250px'} }
+
             ],
     condition: "",
     keyword: ""

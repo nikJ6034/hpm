@@ -16,8 +16,29 @@ public class ApplicationLogVO {
 	
 	private long consignmentCompany;
 	
-	/** 기기명 */
+	/** 검수 타입 */
+	private String inspectionType;
+	
+	/** 접수번호 */
+	private String regNumber;
+	
+	/** 장비명 */
 	private String deviceName;
+	
+	/** 기기번호 */
+	private String deviceNumber;
+	
+	/** 제조사 */
+	private String productionCompany;
+	
+	/** 모델 */
+	private String model;
+	
+	/** 규격 */
+	private String standard;
+	
+	/** 분해능 */
+	private String resolution;
 	
 	/** 수량 */
 	private int quantity;
@@ -25,17 +46,17 @@ public class ApplicationLogVO {
 	/** 성적서 번호 */
 	private String reportNumber;
 	
-	/** 제작 회사 */
-	private String productionCompany;
-	
-	/** 기기번호 */
-	private String deviceNumber;
-	
-	/** 규격 */
-	private String standard;
-	
 	/** 단위 */
 	private String unit;
+	
+	/** 비고 */
+	private String etc;
+	
+	/** 입출 타입 */
+	private String carryType;
+	
+	/** 교정료 */
+	private Long correctionFee;
 	
 	/** 교정일자 */
 	@JsonFormat(pattern = "yyyy-MM-dd")
