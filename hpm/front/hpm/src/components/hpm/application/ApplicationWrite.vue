@@ -234,11 +234,9 @@
                         <b-form-file
                           id="file-small"
                           v-model="application.customerSignImgFile"
-                          style="width:450px;float:right;"
                           size="sm"
                           browse-text="신청인 서명 업로드"
-                          placeholder="서명 파일을 첨부해주세요."
-                          class="float-right mr-3"
+                          placeholder=""
                           color="primary"
                           @change="fnChangeImage"
                         />
@@ -269,7 +267,7 @@
                     </b-col>
                   </b-row>
                   <b-row class="mt-1">
-                    <b-col>
+                    <b-col style="padding-right: 0px; padding-left: 0px;">
                       <grid
                         ref="tuiGrid"
                         :columns="columns"
@@ -374,7 +372,8 @@ export default {
             options: {
               listItems: []
             }
-          }
+          },
+          width: 100, align:'center'
         },
         { header: '검수타입',
           name: 'inspectionType',
@@ -384,15 +383,16 @@ export default {
             options: {
               listItems: [{ text: '교정', value: 'CORRECTION' }, { text: '시험', value: 'TEST' }, { text: '자체', value: 'SELF' }]
             }
-          }
+          },
+          width: 100, align:'center'
         },
-        { header: '접수번호', name: 'regNumber', editor: 'text' },
-        { header: '장비명', name: 'deviceName', editor: 'text' },
-        { header: '기기번호', name: 'deviceNumber', editor: 'text' },
-        { header: '제조사', name: 'productionCompany', editor: 'text' },
-        { header: '모델', name: 'model', editor: 'text' },
-        { header: '규격', name: 'standard', editor: 'text' },
-        { header: '분해능', name: 'resolution', editor: 'text' },
+        { header: '접수번호', name: 'regNumber', editor: 'text', width: 100, align:'center' },
+        { header: '장비명', name: 'deviceName', editor: 'text', width: 200, align:'center' },
+        { header: '기기번호', name: 'deviceNumber', editor: 'text', width: 100, align:'center' },
+        { header: '제조사', name: 'productionCompany', editor: 'text', width: 100, align:'center' },
+        { header: '모델', name: 'model', editor: 'text', width: 100, align:'center' },
+        { header: '규격', name: 'standard', editor: 'text', width: 100, align:'center' },
+        { header: '분해능', name: 'resolution', editor: 'text', width: 100, align:'center' },
         { header: '출장/반출/입고',
           name: 'carryType',
           formatter: 'listItemText',
@@ -401,19 +401,20 @@ export default {
             options: {
               listItems: [{ text: '출장', value: 'PARTICIPATION' }, { text: '반출', value: 'EXPORT' }, { text: '입고', value: 'IMPORT' }]
             }
-          }
+          },
+          width: 100, align:'center'
         },
-        { header: '교정료', name: 'correctionFee', editor: 'text', validation: { dataType: 'number' } },
-        { header: '수량', name: 'quantity', editor: 'text', validation: { dataType: 'number' } },
-        { header: '성적서 번호', name: 'reportNumber', editor: 'text' },
-        { header: '단위', name: 'unit', editor: 'text' },
-        { header: '교정일자', name: 'correctionDate', editor: { type: 'datePicker', options: { language: 'ko' } } },
-        { header: '장소', name: 'place', editor: 'text' },
-        { header: '실무자', name: 'practitioner', editor: 'text' },
-        { header: '중분류', name: 'middleCategory', editor: 'text' },
-        { header: '소분류', name: 'smallCategory', editor: 'text' },
-        { header: '발행일자', name: 'publishedDate', editor: { type: 'datePicker', options: { language: 'ko' } } },
-        { header: '기술책임자', name: 'technicalManager', editor: 'text' },
+        { header: '교정료', name: 'correctionFee', editor: 'text', validation: { dataType: 'number' }, width: 100, align:'center' },
+        { header: '수량', name: 'quantity', editor: 'text', validation: { dataType: 'number' }, width: 100, align:'center' },
+        { header: '성적서 번호', name: 'reportNumber', editor: 'text', width: 100, align:'center' },
+        { header: '단위', name: 'unit', editor: 'text', width: 100, align:'center' },
+        { header: '교정일자', name: 'correctionDate', editor: { type: 'datePicker', options: { language: 'ko' } }, width: 100, align:'center' },
+        { header: '장소', name: 'place', editor: 'text', width: 100, align:'center' },
+        { header: '실무자', name: 'practitioner', editor: 'text', width: 100, align:'center' },
+        { header: '중분류', name: 'middleCategory', editor: 'text', width: 100, align:'center' },
+        { header: '소분류', name: 'smallCategory', editor: 'text', width: 100, align:'center' },
+        { header: '발행일자', name: 'publishedDate', editor: { type: 'datePicker', options: { language: 'ko' } }, width: 100, align:'center' },
+        { header: '기술책임자', name: 'technicalManager', editor: 'text', width: 100, align:'center' },
         { header: '성적서 언어',
           name: 'reportLanguage',
           formatter: 'listItemText',
@@ -422,9 +423,10 @@ export default {
             options: {
               listItems: [{ text: '한국어', value: 'KO' }, { text: '영어', value: 'EN' }]
             }
-          }
+          },
+          width: 100, align:'center'
         },
-        { header: '비고', name: 'etc', editor: 'text' }
+        { header: '비고', name: 'etc', editor: 'text', width: 250, align:'center' }
     ]
     await this.companySearch()
     this.$refs.tuiGrid.invoke('setColumns', this.columns)

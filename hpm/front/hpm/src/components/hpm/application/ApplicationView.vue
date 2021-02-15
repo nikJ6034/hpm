@@ -210,7 +210,7 @@
                 <b-container
                   fluid>
                   <b-row class="mt-1">
-                    <b-col>
+                    <b-col style="padding-right: 0px; padding-left: 0px;">
                       <grid
                         ref="tuiGrid"
                         :columns="columns"
@@ -309,29 +309,29 @@ export default {
       { text: '택배', value: 'DELIVERY' }
     ],
     columns: [
-        { header: '위탁기관', name: 'consignmentCompany' },
-        { header: '검수타입', name: 'inspectionType' },
-        { header: '접수번호', name: 'regNumber' },
-        { header: '장비명', name: 'deviceName' },
-        { header: '기기번호', name: 'deviceNumber' },
-        { header: '제조사', name: 'productionCompany' },
-        { header: '모델', name: 'model'},
-        { header: '규격', name: 'standard' },
-        { header: '분해능', name: 'resolution' },
-        { header: '출장/반출/입고', name: 'carryType' },
-        { header: '교정료', name: 'correctionFee' },
-        { header: '수량', name: 'quantity' },
-        { header: '성적서 번호', name: 'reportNumber' },
-        { header: '단위', name: 'unit' },
-        { header: '교정일자', name: 'correctionDate' },
-        { header: '장소', name: 'place' },
-        { header: '실무자', name: 'practitioner'},
-        { header: '중분류', name: 'middleCategory'},
-        { header: '소분류', name: 'smallCategory'},
-        { header: '발행일자', name: 'publishedDate'},
-        { header: '기술책임자', name: 'technicalManager'},
-        { header: '성적서 언어', name: 'reportLanguage' },
-        { header: '비고', name: 'etc'}
+        { header: '위탁기관', name: 'consignmentCompany', width: 100, align:'center' },
+        { header: '검수타입', name: 'inspectionType', width: 100, align:'center' },
+        { header: '접수번호', name: 'regNumber', width: 100, align:'center' },
+        { header: '장비명', name: 'deviceName', width: 200, align:'center' },
+        { header: '기기번호', name: 'deviceNumber', width: 100, align:'center' },
+        { header: '제조사', name: 'productionCompany', width: 100, align:'center' },
+        { header: '모델', name: 'model', width: 100, align:'center' },
+        { header: '규격', name: 'standard', width: 100, align:'center' },
+        { header: '분해능', name: 'resolution', width: 100, align:'center' },
+        { header: '출장/반출/입고', name: 'carryType', width: 100, align:'center' },
+        { header: '교정료', name: 'correctionFee', width: 100, align:'center' },
+        { header: '수량', name: 'quantity', width: 100, align:'center' },
+        { header: '성적서 번호', name: 'reportNumber', width: 100, align:'center' },
+        { header: '단위', name: 'unit', width: 100, align:'center' },
+        { header: '교정일자', name: 'correctionDate', width: 100, align:'center' },
+        { header: '장소', name: 'place', width: 100, align:'center' },
+        { header: '실무자', name: 'practitioner', width: 100, align:'center' },
+        { header: '중분류', name: 'middleCategory', width: 100, align:'center' },
+        { header: '소분류', name: 'smallCategory', width: 100, align:'center' },
+        { header: '발행일자', name: 'publishedDate', width: 100, align:'center' },
+        { header: '기술책임자', name: 'technicalManager', width: 100, align:'center' },
+        { header: '성적서 언어', name: 'reportLanguage', width: 100, align:'center' },
+        { header: '비고', name: 'etc', width: 250, align:'center' }
     ]
   }),
   computed: {

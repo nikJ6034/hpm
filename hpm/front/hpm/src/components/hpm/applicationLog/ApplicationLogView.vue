@@ -53,7 +53,7 @@
                   </b-row>
                   <b-row class="mt-1">
                     <b-col>
-                      <b-table width="4000px" sticky-header="600px" responsive :items="applicationLogList" :fields="fields"></b-table>
+                      <b-table fixed sticky-header="600px" responsive :items="applicationLogList" :fields="fields"></b-table>
                     </b-col>
                   </b-row>
                 </b-container>

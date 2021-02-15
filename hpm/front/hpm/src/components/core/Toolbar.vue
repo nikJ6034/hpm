@@ -6,7 +6,14 @@
     flat
     prominent>
     <div class="v-toolbar-title">
-      <v-toolbar-title class="v-list__tile__title title" style="color: white;">
+      <v-toolbar-title class="title" style="color: white;">
+        <v-btn
+          v-if="responsive"
+          class="default v-btn--simple"
+          icon
+          @click.stop="onClickBtn">
+          <v-icon>mdi-view-list</v-icon>
+        </v-btn>
         HPM 교정 신청 관리 시스템
       </v-toolbar-title>
     </div>
