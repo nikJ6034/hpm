@@ -48,13 +48,36 @@ public class CommonCodeRepositoryDslImpl extends QuerydslRepositorySupport imple
 	@Override
 	public CommonCode code(CommonCode cmmon) {
 		QCommonCode commonCode = new QCommonCode("code1");
-		QCommonCode commonCode2 = new QCommonCode("code2");
 		
 		return from(commonCode)
-		.join(commonCode2)
-		.on(commonCode.eq(commonCode2.pid))
+		.join(commonCode.codeList)
 		.where(commonCode.code.eq(cmmon.getCode()))
 		.fetchOne();
 	}
+
+	@Override
+	public CommonCode findById(long id) {
+		QCommonCode commonCode = new QCommonCode("code1");
+		
+		return from(commonCode)
+		.join(commonCode.codeList).fetchJoin()
+		.where(commonCode.id.eq(id))
+		.fetchOne();
+	}
+
+	@Override
+	public CommonCode cCode(CommonCodeSearchVO commonCodeSearchVO) {
+		QCommonCode commonCode = QCommonCode.commonCode;
+		QCommonCode commonCode2 = new QCommonCode("code2");
+		
+		return from(commonCode)
+			.join(commonCode2)
+			.on(commonCode.id.eq(commonCode2.pid.id))
+			.select(commonCode2)
+			.where(commonCode.code.eq(commonCodeSearchVO.getPCode()).and(commonCode2.code.eq(commonCodeSearchVO.getCCode())))
+			.fetchOne();
+	}
+	
+	
 
 }

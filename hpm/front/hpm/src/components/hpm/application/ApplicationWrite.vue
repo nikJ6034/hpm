@@ -1,315 +1,316 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl>
-    <v-layout
-      justify-center
-      wrap>
-      <b-container
-        fluid>
-        <b-row
-          class="text-center"
-          style="padding: 0px 10px 10px 10px;">
-          <b-col
-            style="padding:0 5px 0 5px">
-            <b-container
-              fluid>
-              <b-row>
-                <b-col class="f25">신청서 목록</b-col>
-              </b-row>
+  <div>
+    <base-header type="gradient-success" class="pb-6 pt-1">
+    </base-header>
+    <b-container
+      class="pt-6"
+      fluid>
+      <b-row
+        class="text-center"
+        style="padding: 0px 10px 10px 10px;">
+        <b-col
+          style="padding:0 5px 0 5px">
+          <b-container
+            fluid>
+            <b-row>
+              <b-col class="f25">신청서 등록/수정</b-col>
+            </b-row>
+            <hr>
+            <b-row>
+              <b-container
+                fluid
+                class="appContent mb-2">
 
-              <hr>
-
-              <b-row>
-                <b-table-simple
-                  small
-                  responsive
-                  bordered
-                  class="tbl-mgb10">
-                  <colgroup>
-                    <col style="width:*">
-                    <col style="width:10%;">
-                    <col style="width:20%;">
-                    <col style="width:10%;">
-                    <col style="width:20%;">
-                    <col style="width:10%;">
-                    <col style="width:20%;">
-                  </colgroup>
-                  <b-tbody>
-                    <b-tr class="trBgW">
-                      <b-th rowspan="4"><font size="5">* 신청인</font></b-th>
-                      <b-th class="text-center">회사명</b-th>
-                      <b-td class="text-left">{{ application.customer.name }}</b-td>
-                      <b-th class="text-center">대표자</b-th>
-                      <b-td
-                        class="text-left"
-                        colspan="3">{{ application.customer.repName }}</b-td>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th class="text-center">사업자등록번호</b-th>
-                      <b-td class="text-left">{{ application.customer.companyRegNumber }}</b-td>
-                      <b-th class="text-center">업태</b-th>
-                      <b-td class="text-left">{{ application.customer.bizCondition }}</b-td>
-                      <b-th class="text-center">종목</b-th>
-                      <b-td class="text-left">{{ application.customer.item }}</b-td>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th class="text-center">주소</b-th>
-                      <b-td
-                        class="text-left"
-                        colspan="5">[{{ application.customer.postNumber }}] {{ application.customer.adress }} {{ application.customer.adressDetail }}</b-td>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th class="text-center">전화번호</b-th>
-                      <b-td class="text-left">{{ application.customer.tel }}</b-td>
-                      <b-th class="text-center">팩스번호</b-th>
-                      <b-td
-                        class="text-left"
-                        colspan="3">{{ application.customer.fax }}</b-td>
-                    </b-tr>
-                  </b-tbody>
-                </b-table-simple>
-
-                <b-table-simple
-                  small
-                  responsive
-                  bordered
-                  class="tbl-mgb10">
-                  <colgroup>
-                    <col style="width:10%;">
-                    <col style="width:10%;">
-                    <col style="width:10%;">
-                    <col style="width:*">
-                  </colgroup>
-                  <b-tbody>
-                    <b-tr class="trBgW">
-                      <b-th
-                        rowspan="2"
-                        class="text-center">성적서 발행<br>업체명/주소</b-th>
-                      <b-td
-                        rowspan="2"
-                        class="text-center" >
-                        <b-form-group v-slot="{ ariaDescribedby }">
-                          <b-form-radio-group
-                            v-model="application.customerSameYn"
-                            :options="options"
-                            :aria-describedby="ariaDescribedby"
-                            name="radios-stacked"
-                            stacked
-                            @change="customerSameChange"
-                          />
-                        </b-form-group>
-                      </b-td>
-                      <b-th>업체명</b-th>
-                      <b-td>
-                        <b-form-input
-                          :readonly="application.customerSameYn == 'Y'"
-                          v-model="application.requestCustomerName"
-                          placeholder="업체명을 입력하세요." />
-                      </b-td>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th>주소</b-th>
-                      <b-td>
-                        <b-form-input
-                          :readonly="application.customerSameYn == 'Y'"
-                          v-model="application.requestCustomerAddress"
-                          placeholder="주소를 입력하세요." />
-                      </b-td>
-                    </b-tr>
-                  </b-tbody>
-                </b-table-simple>
-
-                <b-table-simple
-                  small
-                  bordered
-                  class="tbl-mgb10">
-                  <colgroup>
-                    <col style="width:15%;">
-                    <col style="width:35%;">
-                    <col style="width:15%;">
-                    <col style="width:25%;">
-                    <col style="width:10%;">
-                  </colgroup>
-                  <b-tbody>
-                    <b-tr class="trBgW">
-                      <b-th colspan="2">
-                        ★ 현장교정 :
-                        <b-form-checkbox
-                          id="checkbox-1"
-                          v-model="application.fieldCorrectionNeedYn"
-                          name="checkbox-1"
-                          value="Y"
-                          unchecked-value="N"
-                          inline
-                          class="ml-5"
-                        >
-                          필요
-                        </b-form-checkbox>
-                      </b-th>
-                      <b-th colspan="3">
-                        ★ 필증상에 권장교정일 주기 기입여부 :
-                        <b-form-checkbox
-                          id="checkbox-2"
-                          v-model="application.recCalibrationDayYn"
-                          name="checkbox-2"
-                          value="Y"
-                          unchecked-value="N"
-                          inline
-                          class="ml-5"
-                        >
-                          필요
-                        </b-form-checkbox>
-                      </b-th>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th rowspan="2">기준일타입</b-th>
-                      <b-td
-                        rowspan="2"
-                        class="text-center">
+                <b-row>
+                  <b-col class="appCol font-weight-bold" style="font-size: 32px;">신청서</b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">회사명</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">{{ application.customer.name }}</b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="1">대표자</b-col>
+                  <b-col class="appCol text-left" cols="8" md="5">{{ application.customer.repName }}</b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">사업자등록번호</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">{{ application.customer.companyRegNumber }}</b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="1">업태</b-col>
+                  <b-col class="appCol text-left" cols="8" md="2">{{ application.customer.bizCondition }}</b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="1">종목</b-col>
+                  <b-col class="appCol text-left" cols="8" md="2">{{ application.customer.item }}</b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">주소</b-col>
+                  <b-col class="appCol text-left" cols="8" md="10">{{ application.customer.adress }} {{ application.customer.adressDetail }}</b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">전화번호</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">{{ application.customer.tel }}</b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="1">팩스번호</b-col>
+                  <b-col class="appCol text-left" cols="8" md="5">{{ application.customer.fax }}</b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">성적서 발행 업체명</b-col>
+                  <b-col class="appCol text-left" cols="8" md="6">
+                    <b-form-input
+                      :readonly="application.customerSameYn == 'Y'"
+                      v-model="application.requestCustomerName"
+                      size="sm"
+                      class="w-75 d-inline-block"
+                      placeholder="업체명을 입력하세요." />
+                    <b-button
+                      v-if="application.customerSameYn == 'N'"
+                      v-b-modal.modal-1
+                      size="sm"
+                      class="ml-2"
+                      style="vertical-align:bottom; "
+                      variant="outline-primary"
+                    >업체검색</b-button>
+                    <b-modal id="modal-1" size="lg" title="업체 검색" hide-footer>
+                      <CustomerSearchBox @customer="setRequestCustomer"/>
+                    </b-modal>
+                  </b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">신청자 동일여부</b-col>
+                  <b-col class="appCol" cols="8" md="2">
+                    <b-form-group style="margin-bottom: 0px" v-slot="{ ariaDescribedby }">
                         <b-form-radio-group
-                          v-model="application.appliRegDateType"
-                          :options="options2"
-                          name="radios-stacked2"
-                          class="fl mr-1"
+                          v-model="application.customerSameYn"
+                          :options="options"
+                          :aria-describedby="ariaDescribedby"
+                          name="radios-stacked"
+                          @change="customerSameChange"
                         />
-                        <b-form-input
-                          id="example-input"
-                          v-model="application.appliRegDate"
-                          :readonly="true"
-                          type="text"
-                          placeholder="YYYY-MM-DD"
-                          autocomplete="off"
-                          size="sm"
-                          class="fl"
-                          style="width:120px;"
-                        />
-                        <b-form-datepicker
-                          v-model="application.appliRegDate"
-                          button-only
-                          locale="ko-KR"
-                          aria-controls="example-input"
-                          size="sm"
-                          class="fl"
-                        />
-                      </b-td>
-                      <b-th>신청인</b-th>
-                      <b-td>
-                        <b-form-input
-                          v-model="application.applicant"
-                          placeholder="신청인을 입력하세요." />
-                      </b-td>
-                      <b-td rowspan="3">
-                        <b-img
-                          :src="uploadFileImg"
-                          width="100px;"
-                          height="100px;"
-                          alt="서명 이미지" />
-                      </b-td>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th>이메일</b-th>
-                      <b-td>
-                        <b-form-input
-                          v-model="application.applicantEmail"
-                          placeholder="이메일를 입력하세요." />
-                      </b-td>
-                    </b-tr>
-                    <b-tr class="trBgW">
-                      <b-th>인수방법</b-th>
-                      <b-td>
-                        <b-form-radio-group
-                          v-model="application.takeOverType"
-                          :options="options3"
-                          name="radios-stacked3"
-                          class="fl mr-1"
-                        />
-                      </b-td>
-                      <b-th>
-                        서명
-                      </b-th>
-                      <b-td>
-                        <!-- accept="image/*" -->
-                        <b-form-file
-                          id="file-small"
-                          v-model="application.customerSignImgFile"
-                          size="sm"
-                          browse-text="신청인 서명 업로드"
-                          placeholder=""
-                          color="primary"
-                          @change="fnChangeImage"
-                        />
-                      </b-td>
-                    </b-tr>
-                  </b-tbody>
-                </b-table-simple>
-
-                <b-container
-                  fluid>
-                  <b-row class="mt-1">
-                    <b-col>
-                      <b-icon
-                        class="float-right pointer"
-                        icon="file-plus-fill"
-                        variant="primary"
-                        style="height:31px; width:31px;"
-                        @click="rowAdd"
-                      />
-
-                      <b-icon
-                        class="float-right pointer"
-                        icon="file-minus"
-                        variant="primary"
-                        style="height:31px; width:31px;"
-                        @click="rowDelete"
-                      />
-                    </b-col>
-                  </b-row>
-                  <b-row class="mt-1">
-                    <b-col style="padding-right: 0px; padding-left: 0px;">
-                      <grid
-                        ref="tuiGrid"
-                        :columns="columns"
-                        :options="gridOptions"
-                        :data="application.applicationLogList"
-                        language="ko"
-                        style="height:400px"
-                        @editingFinish="rowChange"/>
-                    </b-col>
-                  </b-row>
-
-                  <b-row class="mt-2">
-                    <b-col>
-                      <b-button
-                        class="float-right mr-1"
-                        variant="outline-primary"
+                      </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">주소</b-col>
+                  <b-col class="appCol text-left" cols="8" md="10">
+                    <b-form-input
+                      :readonly="application.customerSameYn == 'Y'"
+                      v-model="application.requestCustomerAddress"
+                      size="sm"
+                      class="w-50"
+                      placeholder="주소를 입력하세요." />
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol" cols="12" md="6">
+                    ★ 현장교정 :
+                      <b-form-checkbox
+                        id="checkbox-1"
+                        v-model="application.fieldCorrectionNeedYn"
+                        name="checkbox-1"
+                        value="Y"
+                        unchecked-value="N"
+                        inline
+                        class="ml-5"
+                      >
+                        필요
+                      </b-form-checkbox>
+                  </b-col>
+                  <b-col class="appCol" cols="12" md="6">
+                    ★ 필증상에 권장교정일 주기 기입여부 :
+                      <b-form-checkbox
+                        id="checkbox-2"
+                        v-model="application.recCalibrationDayYn"
+                        name="checkbox-2"
+                        value="Y"
+                        unchecked-value="N"
+                        inline
+                        class="ml-5"
+                      >
+                        필요
+                      </b-form-checkbox>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">접수형식</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-radio-group
+                        v-model="application.appliRegDateType"
+                        :options="options2"
+                        name="radios-stacked2"
                         size="sm"
-                        @click="register"
-                      >{{ saveButtonName }}</b-button>
-                    </b-col>
-                  </b-row>
-                </b-container>
-              </b-row>
-            </b-container>
-          </b-col>
-        </b-row>
-      </b-container >
-    </v-layout>
-  </v-container>
+                        class="fl mr-1"
+                      />
+                  </b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">접수날짜</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-input
+                        id="example-input"
+                        v-model="application.appliRegDate"
+                        :readonly="true"
+                        type="text"
+                        placeholder="YYYY-MM-DD"
+                        autocomplete="off"
+                        size="sm"
+                        class="fl"
+                        style="width:120px;"
+                      />
+                      <b-form-datepicker
+                        v-model="application.appliRegDate"
+                        button-only
+                        locale="ko-KR"
+                        aria-controls="example-input"
+                        size="sm"
+                        class="fl"
+                      />
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col style="line-height: 70px;" class="appCol font-weight-bold" cols="4" md="2">신청인</b-col>
+                  <b-col class="appCol text-left" cols="6" md="8">
+                    <b-form-input
+                      v-model="application.applicant"
+                      size="sm"
+                      class="d-inline-block"
+                      placeholder="신청인을 입력하세요." />
+                    <b-form-file
+                        id="file-small"
+                        v-model="application.customerSignImgFile"
+                        size="sm"
+                        browse-text="신청인 서명 업로드"
+                        placeholder=""
+                        color="primary"
+                        @change="fnChangeImage"
+                      />
+                    
+                  </b-col>
+                  <b-col class="appCol pl-2" cols="2" md="2">
+                    <b-img
+                        :src="uploadFileImg"
+                        width="60px;"
+                        class="mt-1 ml-0"
+                        alt="서명 이미지" />
+                  </b-col>
+                  
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2"><b-col class="my-auto">신청인 전화번호</b-col></b-col>
+                  <b-col class="appCol text-left" cols="8" md="10">
+                    <b-form-input
+                      v-model="application.applicantTel"
+                      size="sm"
+                      placeholder="신청인 전화번호를 입력하세요." />
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2"><b-col class="my-auto">이메일</b-col></b-col>
+                  <b-col class="appCol text-left" cols="8" md="10">
+                    <b-form-input
+                      v-model="application.applicantEmail"
+                      size="sm"
+                      placeholder="이메일를 입력하세요." />
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">인수방법</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-radio-group
+                        v-model="application.takeOverType"
+                        :options="options3"
+                        name="radios-stacked3"
+                        class="fl mr-1"
+                      />
+                  </b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">인수정보</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-input
+                        v-model="application.deliveryInfo"
+                        size="sm"
+                        placeholder="" />
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">성적서 작성 언어</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-select v-model="application.reportLanguage" :options="languageOptions" size="sm" />
+                  </b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">기술책임자 검토</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-input
+                        v-model="application.technicalManager"
+                        size="sm"
+                        placeholder="" />
+                  </b-col>
+                </b-row>
+              </b-container>
+            </b-row>
+            <b-row>
+                <b-container
+                fluid>
+                <b-row class="mt-1">
+                  <b-col>
+                    <b-icon
+                      class="float-right pointer"
+                      icon="file-plus-fill"
+                      variant="primary"
+                      style="height:31px; width:31px;"
+                      @click="rowAdd"
+                    />
+
+                    <b-icon
+                      class="float-right pointer"
+                      icon="file-minus"
+                      variant="primary"
+                      style="height:31px; width:31px;"
+                      @click="rowDelete"
+                    />
+                  </b-col>
+                </b-row>
+                <b-row class="mt-1">
+                  <b-col style="padding-right: 0px; padding-left: 0px;">
+                    <grid
+                      ref="tuiGrid"
+                      :columns="columns"
+                      :options="gridOptions"
+                      :columnOptions="columnOptions"
+                      :data="application.applicationLogList"
+                      language="ko"
+                      style="height:400px"
+                      @editingFinish="rowChange"/>
+                  </b-col>
+                </b-row>
+
+                <b-row class="mt-2">
+                  <b-col>
+                    <b-button
+                      class="float-right mr-1"
+                      variant="outline-primary"
+                      size="sm"
+                      @click="back"
+                    >취소</b-button>
+                    <b-button
+                      class="float-right mr-1"
+                      variant="outline-primary"
+                      size="sm"
+                      @click="register"
+                    >{{ saveButtonName }}</b-button>
+                  </b-col>
+                </b-row>
+              </b-container>
+            </b-row>
+          </b-container>
+        </b-col>
+      </b-row>
+    </b-container >
+  </div>
 </template>
 
 <script>
 
 import 'tui-grid/dist/tui-grid.css'
 import { Grid } from '@toast-ui/vue-grid'
+import CustomerSearchBox from '@/components/hpm/customer/CustomerSearchBox'
 
 export default {
   components: {
-    Grid
+    Grid,
+    CustomerSearchBox
   },
   data: () => ({
-    gridOptions: { bodyHeight: 'fitToParent', rowHeaders: ['checkbox'] },
+    gridOptions: { bodyHeight: 'fitToParent', rowHeaders: ['checkbox','rowNum'] },
+    columnOptions: { resizable: true },
     companis: [],
     uploadFileImg: null,
     application: {
@@ -326,11 +327,14 @@ export default {
       applicantEmail: '',
       consignee: '',
       takeOverDate: '',
-      takeOverType: '',
+      takeOverType: null,
       regDate: '',
       regMember: { id: null },
       customerSignImgFile: [],
-      applicationLogList: []
+      applicationLogList: [],
+      technicalManager: '',
+      reportLanguage: null,
+      deliveryInfo: ''
     },
     deleteApplicationLogList: [],
     newLine: {
@@ -351,6 +355,12 @@ export default {
       { text: '직접전달', value: 'DIRECTLY' },
       { text: '고객방문', value: 'VISIT' },
       { text: '택배', value: 'DELIVERY' }
+    ],
+    languageOptions: [
+      { text: '선택하세요', value: null },
+      { text: '국문', value: 'KO' },
+      { text: '영문', value: 'EN' },
+      { text: '국문, 영문', value: 'KOEN' }
     ]
   }),
   computed: {
@@ -364,8 +374,18 @@ export default {
   },
   async created () {
     this.columns = [
+        { header: '접수번호', name: 'regNumber', editor: 'text', width: 100, align:'center' },
+        { header: '성적서 번호', name: 'reportNumber', editor: 'text', width: 100, align:'center' },
+        { header: '장비명', name: 'deviceName', editor: 'text', width: 200, align:'center', validation: { required: true, dataType: 'string' } },
+        { header: '제작회사', name: 'productionCompany', editor: 'text', width: 100, align:'center' },
+        { header: '모델', name: 'model', editor: 'text', width: 100, align:'center' },
+        { header: '규격/RANGE', name: 'standard', editor: 'text', width: 100, align:'center' },
+        { header: '분해능', name: 'resolution', editor: 'text', width: 100, align:'center' },
+        { header: '기기번호', name: 'deviceNumber', editor: 'text', width: 100, align:'center' },
+        { header: '수량', name: 'quantity', editor: 'text', validation: { required: true, dataType: 'number' }, width: 100, align:'center' },
+        { header: '비고', name: 'etc', editor: 'text', width: 200, align:'center' },
         { header: '위탁기관',
-          name: 'consignmentCompany',
+          name: 'consignmentCompanyId',
           formatter: 'listItemText',
           editor: {
             type: 'select',
@@ -375,7 +395,7 @@ export default {
           },
           width: 100, align:'center'
         },
-        { header: '검수타입',
+        { header: '교정/시험/자체',
           name: 'inspectionType',
           formatter: 'listItemText',
           editor: {
@@ -386,13 +406,6 @@ export default {
           },
           width: 100, align:'center'
         },
-        { header: '접수번호', name: 'regNumber', editor: 'text', width: 100, align:'center' },
-        { header: '장비명', name: 'deviceName', editor: 'text', width: 200, align:'center' },
-        { header: '기기번호', name: 'deviceNumber', editor: 'text', width: 100, align:'center' },
-        { header: '제조사', name: 'productionCompany', editor: 'text', width: 100, align:'center' },
-        { header: '모델', name: 'model', editor: 'text', width: 100, align:'center' },
-        { header: '규격', name: 'standard', editor: 'text', width: 100, align:'center' },
-        { header: '분해능', name: 'resolution', editor: 'text', width: 100, align:'center' },
         { header: '출장/반출/입고',
           name: 'carryType',
           formatter: 'listItemText',
@@ -404,29 +417,7 @@ export default {
           },
           width: 100, align:'center'
         },
-        { header: '교정료', name: 'correctionFee', editor: 'text', validation: { dataType: 'number' }, width: 100, align:'center' },
-        { header: '수량', name: 'quantity', editor: 'text', validation: { dataType: 'number' }, width: 100, align:'center' },
-        { header: '성적서 번호', name: 'reportNumber', editor: 'text', width: 100, align:'center' },
-        { header: '단위', name: 'unit', editor: 'text', width: 100, align:'center' },
-        { header: '교정일자', name: 'correctionDate', editor: { type: 'datePicker', options: { language: 'ko' } }, width: 100, align:'center' },
-        { header: '장소', name: 'place', editor: 'text', width: 100, align:'center' },
-        { header: '실무자', name: 'practitioner', editor: 'text', width: 100, align:'center' },
-        { header: '중분류', name: 'middleCategory', editor: 'text', width: 100, align:'center' },
-        { header: '소분류', name: 'smallCategory', editor: 'text', width: 100, align:'center' },
-        { header: '발행일자', name: 'publishedDate', editor: { type: 'datePicker', options: { language: 'ko' } }, width: 100, align:'center' },
-        { header: '기술책임자', name: 'technicalManager', editor: 'text', width: 100, align:'center' },
-        { header: '성적서 언어',
-          name: 'reportLanguage',
-          formatter: 'listItemText',
-          editor: {
-            type: 'select',
-            options: {
-              listItems: [{ text: '한국어', value: 'KO' }, { text: '영어', value: 'EN' }]
-            }
-          },
-          width: 100, align:'center'
-        },
-        { header: '비고', name: 'etc', editor: 'text', width: 250, align:'center' }
+        { header: '교정료', name: 'correctionFee', editor: 'text', validation: { dataType: 'number' }, width: 100, align:'center' }
     ]
     await this.companySearch()
     this.$refs.tuiGrid.invoke('setColumns', this.columns)
@@ -449,27 +440,18 @@ export default {
       .then(response => {
         if (response) {
           this.application = response.data
-          const logList = []
-          this.application.applicationLogList.forEach(function (item) {
-            item.consignmentCompany = item.consignmentCompany.id + ''
-            
-            if(item.inspectionType) item.inspectionType = item.inspectionType.value
-            if(item.carryType) item.carryType = item.carryType.value
-            if(item.reportLanguage) item.reportLanguage = item.reportLanguage.value
-            
-            item.edite = false
-            item.del = false
-            logList.push(item)
-          })
           this.signImageUrl()
-          this.$refs.tuiGrid.invoke('resetData', logList)
+          this.$refs.tuiGrid.invoke('resetData', this.application.applicationLogList)
         }
-        })
+      })
     },
     getCustomer: function (customerId) {
       this.$http.get(`/api/customer/${customerId}`)
       .then(response => {
         this.application.customer = response.data
+        this.application.applicant = this.application.customer.picName
+        this.application.applicantTel = this.application.customer.picTel
+        this.application.applicantEmail = this.application.customer.email
         })
     },
     goApplicationWritePage: function () {
@@ -481,7 +463,14 @@ export default {
       }
     },
     rowAdd () {
-      const applicationLog = { id: null, consignmentCompany: null, deviceName: null, quantity: 0, reportNumber: null, productionCompany: null, deviceNumber: null, standard: null, unit: null, correctionDate: null, place: null, practitioner: null, middleCategory: null, smallCategory: null, publishedDate: null, technicalManager: null, reportLanguage: null, edite: true, del: null }
+      const rowCount = this.$refs.tuiGrid.invoke('getRowCount')
+      const applicationLog = { id: null, consignmentCompany: null, deviceName: null, quantity: 0, correctionFee: 0, reportNumber: null, productionCompany: null, deviceNumber: null, standard: null, unit: null, correctionDate: null, place: null, practitioner: null, middleCategory: null, smallCategory: null, publishedDate: null, technicalManager: null, reportLanguage: null, edite: true, del: null }
+
+      if(rowCount != 0) {
+        const firstRow = this.$refs.tuiGrid.invoke('getRow', 0)
+        applicationLog.regNumber = firstRow.regNumber
+      }
+      
       this.$refs.tuiGrid.invoke('appendRow', applicationLog)
     },
     rowDelete () {
@@ -509,7 +498,7 @@ export default {
             com.push({ text: item.name, value: item.id + '' })
           })
         }
-        this.columns[0].editor.options.listItems = com
+        this.columns[10].editor.options.listItems = com
         // this.companis = com;
         })
     },
@@ -531,22 +520,24 @@ export default {
         alert('신청인 회사 데이터가 없습니다.')
         return
       } else if (!this.application.appliRegDateType) {
-        alert('기준일 타입을 선택해주세요.')
+        alert('접수형식을 선택해주세요.')
         return
       } else if (!this.application.appliRegDate) {
-        alert('기준일을 입력해주세요.')
+        alert('접수날짜을 입력해주세요.')
         return
       } else if (!this.application.applicant) {
         alert('신청인을 입력해주세요.')
         return
       }
-
+      /*else if (this.application.takeOverType.key == '') {
+        alert('인수방법을 선택해주세요.')
+        return
+      }*/
+      console.log(this.application)
       if (validate.length > 0) {
         alert('값검증이 안된 셀이 있습니다.')
         return false
       }
-
-      console.log([...this.$refs.tuiGrid.invoke('getData'), ...this.deleteApplicationLogList])
         
       if (confirm('신청서를 등록/저장하시겠습니까?')) {
         const formData = new FormData()
@@ -572,15 +563,26 @@ export default {
             alert(response.data.msg)
           }
           })
+        .catch(function( ) {
+          alert('에러가발생했습니다.')
+        })
       }
     },
     signImageUrl: function () {
       if(this.application.customerSignImg){
         this.$http.get(`/api/img/file/${this.application.customerSignImg.id}`, { responseType: 'blob' }).then(response => {
           const url = window.URL.createObjectURL(new Blob([response.data]))
-              this.uploadFileImg = url
+          this.uploadFileImg = url
         }).catch(err => console.log(err))
       }
+    },
+    back: function(){
+      window.history.back();
+    },
+    setRequestCustomer: function(customer){
+      this.application.requestCustomerName = customer.name
+      this.application.requestCustomerAddress = (customer.adress||"")+" "+(customer.adressDetail||"")
+      this.$bvModal.hide('modal-1')
     }
   }
 }
@@ -594,4 +596,6 @@ export default {
   .fl { float: left;}
   .y-scroll { height: 700px; overflow-y: scroll;}
   .tbl-mgb10 { margin-bottom:10px !important; }
+  .bgW { background-color:white !important;}
+  .appCol {border: 1px solid #dee2e6;}
 </style>

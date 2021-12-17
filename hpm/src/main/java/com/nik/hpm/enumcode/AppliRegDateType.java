@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public enum AppliRegDateType {
 
-	VISIT("방문하신날짜"),
-	DELIVERY("택배 도착일"),
-	EXPORT("장비 반출일");
+	VISIT("방문"),
+	DELIVERY("택배"),
+	EXPORT("반출");
 	
 	private String name;
 	private String value;

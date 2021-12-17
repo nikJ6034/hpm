@@ -10,6 +10,7 @@ import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.member.entity.QMember;
 import com.nik.hpm.member.vo.MemberSearchVO;
+import com.nik.hpm.role.entity.QRole;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 
@@ -23,19 +24,21 @@ public class MemberRepositoryDslImpl extends QuerydslRepositorySupport implement
 	public Page<Member> memberList(MemberSearchVO memberSearchVO, Pageable pageable) {
 		
 		QMember member = QMember.member;
+		QRole role = QRole.role;
 		BooleanBuilder builder = new BooleanBuilder();
 		
-		if(StringUtils.isNotBlank(memberSearchVO.getCondition())) {
 			
-			if(memberSearchVO.getCondition().equals("id") && StringUtils.isNotBlank(memberSearchVO.getKeyword())) {
-				builder.and(member.memberId.contains(memberSearchVO.getKeyword()));
-			}else if(memberSearchVO.getCondition().equals("name") && StringUtils.isNotBlank(memberSearchVO.getKeyword())){
-				builder.and(member.name.contains(memberSearchVO.getKeyword()));
-			}
-			
+		if(StringUtils.isBlank(memberSearchVO.getCondition()) && StringUtils.isNotBlank(memberSearchVO.getKeyword())) {
+			builder.and(member.memberId.contains(memberSearchVO.getKeyword()))
+			.or(member.name.contains(memberSearchVO.getKeyword()));
+		}else if(memberSearchVO.getCondition().equals("id") && StringUtils.isNotBlank(memberSearchVO.getKeyword())) {
+			builder.and(member.memberId.contains(memberSearchVO.getKeyword()));
+		}else if(memberSearchVO.getCondition().equals("name") && StringUtils.isNotBlank(memberSearchVO.getKeyword())){
+			builder.and(member.name.contains(memberSearchVO.getKeyword()));
 		}
-		
+			
 		QueryResults<Member> fetchResults = from(member)
+		.innerJoin(member.role, role).fetchJoin()
 		.where(member.delYn.eq(Yn.N),builder)
 		.offset(pageable.getOffset())
 		.limit(pageable.getPageSize())

@@ -69,6 +69,10 @@ public class Customer implements Serializable {
 	private String picName;
 	
 	@Column
+	/** 담당자 전화번호 */
+	private String picTel;
+	
+	@Column
 	/** 우편번호 */
 	private Integer postNumber;
 	
@@ -81,10 +85,24 @@ public class Customer implements Serializable {
 	private String adressDetail;
 	
 	@Column
+	private String addressJibun;
+	
+	@Column
 	/**  */
 	private String etc;
 	
 	@Enumerated(EnumType.STRING)
 	/** 삭제 구분 */
-	@Column Yn delYn;
+	@Column 
+	private Yn delYn;
+	
+	/** 결제담당자 이름 */
+	@Column
+	private String billPicName;
+	/** 결제담당자 전화번호 */
+	@Column
+	private String billPicTel;
+	/** 결제담당자 메일주소 */
+	@Column
+	private String billPicMail;
 }

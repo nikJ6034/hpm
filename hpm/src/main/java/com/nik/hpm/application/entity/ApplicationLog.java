@@ -3,9 +3,11 @@ package com.nik.hpm.application.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.enumcode.CarryType;
 import com.nik.hpm.enumcode.InspectionType;
-import com.nik.hpm.enumcode.ReportLanguage;
+import com.nik.hpm.enumcode.PaymentStateType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,8 +42,7 @@ public class ApplicationLog implements Serializable{
 	
 	
 	/** 위탁기관 */
-	@ManyToOne
-	@NotNull
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	private ConsignmentCompany consignmentCompany;
 	
 	/** 검수 타입 */
@@ -86,7 +87,7 @@ public class ApplicationLog implements Serializable{
 	private CarryType carryType;
 	
 	/** 교정료 */
-	private Long correctionFee;
+	private long correctionFee;
 	
 	/** 교정일자 */
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -110,10 +111,12 @@ public class ApplicationLog implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate publishedDate;
 	
-	/** 기술챔임자 */
-	private String technicalManager;
+	/** 마진률 */
+	private int marginRate;
 	
-	/** 성적서 영어 */
+	/** 결제상태 */
+	@Column(columnDefinition = "varchar(10) default 'NONE'")
 	@Enumerated(EnumType.STRING)
-	private ReportLanguage reportLanguage;
+	private PaymentStateType paymentStateType;
+	
 }

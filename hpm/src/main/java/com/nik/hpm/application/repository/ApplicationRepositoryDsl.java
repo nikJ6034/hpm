@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.nik.hpm.application.entity.Application;
 import com.nik.hpm.application.vo.AppLogAllListVO;
 import com.nik.hpm.application.vo.ApplicationSearchVO;
+import com.nik.hpm.application.vo.LogAllVO;
 
 public interface ApplicationRepositoryDsl {
 
@@ -16,4 +17,6 @@ public interface ApplicationRepositoryDsl {
 	public List<AppLogAllListVO> applicationAll(ApplicationSearchVO applicationSearchVO);
 	
 	public Application application(Application application);
+	
+	public List<LogAllVO> logAll(ApplicationSearchVO applicationSearchVO);
 }

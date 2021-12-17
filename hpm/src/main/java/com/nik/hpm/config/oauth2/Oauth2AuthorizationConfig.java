@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import com.nik.hpm.config.security.CustomUserDetailsService;
+import com.nik.hpm.config.security.service.CustomUserDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -91,7 +91,9 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
 		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
 		endpoints.userDetailsService(customUserDetailsService)
 			.approvalStore(approvalStore())
-			.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain).authenticationManager(authenticationManager);
+			.tokenStore(tokenStore())
+			.tokenEnhancer(tokenEnhancerChain)
+			.authenticationManager(authenticationManager);
 	}
 	
 	@Bean

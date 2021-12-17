@@ -1,208 +1,204 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl>
-    <v-layout
-      justify-center
-      wrap>
-      <b-container fluid>
-        <b-row
-          class="text-center"
-          style="padding: 0 0 0 10px;">
-          <b-col
-            xl="6"
-            style="padding:0 5px 0 5px">
-            <b-container
-              style="height: 750px;">
-              <b-row>
-                <b-col class="f25">코드 목록</b-col>
-              </b-row>
-              <hr>
-              <b-row>
-                <b-col
-                  cols="3"
-                  sm="3"
-                  class="pr-0">
-                  <b-form-select
-                    v-model="condition"
-                    class="mb-3"
-                  >
-                    <b-form-select-option value="">전체</b-form-select-option>
-                    <b-form-select-option value="code">분류코드</b-form-select-option>
-                    <b-form-select-option value="codeName">분류코드명</b-form-select-option>
-                  </b-form-select>
-                </b-col>
-                <b-col
-                  cols="6"
-                  sm="7"
-                  class="pr-0">
-                  <b-form-input
-                    id="companyName"
-                    type="text"
-                    placeholder="검색조건을 입력해주세요." />
-                </b-col>
-                <b-col
-                  cols="3"
-                  sm="2">
-                  <b-button
-                    block
-                    variant="outline-primary"
-                    @click="search">조회</b-button>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-table
-                  :items="codes"
-                  :fields="fields"
-                  class="pointer"
-                  hover
-                  @row-clicked="itemClick"
+  <div>
+    <base-header type="gradient-success" class="pb-6 pt-1">
+    </base-header>
+    <b-container
+      class="my-2"
+      fluid>
+      <b-row
+        class="text-center"
+        style="padding: 0 0 0 10px;">
+        <b-col
+          xl="6"
+          style="padding:0 5px 0 5px">
+          <b-container>
+            <b-row>
+              <b-col class="f25">코드 목록</b-col>
+            </b-row>
+            <hr>
+            <b-row>
+              <b-col
+                cols="3"
+                sm="3"
+                class="pr-0">
+                <b-form-select
+                  v-model="condition"
+                  class="mb-3"
                 >
-                  <template #cell(index)="data">
-                    {{ data.index + 1 }}
-                  </template>
-                </b-table>
-              </b-row>
-              <b-row class="d-inline-block">
-                <b-pagination
-                  v-model="currentPage"
-                  :total-rows="rows"
-                  :per-page="perPage"
-                  align="center"
-                  @page-click="pageSearch"
+                  <b-form-select-option value="">전체</b-form-select-option>
+                  <b-form-select-option value="code">분류코드</b-form-select-option>
+                  <b-form-select-option value="codeName">분류코드명</b-form-select-option>
+                </b-form-select>
+              </b-col>
+              <b-col
+                cols="6"
+                sm="7"
+                class="pr-0">
+                <b-form-input
+                  id="companyName"
+                  type="text"
+                  v-on:keydown.enter="search()"
+                  placeholder="검색조건을 입력해주세요." />
+              </b-col>
+              <b-col
+                cols="3"
+                sm="2">
+                <b-button
+                  block
+                  variant="outline-primary"
+                  @click="search">조회</b-button>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-table
+                :items="codes"
+                :fields="fields"
+                class="pointer"
+                hover
+                @row-clicked="itemClick"
+              >
+                <template #cell(index)="data">
+                  {{ data.index + 1 }}
+                </template>
+              </b-table>
+            </b-row>
+            <b-row class="d-inline-block">
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                align="center"
+                @page-click="pageSearch"
+              />
+            </b-row>
+          </b-container>
+        </b-col>
+        <b-col
+          xl="6">
+          <b-container
+            style="height: 700px;">
+            <b-row>
+              <b-col
+                v-if="code.id == null"
+                class="f25"
+              >코드 등록</b-col>
+              <b-col
+                v-else
+                class="f25"
+              >코드 정보</b-col>
+            </b-row>
+            <hr>
+            <b-row
+              class="mt-1">
+              <b-col
+                cols="2"
+                class="mFormLbl text-right">
+                분류코드
+              </b-col>
+              <b-col
+                cols="10">
+                <b-form-input
+                  :readonly="code.id != null"
+                  v-model="code.code"
+                  placeholder="분류코드을 입력하세요." />
+              </b-col>
+            </b-row>
+            <b-row
+              class="mt-1">
+              <b-col
+                cols="2"
+                class="mFormLbl text-right">
+                분류코드명
+              </b-col>
+              <b-col
+                cols="10">
+                <b-form-input
+                  :readonly="code.id != null"
+                  v-model="code.codeName"
+                  placeholder="분류코드명을 입력하세요." />
+              </b-col>
+            </b-row>
+            <b-row
+              class="mt-1">
+              <b-col
+                cols="2"
+                class="mFormLbl text-right">설명
+              </b-col>
+              <b-col cols="10">
+                <b-form-textarea
+                  v-model="code.codeDesc"
+                  rows="3"
                 />
-              </b-row>
-            </b-container>
-          </b-col>
-          <b-col
-            xl="6"
-            style="padding:0 5px 0 0; border-left:1px solid lightgrey;">
-            <b-container
-              style="height: 450px;">
-              <b-row>
-                <b-col
+              </b-col>
+            </b-row>
+
+            <hr>
+            <b-row class="mt-1">
+              <b-col>
+                <b-icon
+                  class="float-right pointer"
+                  icon="file-plus-fill"
+                  variant="primary"
+                  style="height:31px; width:31px;"
+                  @click="rowAdd"
+                />
+                <b-icon
+                  class="float-right pointer"
+                  icon="file-minus"
+                  variant="primary"
+                  style="height:31px; width:31px;"
+                  @click="rowDelete"
+                />
+              </b-col>
+            </b-row>
+
+            <b-row class="mt-1">
+              <b-col style="height:300px">
+                <grid
+                  ref="tuiGrid"
+                  :data="testData"
+                  :columns="columns"
+                  :options="gridOptions"
+                  language="ko"
+                  @editingFinish="rowChange"
+                />
+              </b-col>
+            </b-row>
+
+            <b-row
+              class="mt-1">
+              <b-col>
+                <b-button
                   v-if="code.id == null"
-                  class="f25"
-                >코드 등록</b-col>
-                <b-col
-                  v-else
-                  class="f25"
-                >코드 정보</b-col>
-              </b-row>
-              <hr>
-              <b-row
-                class="mt-1">
-                <b-col
-                  cols="2"
-                  class="mFormLbl text-right">
-                  분류코드
-                </b-col>
-                <b-col
-                  cols="10">
-                  <b-form-input
-                    :readonly="code.id != null"
-                    v-model="code.code"
-                    placeholder="분류코드을 입력하세요." />
-                </b-col>
-              </b-row>
-              <b-row
-                class="mt-1">
-                <b-col
-                  cols="2"
-                  class="mFormLbl text-right">
-                  분류코드명
-                </b-col>
-                <b-col
-                  cols="10">
-                  <b-form-input
-                    :readonly="code.id != null"
-                    v-model="code.codeName"
-                    placeholder="분류코드명을 입력하세요." />
-                </b-col>
-              </b-row>
-              <b-row
-                class="mt-1">
-                <b-col
-                  cols="2"
-                  class="mFormLbl text-right">설명
-                </b-col>
-                <b-col cols="10">
-                  <b-form-textarea
-                    v-model="code.codeDesc"
-                    rows="3"
-                  />
-                </b-col>
-              </b-row>
+                  class="float-right"
+                  variant="outline-primary"
+                  @click="register"
+                >등록</b-button>
 
-              <hr>
-              <b-row class="mt-1">
-                <b-col>
-                  <b-icon
-                    class="float-right pointer"
-                    icon="file-plus-fill"
-                    variant="primary"
-                    style="height:31px; width:31px;"
-                    @click="rowAdd"
-                  />
-                  <b-icon
-                    class="float-right pointer"
-                    icon="file-minus"
-                    variant="primary"
-                    style="height:31px; width:31px;"
-                    @click="rowDelete"
-                  />
-                </b-col>
-              </b-row>
-
-              <b-row class="mt-1">
-                <b-col style="height:300px">
-                  <grid
-                    ref="tuiGrid"
-                    :data="testData"
-                    :columns="columns"
-                    :options="gridOptions"
-                    language="ko"
-                    @editingFinish="rowChange"
-                  />
-                </b-col>
-              </b-row>
-
-              <b-row
-                class="mt-1">
-                <b-col>
-                  <b-button
-                    v-if="code.id == null"
-                    class="float-right"
-                    variant="outline-primary"
-                    @click="register"
-                  >등록</b-button>
-
-                  <b-button
-                    v-if="code.id != null"
-                    class="float-right"
-                    variant="outline-primary"
-                    @click="cancel"
-                  >취소</b-button>
-                  <b-button
-                    v-if="code.id != null"
-                    class="float-right mr-3"
-                    variant="outline-danger"
-                    @click="remove"
-                  >삭제</b-button>
-                  <b-button
-                    v-if="code.id != null"
-                    class="float-right mr-1"
-                    variant="outline-primary"
-                    @click="modify">수정</b-button>
-                </b-col>
-              </b-row>
-            </b-container>
-          </b-col>
-        </b-row>
-      </b-container >
-    </v-layout>
-  </v-container>
+                <b-button
+                  v-if="code.id != null"
+                  class="float-right"
+                  variant="outline-primary"
+                  @click="cancel"
+                >취소</b-button>
+                <b-button
+                  v-if="code.id != null"
+                  class="float-right mr-3"
+                  variant="outline-danger"
+                  @click="remove"
+                >삭제</b-button>
+                <b-button
+                  v-if="code.id != null"
+                  class="float-right mr-1"
+                  variant="outline-primary"
+                  @click="modify">수정</b-button>
+              </b-col>
+            </b-row>
+          </b-container>
+        </b-col>
+      </b-row>
+    </b-container >
+  </div>
 </template>
 
 <script>

@@ -44,10 +44,15 @@ public class CustomerService {
 			cus.setEmail(customer.getEmail());
 			cus.setFax(customer.getFax());
 			cus.setPicName(customer.getPicName());
+			cus.setPicTel(customer.getPicTel());
 			cus.setPostNumber(customer.getPostNumber());
 			cus.setAdress(customer.getAdress());
+			cus.setAddressJibun(customer.getAddressJibun());
 			cus.setAdressDetail(customer.getAdressDetail());
 			cus.setEtc(customer.getEtc());
+			cus.setBillPicName(customer.getBillPicName());
+			cus.setBillPicTel(customer.getBillPicTel());
+			cus.setBillPicMail(customer.getBillPicMail());
 		});
 		
 	}

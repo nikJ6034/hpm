@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nik.hpm.attachfile.entity.AttachFile;
 import com.nik.hpm.customer.enitity.Customer;
 import com.nik.hpm.enumcode.AppliRegDateType;
+import com.nik.hpm.enumcode.ReportLanguage;
 import com.nik.hpm.enumcode.TakeOverType;
 import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.member.entity.Member;
@@ -43,9 +44,11 @@ public class Application implements Serializable {
 	@NotNull
 	private Customer customer;
 	
+	/** 의뢰업체 */
 	@Column
 	private String requestCustomerName;
 	
+	/** 의뢰주소 */
 	@Column
 	private String requestCustomerAddress;
 	
@@ -63,6 +66,10 @@ public class Application implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Yn recCalibrationDayYn;
 	
+	/** 성적서 영어 */
+	@Enumerated(EnumType.STRING)
+	private ReportLanguage reportLanguage;
+	
 	/** 교정신청 날짜 타입 */
 	@Enumerated(EnumType.STRING)
 	private AppliRegDateType appliRegDateType;
@@ -75,6 +82,10 @@ public class Application implements Serializable {
 	/** 신청인 */
 	@Column
 	private String applicant;
+	
+	/** 신청인 전화번호 */
+	@Column
+	private String applicantTel;
 	
 	/** 신청인 이메일 */
 	@Column
@@ -100,14 +111,21 @@ public class Application implements Serializable {
 	@Column
 	private LocalDate regDate;
 	
-	@OneToMany(mappedBy = "application", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "application", fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private List<ApplicationLog> applicationLogList;
 	
+//	@JsonIgnore
 	@ManyToOne
 	private AttachFile customerSignImg;
+	
+	/** 기술챔임자 */
+	private String technicalManager;
 	
 	@Enumerated(EnumType.STRING)
 	@Column
 	private Yn delYn;
+	
+	@Column
+	private String deliveryInfo;
 }

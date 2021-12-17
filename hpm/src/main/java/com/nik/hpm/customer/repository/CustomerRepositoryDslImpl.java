@@ -82,9 +82,11 @@ public class CustomerRepositoryDslImpl extends QuerydslRepositorySupport impleme
 				,customer.fax
 				,customer.item
 				,customer.picName
+				,customer.picTel
 				,customer.postNumber
 				,customer.repName
-				,customer.tel))
+				,customer.tel
+				,customer.email))
 		.where(customer.id.eq(cus.getId()))
 		;
 		

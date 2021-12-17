@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
-import com.nik.hpm.config.security.SecurityMember;
+import com.nik.hpm.config.security.vo.SecurityMember;
 
 public class CustomTokenEnhancer implements TokenEnhancer{
 	@Override

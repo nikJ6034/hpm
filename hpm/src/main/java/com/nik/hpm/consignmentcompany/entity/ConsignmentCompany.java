@@ -42,10 +42,25 @@ public class ConsignmentCompany implements Serializable {
 	private String adress;
 	
 	@Column
+	private String addressJibun;
+	
+	@Column
 	private String adressDetail;
 	
 	@Column
 	private String etc;
+	
+	@Column
+	/** 담당자 */
+	private String picName;
+	
+	@Column
+	/** 담당자 전화번호 */
+	private String picTel;
+	
+	@Column
+	/** HPM 담당자 */
+	private String hpmPicName;
 	
 	@Enumerated(EnumType.STRING)
 	@Column Yn delYn;

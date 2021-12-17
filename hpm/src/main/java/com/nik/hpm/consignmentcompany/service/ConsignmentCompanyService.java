@@ -39,16 +39,8 @@ public class ConsignmentCompanyService {
 	}
 	
 	public void companyModify(ConsignmentCompany consignmentCompany) {
-		Optional<ConsignmentCompany> findById = consignmentCompanyRepository.findById(consignmentCompany.getId());
 		
-		findById.ifPresent(com->{
-			com.setTel(consignmentCompany.getTel());
-			com.setFax(consignmentCompany.getFax());
-			com.setPostNumber(consignmentCompany.getPostNumber());
-			com.setAdress(consignmentCompany.getAdress());
-			com.setAdressDetail(consignmentCompany.getAdressDetail());
-			com.setEtc(consignmentCompany.getEtc());
-		});
+		consignmentCompanyRepository.save(consignmentCompany);
 		
 	}
 	

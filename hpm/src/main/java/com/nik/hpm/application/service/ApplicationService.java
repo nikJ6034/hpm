@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +22,13 @@ import com.nik.hpm.application.repository.ApplicationRepository;
 import com.nik.hpm.application.vo.AppLogAllListVO;
 import com.nik.hpm.application.vo.ApplicationSearchVO;
 import com.nik.hpm.application.vo.ApplicationVO;
+import com.nik.hpm.application.vo.LogAllVO;
 import com.nik.hpm.attachfile.entity.AttachFile;
 import com.nik.hpm.attachfile.repository.AttachFileRepository;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.util.file.image.UploadResourceImageFileUtil;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 @Service
 @Transactional
@@ -40,13 +43,13 @@ public class ApplicationService {
 	@Autowired
 	UploadResourceImageFileUtil uploadResourceImageFileUtil;
 	
-	public Application application(Application application) {
+	public ApplicationVO application(Application application) {
 //		Optional<Application> findById = applicationRepository.findById(application.getId());
 //		return findById.get();
 		
 		Application selectApplication = applicationRepository.application(application);
 		
-		return selectApplication;
+		return new ApplicationVO(selectApplication);
 	}
 	
 	
@@ -75,7 +78,7 @@ public class ApplicationService {
 		if(applicationVO.getApplicationLogList() != null) {
 			applicationVO.getApplicationLogList().forEach(log->{
 				ConsignmentCompany consignmentCompany = new ConsignmentCompany();
-				consignmentCompany.setId(log.getConsignmentCompany());
+				consignmentCompany.setId(log.getConsignmentCompany().getId());
 				ApplicationLog applicationLog = modelMapper.map(log, ApplicationLog.class);
 				
 				if(log.isDel()) {
@@ -98,7 +101,9 @@ public class ApplicationService {
 	public Application applicationCreate(ApplicationVO applicationVO, MultipartFile customerSignImgFile) throws IOException, Exception {
 		
 		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Application application = modelMapper.map(applicationVO, Application.class);
+		
 		
 		application.setRegDate(LocalDate.now());
 		
@@ -114,7 +119,11 @@ public class ApplicationService {
 		if(applicationVO.getApplicationLogList() != null) {
 			applicationVO.getApplicationLogList().forEach(log -> {
 				ConsignmentCompany consignmentCompany = new ConsignmentCompany();
-				consignmentCompany.setId(log.getConsignmentCompany());
+				
+				if(StringUtils.isNotBlank(log.getConsignmentCompanyId())) {
+					consignmentCompany.setId(Integer.parseInt(log.getConsignmentCompanyId()));
+				}
+				
 				ApplicationLog applicationLog = modelMapper.map(log, ApplicationLog.class);
 				if(log.isDel()) {
 					applicationLog.setConsignmentCompany(consignmentCompany);
@@ -123,7 +132,11 @@ public class ApplicationService {
 				}
 				
 				if(log.isEdite()) {
-					applicationLog.setConsignmentCompany(consignmentCompany);
+					if(consignmentCompany.getId() == 0) {
+						applicationLog.setConsignmentCompany(null);
+					}else {
+						applicationLog.setConsignmentCompany(consignmentCompany);
+					}
 					applicationLog.setApplication(app);
 					applicationLogRepository.save(applicationLog);
 				}
@@ -141,5 +154,9 @@ public class ApplicationService {
 		});
 		
 	}
+	
+	public List<LogAllVO> logAll(ApplicationSearchVO applicationSearchVO){
+        return applicationRepository.logAll(applicationSearchVO);
+    }
 
 }

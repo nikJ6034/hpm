@@ -1,126 +1,122 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl>
-    <v-layout
-      justify-center
-      wrap>
-      <b-container
-        fluid>
-        <b-row
-          class="text-center"
-          style="padding: 0 0 0 10px;">
-          <b-col
-            xl="6"
-            style="padding:0 5px 0 5px">
-            <b-container
-              style="height: 750px;">
-              <b-row>
-                <b-col class="f25">거래처 목록</b-col>
-              </b-row>
-              <hr>
-              <b-row>
-                <b-col
-                  cols="3"
-                  sm="3"
-                  class="pr-0">
-                  <b-form-select
-                    v-model="condition"
-                    class="mb-3">
-                    <b-form-select-option value="">전체</b-form-select-option>
-                    <b-form-select-option value="name">거래처명</b-form-select-option>
-                    <b-form-select-option value="companyRegNumber">사업자번호</b-form-select-option>
-                    <b-form-select-option value="tel">전화번호</b-form-select-option>
-                  </b-form-select>
-                </b-col>
-                <b-col
-                  cols="6"
-                  sm="7"
-                  class="pr-0">
-                  <b-form-input
-                    id="customerName"
-                    v-model="keyword"
-                    type="text"
-                    placeholder="키워드를 입력해주세요." />
-                </b-col>
-                <b-col
-                  cols="3"
-                  sm="2">
-                  <b-button
-                    block
-                    variant="outline-primary"
-                    @click="customerSearch">조회</b-button>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-table
-                  :items="customers"
-                  :fields="fields"
-                  @row-clicked="customerClick" >
-                  <template #cell(index)="data">
-                    {{ data.index + 1 }}
-                  </template>
-                </b-table>
-              </b-row>
-              <b-row class="d-inline-block">
-                <b-pagination
-                  v-model="currentPage"
-                  :total-rows="rows"
-                  :per-page="perPage"
-                  align="center"
-                  @page-click="pageSearch"
-                />
-              </b-row>
-              <b-row>
-                <b-col>
-                  <b-button
-                    v-if="customer.id != null"
-                    class="float-right mr-1"
-                    variant="outline-danger"
-                    @click="selectCancel">선택취소</b-button>
-                  <b-button
-                    v-if="customer.id != null"
-                    class="float-right mr-1"
-                    variant="outline-primary"
-                    @click="goApplicationWritePage">신청서 작성</b-button>
-                </b-col>
-              </b-row>
-            </b-container>
-          </b-col>
-          <b-col
-            xl="6"
-            style="padding:0 5px 0 0; border-left:1px solid lightgrey;">
-            <b-container
-              style="height: 750px;">
-              <b-row>
-                <b-col class="f25">신청서 목록</b-col>
-              </b-row>
-              <b-row>
-                <b-table
-                  :items="applicationList"
-                  :fields="appFields"
-                  @row-clicked="appClick" >
-                  <template #cell(index)="data">
-                    {{ data.index + 1 }}
-                  </template>
-                </b-table>
-              </b-row>
-              <b-row class="d-inline-block">
-                <b-pagination
-                  v-model="appCurrentPage"
-                  :total-rows="appRows"
-                  :per-page="appPerPage"
-                  align="center"
-                  @page-click="appPageSearch"
-                />
-              </b-row>
-            </b-container>
-          </b-col>
-        </b-row>
-      </b-container >
-    </v-layout>
-  </v-container>
+  <div>
+    <base-header type="gradient-success" class="pb-6 pt-1">
+    </base-header>
+    <b-container
+      class="my-2"
+      fluid>
+      <b-row
+        class="text-center"
+        style="padding: 0 0 0 10px;">
+        <b-col
+          xl="6"
+          style="padding:0 5px 0 5px">
+          <b-container>
+            <b-row>
+              <b-col class="f25">거래처 목록</b-col>
+            </b-row>
+            <hr>
+            <b-row>
+              <b-col
+                cols="3"
+                sm="3"
+                class="pr-0">
+                <b-form-select
+                  v-model="condition"
+                  class="mb-3">
+                  <b-form-select-option value="">전체</b-form-select-option>
+                  <b-form-select-option value="name">거래처명</b-form-select-option>
+                  <b-form-select-option value="companyRegNumber">사업자번호</b-form-select-option>
+                  <b-form-select-option value="tel">전화번호</b-form-select-option>
+                </b-form-select>
+              </b-col>
+              <b-col
+                cols="6"
+                sm="7"
+                class="pr-0">
+                <b-form-input
+                  id="customerName"
+                  v-model="keyword"
+                  type="text"
+                  v-on:keydown.enter="customerSearch()"
+                  placeholder="키워드를 입력해주세요." />
+              </b-col>
+              <b-col
+                cols="3"
+                sm="2">
+                <b-button
+                  block
+                  variant="outline-primary"
+                  @click="customerSearch">조회</b-button>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-table
+                style="font-size: 12px"
+                :items="customers"
+                :fields="fields"
+                @row-clicked="customerClick" >
+                <template #cell(index)="data">
+                  {{ data.index + 1 }}
+                </template>
+              </b-table>
+            </b-row>
+            <b-row class="d-inline-block">
+              <b-pagination
+                v-model="currentPage"
+                :total-rows="rows"
+                :per-page="perPage"
+                align="center"
+                @page-click="pageSearch"
+              />
+            </b-row>
+            <b-row>
+              <b-col>
+                <b-button
+                  v-if="customer.id != null"
+                  class="float-right mr-1"
+                  variant="outline-danger"
+                  @click="selectCancel">선택취소</b-button>
+                <b-button
+                  v-if="customer.id != null"
+                  class="float-right mr-1"
+                  variant="outline-primary"
+                  @click="goApplicationWritePage">신청서 작성</b-button>
+              </b-col>
+            </b-row>
+          </b-container>
+        </b-col>
+        <b-col
+          xl="6">
+          <b-container>
+            <b-row class="mb-3">
+              <b-col class="f25">신청서 목록</b-col>
+            </b-row>
+            <b-row>
+              <b-table
+                style="font-size: 12px"
+                :items="applicationList"
+                :fields="appFields"
+                @row-clicked="appClick" >
+                <template #cell(index)="data">
+                  {{ data.index + 1 }}
+                </template>
+              </b-table>
+            </b-row>
+            <b-row class="d-inline-block">
+              <b-pagination
+                v-model="appCurrentPage"
+                :total-rows="appRows"
+                :per-page="appPerPage"
+                align="center"
+                @page-click="appPageSearch"
+              />
+            </b-row>
+          </b-container>
+        </b-col>
+      </b-row>
+    </b-container >
+  </div>
 </template>
 
 <script>
@@ -128,7 +124,7 @@
 export default {
   data: () => ({
     fields: [ { key: 'index', label: 'No' }, { key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
-    appFields: [ { key: 'index', label: 'No' }, { key: 'customer.name', label: '거래처명' }, { key: 'regDate', label: '신청일' } ],
+    appFields: [ { key: 'index', label: 'No' }, { key: 'customer.name', label: '거래처명' }, { key: 'appliRegDate', label: '신청일' } ],
     customers: null,
     customer: { id: null, name: null },
     currentPage: 1,

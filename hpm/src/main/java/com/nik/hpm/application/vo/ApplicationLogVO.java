@@ -5,6 +5,12 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.nik.hpm.application.entity.ApplicationLog;
+import com.nik.hpm.consignmentcompany.vo.ConsignmentCompanyVO;
+import com.nik.hpm.enumcode.CarryType;
+import com.nik.hpm.enumcode.InspectionType;
+import com.nik.hpm.enumcode.PaymentStateType;
+import com.nik.hpm.enumcode.Yn;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,12 +18,63 @@ import lombok.Setter;
 @Getter @Setter
 public class ApplicationLogVO {
 	
+	public ApplicationLogVO() {}
+	
+	public ApplicationLogVO(ApplicationLog applicationLog) {
+		
+		this.id = applicationLog.getId();
+		this.consignmentCompany = (applicationLog.getConsignmentCompany() != null)?new ConsignmentCompanyVO(applicationLog.getConsignmentCompany()):null;
+		this.consignmentCompanyId = (applicationLog.getConsignmentCompany() != null)? applicationLog.getConsignmentCompany().getId()+"":"";
+		this.consignmentCompanyNm = (applicationLog.getConsignmentCompany() != null)? applicationLog.getConsignmentCompany().getName():null;
+		this.inspectionType = applicationLog.getInspectionType();
+		this.inspectionTypeNm = (applicationLog.getInspectionType()!= null )?applicationLog.getInspectionType().getValue():null;
+		this.regNumber = applicationLog.getRegNumber();
+		this.deviceName = applicationLog.getDeviceName();
+		this.deviceNumber = applicationLog.getDeviceNumber();
+		this.productionCompany = applicationLog.getProductionCompany();
+		this.model = applicationLog.getModel();
+		this.standard = applicationLog.getStandard();
+		this.resolution = applicationLog.getResolution();
+		this.quantity = applicationLog.getQuantity();
+		this.reportNumber = applicationLog.getReportNumber();
+		this.unit = applicationLog.getUnit();
+		this.etc = applicationLog.getEtc();
+		this.carryType = applicationLog.getCarryType();
+		this.carryTypeNm = (applicationLog.getCarryType()!= null)?applicationLog.getCarryType().getValue():null;
+		this.correctionFee = applicationLog.getCorrectionFee();
+		this.correctionDate = applicationLog.getCorrectionDate();
+		this.place = applicationLog.getPlace();
+		this.practitioner = applicationLog.getPractitioner();
+		this.middleCategory = applicationLog.getMiddleCategory();
+		this.smallCategory = applicationLog.getSmallCategory();
+		this.publishedDate = applicationLog.getPublishedDate();
+		this.paymentStateType = applicationLog.getPaymentStateType();
+		this.paymentStateTypeNm = (applicationLog.getPaymentStateType()!= null)?applicationLog.getPaymentStateType().getValue():null;
+		if(applicationLog.getApplication() != null) {
+			this.applicationId = applicationLog.getApplication().getId();
+			this.requestCustomerName = applicationLog.getApplication().getRequestCustomerName();
+			this.requestCustomerAddress = applicationLog.getApplication().getRequestCustomerAddress();
+			this.customerSameYn = applicationLog.getApplication().getCustomerSameYn();
+			if(applicationLog.getApplication().getCustomer() != null) {
+				this.customerName = applicationLog.getApplication().getCustomer().getName();
+				this.customerAdress = applicationLog.getApplication().getCustomer().getAdress();
+				this.customerAdressDetail = applicationLog.getApplication().getCustomer().getAdressDetail();
+			}
+		}
+	}
+	
 	private long id;
 	
-	private long consignmentCompany;
+	private ConsignmentCompanyVO consignmentCompany;
+	
+	private String consignmentCompanyId;
+	
+	private String consignmentCompanyNm;
 	
 	/** 검수 타입 */
-	private String inspectionType;
+	private InspectionType inspectionType;
+	
+	private String inspectionTypeNm;
 	
 	/** 접수번호 */
 	private String regNumber;
@@ -53,7 +110,9 @@ public class ApplicationLogVO {
 	private String etc;
 	
 	/** 입출 타입 */
-	private String carryType;
+	private CarryType carryType;
+	
+	private String carryTypeNm;
 	
 	/** 교정료 */
 	private Long correctionFee;
@@ -91,4 +150,22 @@ public class ApplicationLogVO {
 	
 	/** 삭제 구분 */
 	private boolean del;
+	
+	private PaymentStateType paymentStateType;
+	
+	private String paymentStateTypeNm;
+	
+	private String requestCustomerName;
+	
+	private String requestCustomerAddress;
+	
+	private Yn customerSameYn;
+	
+	private String customerName;
+	
+	private String customerAdress;
+	
+	private String customerAdressDetail;
+	
+	private long applicationId;
 }

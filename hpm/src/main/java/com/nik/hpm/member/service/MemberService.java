@@ -1,5 +1,6 @@
 package com.nik.hpm.member.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -72,6 +73,10 @@ public class MemberService {
 	public void memberDelete(Member member) {
 		Optional<Member> findById = memberRepository.findById(member.getId());
 		findById.ifPresent(mem->{
+			LocalDateTime now = LocalDateTime.now();
+			
+			mem.setMemberId(mem.getMemberId()+"_$del_"+now);
+			
 			mem.setDelYn(Yn.Y);
 		});
 		

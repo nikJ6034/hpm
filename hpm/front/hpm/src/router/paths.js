@@ -4,6 +4,9 @@
  * official documentation https://router.vuejs.org/en/
  */
 import store from '../store'
+import AuthLayout from "@/layout/AuthLayout";
+import Login from "../views/Login.vue";
+import DashboardLayout from "@/layout/DashboardLayout";
 
 const requireManager = () => (to, from, next) => {
   if (!store.state.user.authorities) {
@@ -35,8 +38,7 @@ export default [
       name: '',
       requiresAuth: false
     },
-    component: () =>
-      import(/* webpackChunkName: "routes" */ `@/views/LoginHome.vue`),
+    component: AuthLayout,
     // redirect if already signed in
     beforeEnter: (to, from, next) => {
       if (store.getters.authorized) {
@@ -48,7 +50,7 @@ export default [
     children: [
       {
         path: '',
-        component: () => import(`@/components/LoginForm.vue`)
+        component: Login
       }
     ]
   },
@@ -59,12 +61,17 @@ export default [
       name: 'Dashboard View',
       requiresAuth: true
     },
-    component: () => import(`@/views/DashboardView.vue`),
+    component: DashboardLayout,
     children: [
       {
         path: '',
         name: 'Dashboard',
         component: () => import(`@/components/hpm/customer/Customer.vue`)
+      },
+      {
+        path: 'profile',
+        name: '개인정보 관리',
+        component: () => import(`@/views/UserProfile.vue`)
       },
       {
         path: 'member',
@@ -101,7 +108,7 @@ export default [
       },
       {
         path: '/dashboard/appLog',
-        name: '신청서 상세',
+        name: '위탁업체 접수대장',
         component: () => import(`@/components/hpm/applicationLog/ApplicationLogView.vue`)
       },
       {
@@ -127,68 +134,14 @@ export default [
         beforeEnter: requireManager()
       },
       {
-        path: 'user-profile',
-        meta: {
-          name: 'User Profile',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/UserProfile.vue`)
+        path: '/dashboard/issueLog',
+        name: '접수대장',
+        component: () => import(`@/components/hpm/issue/IssueLogView.vue`)
       },
       {
-        path: 'table-list',
-        meta: {
-          name: 'Table List',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/SimpleTables.vue`)
-      },
-      {
-        path: 'user-tables',
-        meta: {
-          name: 'User Table',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/UsersTable.vue`)
-      },
-      {
-        path: 'tablestest',
-        meta: {
-          name: 'Complex Tables test',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/TableList.vue`)
-      },
-      {
-        path: 'typography',
-        meta: {
-          name: 'Typography',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/Typography.vue`)
-      },
-      {
-        path: 'icons',
-        meta: {
-          name: 'Icons',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/Icons.vue`)
-      },
-      {
-        path: 'maps',
-        meta: {
-          name: 'Maps',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/Maps.vue`)
-      },
-      {
-        path: 'notifications',
-        meta: {
-          name: 'Notifications',
-          requiresAuth: true
-        },
-        component: () => import(`@/components/DashViews/Notifications.vue`)
+        path: '/dashboard/log',
+        name: '대장이력',
+        component: () => import(`@/components/hpm/log/LogView.vue`)
       }
     ]
   }

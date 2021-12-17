@@ -1,5 +1,6 @@
 package com.nik.hpm.consignmentcompany.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.nik.hpm.application.entity.ApplicationLog;
 import com.nik.hpm.application.repository.ApplicationLogRepository;
 import com.nik.hpm.application.vo.ApplicationLogSearchVO;
+import com.nik.hpm.application.vo.ApplicationLogVO;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompanyApplication;
 import com.nik.hpm.consignmentcompany.repository.ConsignmentCompanyApplicationRepository;
 
@@ -54,7 +56,12 @@ public class ConsignmentCompanyApplicationService {
 			
 		}
 		
-		selectConsignmentCompanyApplication.setApplicationLogList(applicationLogList);
+		List<ApplicationLogVO> appLogList = new ArrayList<>();
+		for(ApplicationLog log : applicationLogList) {
+			ApplicationLogVO applicationLogVO = new ApplicationLogVO(log);
+			appLogList.add(applicationLogVO);
+		}
+		selectConsignmentCompanyApplication.setApplicationLogList(appLogList);
 		
 		return selectConsignmentCompanyApplication;
 	}
@@ -65,8 +72,9 @@ public class ConsignmentCompanyApplicationService {
 	}
 	
 	
-	public void companyAppCreate(ConsignmentCompanyApplication consignmentCompanyApplication) {
-		consignmentCompanyApplicationRepository.save(consignmentCompanyApplication);
+	public ConsignmentCompanyApplication companyAppCreate(ConsignmentCompanyApplication consignmentCompanyApplication) {
+		ConsignmentCompanyApplication save = consignmentCompanyApplicationRepository.save(consignmentCompanyApplication);
+		return save;
 	}
 	
 	public void companyAppDelete(ConsignmentCompanyApplication consignmentCompanyApplication) {

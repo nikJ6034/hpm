@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -22,7 +25,6 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-
 public class CommonCode {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +42,12 @@ public class CommonCode {
 	@Column
 	private String codeDesc;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name= "pid")
 	@JsonBackReference
 	private CommonCode pid;
 	
-	@OneToMany(mappedBy = "pid",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "pid",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JsonManagedReference
 	private List<CommonCode> codeList;
 	

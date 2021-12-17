@@ -14,7 +14,7 @@ import javax.persistence.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nik.hpm.application.entity.ApplicationLog;
+import com.nik.hpm.application.vo.ApplicationLogVO;
 import com.nik.hpm.member.entity.Member;
 
 import lombok.Getter;
@@ -45,6 +45,6 @@ public class ConsignmentCompanyApplication implements Serializable {
 	private Member regMember;
 	
 	@Transient
-	private List<ApplicationLog> applicationLogList;
+	private List<ApplicationLogVO> applicationLogList;
 
 }

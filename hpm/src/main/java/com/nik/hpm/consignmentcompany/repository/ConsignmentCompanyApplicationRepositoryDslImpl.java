@@ -30,6 +30,7 @@ public class ConsignmentCompanyApplicationRepositoryDslImpl extends QuerydslRepo
 		.where(booleanBuilder)
 		.offset(pageable.getOffset())
 		.limit(pageable.getPageSize())
+		.orderBy(qConsignmentCompanyApplication.startDt.desc())
 		.fetchResults();
 		
 		return new PageImpl<>(fetchResults.getResults(), pageable, fetchResults.getTotal());

@@ -1,51 +1,49 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import '@babel/polyfill'
+/*!
+
+=========================================================
+* Vue Argon Dashboard - v1.0.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
 import Vue from 'vue'
-
-// Components
-import './components'
-
-// Plugins
-import './plugins'
-
-// Sync router with store
-import { sync } from 'vuex-router-sync'
-
-// Application imports
-import App from './App'
-import i18n from '@/i18n'
-import router from '@/router'
-import store from '@/store'
-import Vuetify from 'vuetify'
-import theme from './plugins/theme'
-import 'vuetify/dist/vuetify.min.css'
-import '@mdi/font/css/materialdesignicons.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import App from './App.vue'
+import router from './router'
+import store from "./store";
+import './registerServiceWorker'
+import ArgonDashboard from './plugins/argon-dashboard'
+import axios from 'axios'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'tui-date-picker/dist/tui-date-picker.css'
 import 'tui-time-picker/dist/tui-time-picker.css'
-import axios from 'axios'
-
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import vueMoment from 'vue-moment' 
 
-// import 'tui-grid/dist/tui-grid.css'
-// import { Grid } from '@toast-ui/vue-grid'
-
-// Install BootstrapVue
-// Vue.use(Grid)
+Vue.config.productionTip = false
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
-
+Vue.use(vueMoment)
+Vue.use(ArgonDashboard)
+Vue.use(router);
+Vue.use(store);
 Vue.prototype.$http = axios
+
 // Sets the default url used by all of this axios instance's requests
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 axios.defaults.headers.get['Accept'] = 'application/json'
-// axios.defaults.headers.get['Content-Type'] = 'application/json'
 
 const token = localStorage.getItem('token')
 if (token) {
@@ -71,26 +69,15 @@ async function (error) {
         router.push(`/`)
       }
     } else {
-      router.push(`/`)
+      //router.push(`/`)
       return Promise.reject(error)
     }
   }
-  router.push(`/`)
+  //router.push(`/`)
   return Promise.reject(error)
 })
-// Sync store with router
-sync(store, router)
 
-Vue.use(Vuetify, {
-  iconfont: 'mdi',
-  theme
-})
-
-Vue.config.productionTip = false
-
-/* eslint-disable no-new */
 new Vue({
-  i18n,
   router,
   store,
   render: h => h(App)

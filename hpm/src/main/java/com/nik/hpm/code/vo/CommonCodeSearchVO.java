@@ -9,4 +9,6 @@ import lombok.Setter;
 public class CommonCodeSearchVO extends CommonSearchVO{
 	
 	private String name;
+	private String pCode;
+	private String cCode;
 }

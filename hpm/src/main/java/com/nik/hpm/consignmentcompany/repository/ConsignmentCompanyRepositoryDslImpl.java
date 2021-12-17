@@ -25,13 +25,14 @@ public class ConsignmentCompanyRepositoryDslImpl extends QuerydslRepositorySuppo
 		
 		BooleanBuilder builder = new BooleanBuilder();
 		
-		if(StringUtils.isNotBlank(consignmentCompanySearchVO.getCondition())) {
 			
-			if(consignmentCompanySearchVO.getCondition().equals("name") && StringUtils.isNotBlank(consignmentCompanySearchVO.getKeyword())) {
-				builder.and(consignmentcompany.name.contains(consignmentCompanySearchVO.getKeyword()));
-			}
-			
+		if(StringUtils.isBlank(consignmentCompanySearchVO.getCondition()) && StringUtils.isNotBlank(consignmentCompanySearchVO.getKeyword())) {
+			builder.and(consignmentcompany.name.contains(consignmentCompanySearchVO.getKeyword()))
+			.or(consignmentcompany.name.contains(consignmentCompanySearchVO.getKeyword()));
+		}else if(consignmentCompanySearchVO.getCondition().equals("name") && StringUtils.isNotBlank(consignmentCompanySearchVO.getKeyword())) {
+			builder.and(consignmentcompany.name.contains(consignmentCompanySearchVO.getKeyword()));
 		}
+			
 		
 		QueryResults<ConsignmentCompany> fetchResults = from(consignmentcompany)
 		.where(consignmentcompany.delYn.eq(Yn.N),builder)

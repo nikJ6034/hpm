@@ -2,10 +2,15 @@ package com.nik.hpm.application.vo;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nik.hpm.enumcode.AppliRegDateType;
+import com.nik.hpm.enumcode.CarryType;
+import com.nik.hpm.enumcode.InspectionType;
+import com.nik.hpm.enumcode.PaymentStateType;
 import com.nik.hpm.enumcode.ReportLanguage;
 import com.nik.hpm.enumcode.TakeOverType;
 import com.nik.hpm.enumcode.Yn;
@@ -30,8 +35,17 @@ public class AppLogAllListVO {
     /** 연락처 */
     private String customerMobile;
     
+    /** 팩스번호 */
+    private String customerFax;
+    
     /** 이메일 */
     private String customerEmail;
+    
+    /** 주소 */
+    private String customerAddress;
+    
+    /** 주소 상세 */
+    private String customerAddressDetail;
     
     private String requestCustomerName;
     
@@ -76,8 +90,6 @@ public class AppLogAllListVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate regDate;
     
-//    private List<ApplicationLog> applicationLogList;
-    
     private String consignmentCompanyName;
     
     /** 기기명 */
@@ -106,6 +118,8 @@ public class AppLogAllListVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate correctionDate;
     
+    private long correctionFee;
+    
     /** 장소 */
     private String place;
     
@@ -128,5 +142,37 @@ public class AppLogAllListVO {
     
     /** 성적서 영어 */
     private ReportLanguage reportLanguage;
+    
+    /** 접수번호 */
+	private String regNumber;
+	
+	/** 모델 */
+	private String model;
+	
+	/** 분해능 */
+	private String resolution;
+	
+	/** 비고 */
+	private String etc;
+	
+	private long consignmentCompany;
+	
+	private String deliveryInfo;
+	
+	private InspectionType inspectionType;
+	
+	private CarryType carryType;
+	
+	private PaymentStateType paymentStateType;
+	
+	/** 결제담당자 이름 */
+	@Column
+	private String billPicName;
+	/** 결제담당자 전화번호 */
+	@Column
+	private String billPicTel;
+	/** 결제담당자 메일주소 */
+	@Column
+	private String billPicMail;
     
 }

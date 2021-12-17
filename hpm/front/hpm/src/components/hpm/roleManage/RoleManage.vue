@@ -1,11 +1,4 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl>
-    <v-layout
-      justify-center
-      wrap>
       <b-container fluid>
         <b-row
           class="text-center"
@@ -149,8 +142,6 @@
           </b-col>
         </b-row>
       </b-container >
-    </v-layout>
-  </v-container>
 </template>
 
 <script>

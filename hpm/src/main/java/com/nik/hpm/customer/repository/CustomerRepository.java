@@ -6,4 +6,5 @@ import com.nik.hpm.customer.enitity.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long>, CustomerRepositoryDsl{
 
+	public Customer findByName(String name);
 }

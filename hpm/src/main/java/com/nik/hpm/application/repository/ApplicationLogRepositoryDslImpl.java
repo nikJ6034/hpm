@@ -8,6 +8,7 @@ import com.nik.hpm.application.entity.ApplicationLog;
 import com.nik.hpm.application.entity.QApplication;
 import com.nik.hpm.application.entity.QApplicationLog;
 import com.nik.hpm.application.vo.ApplicationLogSearchVO;
+import com.nik.hpm.consignmentcompany.entity.QConsignmentCompany;
 
 public class ApplicationLogRepositoryDslImpl extends QuerydslRepositorySupport implements ApplicationLogRepositoryDsl {
 
@@ -18,12 +19,13 @@ public class ApplicationLogRepositoryDslImpl extends QuerydslRepositorySupport i
 	@Override
 	public List<ApplicationLog> applicationLogList(ApplicationLogSearchVO applicationLogSearchVO) {
 		QApplicationLog qApplicationLog = QApplicationLog.applicationLog;
-		QApplication application = QApplication.application;
+		QApplication qApplication = QApplication.application;
+		QConsignmentCompany consignmentcompany = QConsignmentCompany.consignmentCompany;
 		
 		return from(qApplicationLog)
-				.innerJoin(application)
-				.on(application.eq(qApplicationLog.application))
-				.where(application.appliRegDate.between(applicationLogSearchVO.getStartDt(), applicationLogSearchVO.getEndDt())
+				.innerJoin(qApplicationLog.application, qApplication).fetchJoin()
+				.innerJoin(qApplicationLog.consignmentCompany, consignmentcompany).fetchJoin()
+				.where(qApplication.appliRegDate.between(applicationLogSearchVO.getStartDt(), applicationLogSearchVO.getEndDt())
 						, qApplicationLog.consignmentCompany.eq(applicationLogSearchVO.getConsignmentCompany()))
 				.fetch();
 				

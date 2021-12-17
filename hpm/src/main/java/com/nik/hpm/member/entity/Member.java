@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +22,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@NamedEntityGraph(name = "withRole", attributeNodes = @NamedAttributeNode("role"))
 public class Member {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
