@@ -25,7 +25,7 @@
     <div class="main-content" :data="sidebarBackground">
       <dashboard-navbar></dashboard-navbar>
 
-      <div @click="toggleSidebar">
+      <div style="background:#fff" @click="toggleSidebar">
         <fade-transition :duration="200" origin="center top" mode="out-in">
           <router-view></router-view>
         </fade-transition>

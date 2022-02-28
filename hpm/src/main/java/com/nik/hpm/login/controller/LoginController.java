@@ -60,6 +60,8 @@ public class LoginController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.add("Authorization", "Basic " + encodedCredentials);
+        
+        System.out.println(encodedCredentials);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         

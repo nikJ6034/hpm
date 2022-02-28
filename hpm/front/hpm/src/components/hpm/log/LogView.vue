@@ -269,7 +269,7 @@ export default {
                     const aEle = document.createElement('a');     // Create a label
                     const href = window.URL.createObjectURL(blob);       // Create downloaded link
                     aEle.href = href;
-                    aEle.download = '교정견적2021년-------------인상';//title+' '+this.$moment().format("YYYY년 MM월 DD일")+' '+dataList[0].customerName
+                    aEle.download = '교정견적서 작성 2022';//title+' '+this.$moment().format("YYYY년 MM월 DD일")+' '+dataList[0].customerName
                     document.body.appendChild(aEle);
                     aEle.click();     // Click to download
                     document.body.removeChild(aEle); // Download complete remove element

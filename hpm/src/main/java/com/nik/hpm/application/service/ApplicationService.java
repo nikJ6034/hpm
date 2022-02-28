@@ -28,7 +28,6 @@ import com.nik.hpm.attachfile.repository.AttachFileRepository;
 import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.util.file.image.UploadResourceImageFileUtil;
-import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 @Service
 @Transactional
@@ -120,8 +119,8 @@ public class ApplicationService {
 			applicationVO.getApplicationLogList().forEach(log -> {
 				ConsignmentCompany consignmentCompany = new ConsignmentCompany();
 				
-				if(StringUtils.isNotBlank(log.getConsignmentCompanyId())) {
-					consignmentCompany.setId(Integer.parseInt(log.getConsignmentCompanyId()));
+				if(log.getConsignmentCompanyId() != null) {
+					consignmentCompany.setId(log.getConsignmentCompanyId());
 				}
 				
 				ApplicationLog applicationLog = modelMapper.map(log, ApplicationLog.class);

@@ -40,7 +40,14 @@
                 </b-row>
                 <b-row>
                   <b-col class="appCol font-weight-bold" cols="4" md="2">주소</b-col>
-                  <b-col class="appCol text-left" cols="8" md="10">{{ application.customer.adress }} {{ application.customer.adressDetail }}</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">{{ application.customer.adress }} {{ application.customer.adressDetail }}</b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="1">기타정보</b-col>
+                  <b-col class="appCol text-left" cols="8" md="5">
+                    <b-button v-b-modal.modal-2 size="sm">기타정보</b-button>
+                    <b-modal id="modal-2" size="lg" title="기타정보">
+                      {{application.customer.etc}}
+                    </b-modal>
+                  </b-col>
                 </b-row>
                 <b-row>
                   <b-col class="appCol font-weight-bold" cols="4" md="2">전화번호</b-col>
@@ -51,12 +58,7 @@
                 <b-row>
                   <b-col class="appCol font-weight-bold" cols="4" md="2">성적서 발행 업체명</b-col>
                   <b-col class="appCol text-left" cols="8" md="6">
-                    <b-form-input
-                      :readonly="application.customerSameYn == 'Y'"
-                      v-model="application.requestCustomerName"
-                      size="sm"
-                      class="w-75 d-inline-block"
-                      placeholder="업체명을 입력하세요." />
+                    {{application.requestCustomer&&application.requestCustomer.name}}
                     <b-button
                       v-if="application.customerSameYn == 'N'"
                       v-b-modal.modal-1
@@ -85,12 +87,7 @@
                 <b-row>
                   <b-col class="appCol font-weight-bold" cols="4" md="2">주소</b-col>
                   <b-col class="appCol text-left" cols="8" md="10">
-                    <b-form-input
-                      :readonly="application.customerSameYn == 'Y'"
-                      v-model="application.requestCustomerAddress"
-                      size="sm"
-                      class="w-50"
-                      placeholder="주소를 입력하세요." />
+                    {{ application.requestCustomer&&application.requestCustomer.adress }} {{ application.requestCustomer&&application.requestCustomer.adressDetail }}
                   </b-col>
                 </b-row>
                 <b-row>
@@ -166,15 +163,13 @@
                       class="d-inline-block"
                       placeholder="신청인을 입력하세요." />
                     <b-form-file
-                        id="file-small"
-                        v-model="application.customerSignImgFile"
-                        size="sm"
-                        browse-text="신청인 서명 업로드"
-                        placeholder=""
-                        color="primary"
-                        @change="fnChangeImage"
-                      />
-                    
+                      id="file-small"
+                      v-model="application.customerSignImgFile"
+                      size="sm"
+                      browse-text="신청인 서명 업로드"
+                      placeholder=""
+                      color="primary"
+                      @change="fnChangeImage"/>
                   </b-col>
                   <b-col class="appCol pl-2" cols="2" md="2">
                     <b-img
@@ -232,6 +227,19 @@
                         v-model="application.technicalManager"
                         size="sm"
                         placeholder="" />
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2">접수자 이름</b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    <b-form-input
+                        v-model="application.regNm"
+                        size="sm"
+                        placeholder="" />
+                  </b-col>
+                  <b-col class="appCol font-weight-bold" cols="4" md="2"></b-col>
+                  <b-col class="appCol text-left" cols="8" md="4">
+                    
                   </b-col>
                 </b-row>
               </b-container>
@@ -316,12 +324,13 @@ export default {
     application: {
       id: null,
       customer: { id: 0 },
+      requestCustomer: null,
       requestCustomerName: '',
       requestCustomerAddress: '',
       customerSameYn: 'Y',
       fieldCorrectionNeedYn: 'N',
       recCalibrationDayYn: 'N',
-      appliRegDateType: '',
+      appliRegDateType: null,
       appliRegDate: '',
       applicant: '',
       applicantEmail: '',
@@ -334,7 +343,8 @@ export default {
       applicationLogList: [],
       technicalManager: '',
       reportLanguage: null,
-      deliveryInfo: ''
+      deliveryInfo: '',
+      regNm: ''
     },
     deleteApplicationLogList: [],
     newLine: {
@@ -349,7 +359,8 @@ export default {
     options2: [
       { text: '방문', value: 'VISIT' },
       { text: '택배', value: 'DELIVERY' },
-      { text: '반출', value: 'EXPORT' }
+      { text: '반출', value: 'EXPORT' },
+      { text: '현장+반출', value: 'SPOTEXPORT' }
     ],
     options3: [
       { text: '직접전달', value: 'DIRECTLY' },
@@ -508,8 +519,7 @@ export default {
     },
     customerSameChange: function (val) {
       if (val === 'Y') {
-        this.application.requestCustomerName = null
-        this.application.requestCustomerAddress = null
+        this.application.requestCustomer = null
       }
     },
     register: function () {
@@ -519,21 +529,20 @@ export default {
       if (this.application.customer.id === 0) {
         alert('신청인 회사 데이터가 없습니다.')
         return
-      } else if (!this.application.appliRegDateType) {
-        alert('접수형식을 선택해주세요.')
-        return
       } else if (!this.application.appliRegDate) {
         alert('접수날짜을 입력해주세요.')
         return
       } else if (!this.application.applicant) {
         alert('신청인을 입력해주세요.')
         return
+      }else if (this.application.customerSameYn != "Y" && this.application.requestCustomer == null) {
+        alert('성적서 발행 업체를 선택해주세요.')
+        return
       }
       /*else if (this.application.takeOverType.key == '') {
         alert('인수방법을 선택해주세요.')
         return
       }*/
-      console.log(this.application)
       if (validate.length > 0) {
         alert('값검증이 안된 셀이 있습니다.')
         return false
@@ -580,8 +589,7 @@ export default {
       window.history.back();
     },
     setRequestCustomer: function(customer){
-      this.application.requestCustomerName = customer.name
-      this.application.requestCustomerAddress = (customer.adress||"")+" "+(customer.adressDetail||"")
+      this.application.requestCustomer = customer
       this.$bvModal.hide('modal-1')
     }
   }

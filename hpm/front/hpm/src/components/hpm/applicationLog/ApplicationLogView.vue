@@ -76,6 +76,7 @@
                         class="mr-2 mb-2 col-2">
                         <b-form-select-option value="">전체</b-form-select-option>
                         <b-form-select-option value="customerName">거래처명</b-form-select-option>
+                        <b-form-select-option value="consignmentCompanyName">위탁업체명</b-form-select-option>
                         <b-form-select-option value="regNumber">접수번호</b-form-select-option>
                         <b-form-select-option value="deviceName">장비명</b-form-select-option>
                         <b-form-select-option value="productionCompany">제조사</b-form-select-option>
@@ -121,6 +122,11 @@
                     class="mt-2 ml-2"
                     variant="outline-primary"
                     @click="appLogModify">수정</b-button>
+
+                  <b-button
+                    class="mt-2 ml-2"
+                    variant="outline-primary"
+                    @click="dataDownload">견적</b-button>
                 </b-row>
               </b-container>
             </b-row>
@@ -173,6 +179,8 @@ export default {
         {name: 'model', header: '형식(모델)', width: 150, editor: 'text' },
         {name: 'deviceNumber', header: '기기번호', width: 150, editor: 'text' },
         {name: 'standard', header: '규격/RANGE', width: 150, editor: 'text' },
+        {name: 'correctionFee', header: '교정료', width: 150, editor: 'text' },
+        {name: 'etc', header: '비고', width: 200, editor: 'text' },
         {name: 'resolution', header: '분해능', width: 150, editor: 'text' },
         {name: 'unit', header: '단위', width: 100, editor: 'text' },
         {name: 'correctionDate', header: '교정일', width: 150, editor: { type: 'datePicker', options: { language: 'ko' } } },
@@ -183,8 +191,7 @@ export default {
         {name: 'publishedDate', header: '발행일자', width: 150, editor: { type: 'datePicker', options: { language: 'ko' } } },
         {name: 'technicalManager', header: '기술책임자', width: 150 },
         {name: 'reportLanguage', header: '성적서 언어', width: 200  , formatter: function(data){ return _this.reportLanguage[data.value]; }},
-        {name: 'correctionFee', header: '교정료', width: 150, editor: 'text' },
-        {name: 'consignmentCompany', header: '위탁기관', width: 100,
+        {name: 'consignmentCompanyId', header: '위탁기관', width: 100,
           formatter: 'listItemText',
           editor: {
             type: 'select',
@@ -192,6 +199,7 @@ export default {
               listItems: []
             }
           }, },
+        //{name: 'consignmentCompanyName', header: '기술책임자', width: 150 },
         {name: 'inspectionType', header: '교정/시험/자체', width: 100
           , formatter: 'listItemText',
           editor: {
@@ -209,7 +217,6 @@ export default {
               }
             } },
         {name: 'quantity', header: '수량', width: 100, editor: 'text' },
-        {name: 'etc', header: '비고', width: 200, editor: 'text' },
         {name: 'customerPicName', header: '담당자', width: 150 },
         {name: 'customerMobile', header: '연락처', width: 150 },
         {name: 'customerTel', header: '회사전화번호', width: 150 },
@@ -253,12 +260,9 @@ export default {
         // const rowData = []
         this.applicationLogList.forEach(function(item){
 
-            if(item.consignmentCompany) {
-              item.consignmentCompany = item.consignmentCompany + ''
-            }
-
             if(item.inspectionType) item.inspectionType = item.inspectionType.key
             if(item.carryType) item.carryType = item.carryType.key
+            if(item.consignmentCompanyId) item.consignmentCompanyId = item.consignmentCompanyId+""
 
         })
 
@@ -273,10 +277,10 @@ export default {
         const com = []
         if (response.data) {
           response.data.forEach(function (item) {
-            com.push({ text: item.name, value: item.id + '' })
+            com.push({ text: item.name, value: item.id+"" })
           })
         }
-        this.columns[18].editor.options.listItems = com
+        this.columns[22].editor.options.listItems = com
         // this.companis = com;
         })
     },
@@ -343,6 +347,38 @@ export default {
           }
           })
       }
+    },
+    dataDownload(){
+      const dataList = []
+      const _this = this
+      const keys = this.$refs.tuiGrid.invoke('getCheckedRowKeys')
+
+      if(keys.length == 0){
+        alert("데이터를 선택해주세요")
+        return
+      }
+
+      keys.forEach(function (key) {
+        const appLog = _this.$refs.tuiGrid.invoke('getRow', key)
+        var copy_object = Object.assign({}, appLog);
+        copy_object.consignmentCompany = {id: copy_object.consignmentCompany}
+        copy_object.inspectionType = null
+        copy_object.carryType = null
+          dataList.push(copy_object)
+      })
+      ///api/companyApp/estimate/excel
+      this.$http.post(`/api/applicationlog/excel`, dataList ,{ responseType: 'blob' }).then(response => {
+          const blob = new Blob(
+					[response.data], { type: 'application/vnd.ms-excel.sheet.macroEnabled.12;charset=utf-8' })
+                    const aEle = document.createElement('a');     // Create a label
+                    const href = window.URL.createObjectURL(blob);       // Create downloaded link
+                    aEle.href = href;
+                    aEle.download = '교정견적서 작성 2022';//title+' '+this.$moment().format("YYYY년 MM월 DD일")+' '+dataList[0].customerName
+                    document.body.appendChild(aEle);
+                    aEle.click();     // Click to download
+                    document.body.removeChild(aEle); // Download complete remove element
+                    window.URL.revokeObjectURL(href) // Release blob object
+        }).catch(err => console.log(err))
     }
   }
 }

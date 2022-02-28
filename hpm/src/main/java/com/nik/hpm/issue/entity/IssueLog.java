@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nik.hpm.customer.enitity.Customer;
 import com.nik.hpm.enumcode.PaymentStateType;
 import com.nik.hpm.enumcode.ReportLanguage;
+import com.nik.hpm.enumcode.Yn;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,14 +39,14 @@ public class IssueLog implements Serializable{
 	/** 성적서 번호 */
 	private String reportNumber;
 	
-	/** 의뢰업체 */
-	@Column
-	private String requestCustomerName;
-	
 	/** 업체 */
 	@ManyToOne
 	@NotNull
 	private Customer customer;
+	
+	/** 의뢰업체 */
+	@ManyToOne
+	private Customer requestCustomer;
 	
 	/** 기기명 */
 	private String deviceName;
@@ -110,10 +111,13 @@ public class IssueLog implements Serializable{
 	
 	/** 접수일 */
 	@Column
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate appliRegDate;
 	
-	
-	
+	/** 삭제 구분 */
+	@Enumerated(EnumType.STRING)
+	@Column 
+	private Yn delYn = Yn.N;
 	
 	
 	/** 수량 */

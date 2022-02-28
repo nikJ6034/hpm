@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.nik.hpm.consignmentcompany.entity.ConsignmentCompany;
 import com.nik.hpm.enumcode.AppliRegDateType;
 import com.nik.hpm.enumcode.CarryType;
 import com.nik.hpm.enumcode.InspectionType;
@@ -155,7 +156,7 @@ public class AppLogAllListVO {
 	/** 비고 */
 	private String etc;
 	
-	private long consignmentCompany;
+	private Long consignmentCompanyId;
 	
 	private String deliveryInfo;
 	

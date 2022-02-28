@@ -14,7 +14,7 @@ module.exports = {
     ]
   },
   pwa: {
-    name: 'Vue Argon Dashboard',
+    name: 'hpm',
     themeColor: '#172b4d',
     msTileColor: '#172b4d',
     appleMobileWebAppCapable: 'yes',

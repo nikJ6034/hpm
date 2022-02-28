@@ -7,7 +7,8 @@ public enum AppliRegDateType {
 
 	VISIT("방문"),
 	DELIVERY("택배"),
-	EXPORT("반출");
+	EXPORT("반출"),
+	SPOTEXPORT("현장+반출");
 	
 	private String name;
 	private String value;

@@ -24,7 +24,7 @@
                         v-model="dateCondition"
                         class="fl mr-2 mb-2 col-1">
                         <b-form-select-option value="excel">엑셀등록일</b-form-select-option>
-                        <b-form-select-option value="appliRegDate">교정일</b-form-select-option>
+                        <b-form-select-option value="appliRegDate">접수일</b-form-select-option>
                         <b-form-select-option value="correctionDate">교정일</b-form-select-option>
                         <b-form-select-option value="publishedDate">발행일</b-form-select-option>
                       </b-form-select>
@@ -197,7 +197,7 @@ export default {
         {name: 'appliRegDate', header: '접수일', width: 100, editor: 'text' },
         {name: 'regNumber', header: '접수번호', width: 100, editor: 'text' },
         {name: 'reportNumber', header: '성적서 번호',width: 150, editor: 'text' },
-        {name: 'requestCustomerName', header: '의뢰업체', width: 200 },
+        {name: 'requestCustomer', header: '의뢰업체', width: 200 , formatter: function(data){ return (data.value)?data.value.name:'' }},
         {name: 'customer', header: '업체명', width: 200 , formatter: function(data){ return (data.value)?data.value.name:'' }},
         {name: 'deviceName', header: '장비명', width: 200, editor: 'text' },
         {name: 'productionCompany', header: '제작회사', width: 150, editor: 'text' },
@@ -293,6 +293,10 @@ export default {
       this.selected = items
     },
     excelUpload() {
+      if(!this.excelFile){
+        alert("파일을 첨부해주세요.")
+        return
+      }
       if (confirm('엑셀을 업로드 하시겠습니까?')) {
         const formData = new FormData()
         if (this.excelFile) {
@@ -306,6 +310,7 @@ export default {
           } else {
             alert(response.data.msg)
           }
+          this.excelFile = null
           this.getiIssueLogList()
           })
       }

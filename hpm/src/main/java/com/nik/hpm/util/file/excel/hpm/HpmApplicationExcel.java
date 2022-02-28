@@ -29,6 +29,7 @@ import com.nik.hpm.application.vo.ApplicationLogVO;
 import com.nik.hpm.application.vo.ApplicationVO;
 import com.nik.hpm.attachfile.entity.AttachFile;
 import com.nik.hpm.enumcode.Yn;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 
 @Component
 public class HpmApplicationExcel {
@@ -78,9 +79,14 @@ public class HpmApplicationExcel {
 				row8.getCell(2).setCellValue("동일");
 			}else {
 				row8.getCell(2).setCellValue("다름");
-				row8.getCell(4).setCellValue(application.getRequestCustomerName());
+				if(application.getRequestCustomer() != null)
+				row8.getCell(4).setCellValue(application.getRequestCustomer().getName());
 				XSSFRow row9 = sheetAt.getRow(9);
-				row9.getCell(4).setCellValue(application.getRequestCustomerAddress());
+				String addr = application.getRequestCustomer().getAdress();
+				if(StringUtils.isNotBlank(application.getRequestCustomer().getAdressDetail())) {
+					addr += " " + application.getRequestCustomer().getAdressDetail();
+				}
+				row9.getCell(4).setCellValue(addr);
 			}
 			
 			
@@ -189,7 +195,7 @@ public class HpmApplicationExcel {
 			
 			XSSFRow row41 = sheetAt.getRow(41);
 			if(application.getRegMember() != null) {
-				row41.getCell(7).setCellValue(application.getRegMember().getName());
+				row41.getCell(7).setCellValue(application.getRegNm());
 			}
 			
 			XSSFRow row42 = sheetAt.getRow(42);

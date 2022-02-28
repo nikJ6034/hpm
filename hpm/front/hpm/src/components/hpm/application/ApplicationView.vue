@@ -49,7 +49,7 @@
                   </b-row>
                   <b-row>
                     <b-col class="appCol font-weight-bold" cols="4" md="2">성적서 발행 업체명</b-col>
-                    <b-col class="appCol text-left" cols="8" md="6">{{ application.requestCustomerName }}</b-col>
+                    <b-col class="appCol text-left" cols="8" md="6">{{ application.requestCustomer&&application.requestCustomer.name }}</b-col>
                     <b-col class="appCol font-weight-bold" cols="4" md="2">신청자 동일여부</b-col>
                     <b-col class="appCol" cols="8" md="2">
                       <b-form-group v-slot="{ ariaDescribedby }" style="margin-bottom: 0px">
@@ -66,7 +66,7 @@
                   </b-row>
                   <b-row>
                     <b-col class="appCol font-weight-bold" cols="4" md="2">주소</b-col>
-                    <b-col class="appCol text-left" cols="8" md="10">{{ application.requestCustomerAddress }}</b-col>
+                    <b-col class="appCol text-left" cols="8" md="10">{{ application.requestCustomer&&application.requestCustomer.adress }} {{ application.requestCustomer&&application.requestCustomer.adressDetail }}</b-col>
                   </b-row>
                   <b-row>
                     <b-col class="appCol" cols="12" md="6">
@@ -162,6 +162,14 @@
                     </b-col>
                     <b-col class="appCol font-weight-bold" cols="4" md="2">기술책임자 검토</b-col>
                     <b-col class="appCol text-left" cols="8" md="4">{{ application.technicalManager }}</b-col>
+                  </b-row>
+                  <b-row>
+                    <b-col class="appCol font-weight-bold" cols="4" md="2">접수자 이름</b-col>
+                    <b-col class="appCol text-left" cols="8" md="4">
+                        {{ application.regNm }}
+                    </b-col>
+                    <b-col class="appCol font-weight-bold" cols="4" md="2"></b-col>
+                    <b-col class="appCol text-left" cols="8" md="4"></b-col>
                   </b-row>
                 </b-container>
               </b-row>
@@ -281,7 +289,8 @@ export default {
     options2: [
       { text: '방문', value: 'VISIT' },
       { text: '택배', value: 'DELIVERY' },
-      { text: '반출', value: 'EXPORT' }
+      { text: '반출', value: 'EXPORT' },
+      { text: '현장+반출', value: 'SPOTEXPORT' }
     ],
     options3: [
       { text: '직접전달', value: 'DIRECTLY' },
@@ -419,7 +428,7 @@ export default {
                     const aEle = document.createElement('a');     // Create a label
                     const href = window.URL.createObjectURL(blob);       // Create downloaded link
                     aEle.href = href;
-                    aEle.download = '교정견적2021년-------------인상'//'업회원 '+this.$moment().format("YYYY년 MM월 DD일")+' '+this.application.customer.name;  // File name after download
+                    aEle.download = '교정견적서 작성 2022'//'업회원 '+this.$moment().format("YYYY년 MM월 DD일")+' '+this.application.customer.name;  // File name after download
                     document.body.appendChild(aEle);
                     aEle.click();     // Click to download
                     document.body.removeChild(aEle); // Download complete remove element

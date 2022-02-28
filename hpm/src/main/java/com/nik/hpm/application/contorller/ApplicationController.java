@@ -32,10 +32,7 @@ import com.nik.hpm.application.vo.AppLogAllListVO;
 import com.nik.hpm.application.vo.ApplicationSearchVO;
 import com.nik.hpm.application.vo.ApplicationVO;
 import com.nik.hpm.application.vo.LogAllVO;
-import com.nik.hpm.code.entity.CommonCode;
 import com.nik.hpm.code.service.CommonCodeService;
-import com.nik.hpm.code.vo.CommonCode1depthVO;
-import com.nik.hpm.code.vo.CommonCodeSearchVO;
 import com.nik.hpm.member.entity.Member;
 import com.nik.hpm.util.file.excel.hpm.HpmApplicationExcel;
 
@@ -60,13 +57,13 @@ public class ApplicationController {
 		
 		ApplicationVO selectApplication = applicationService.application(application);
 		
-		CommonCodeSearchVO commonCode = new CommonCodeSearchVO();
-		commonCode.setPCode("bizCondition");
-		commonCode.setCCode(selectApplication.getCustomer().getBizCondition());
-		CommonCode1depthVO cCode = commonCodeService.cCode(commonCode);
-		if(cCode != null) {
-			selectApplication.getCustomer().setBizCondition(cCode.getCodeDesc());
-		}
+//		CommonCodeSearchVO commonCode = new CommonCodeSearchVO();
+//		commonCode.setPCode("bizCondition");
+//		commonCode.setCCode(selectApplication.getCustomer().getBizCondition());
+//		CommonCode1depthVO cCode = commonCodeService.cCode(commonCode);
+//		if(cCode != null) {
+//			selectApplication.getCustomer().setBizCondition(cCode.getCodeDesc());
+//		}
 //		for(CommonCode cod : code.getCodeList()) {
 //			if(selectApplication.getCustomer().getBizCondition().equals(cod.getCode())) {
 //				selectApplication.getCustomer().setBizCondition(cod.getCodeDesc());
@@ -130,15 +127,15 @@ public class ApplicationController {
 	@GetMapping(value= "/api/excel/application/{id}")
 	public void applicationExcel(Application application, HttpServletResponse response) throws IOException {
 		
-		CommonCode commonCode = new CommonCode();
-		commonCode.setCode("bizCondition");
-		CommonCode code = commonCodeService.codeList(commonCode);
+//		CommonCode commonCode = new CommonCode();
+//		commonCode.setCode("bizCondition");
+//		CommonCode code = commonCodeService.codeList(commonCode);
 		ApplicationVO selectApplication = applicationService.application(application);
-		for(CommonCode cod : code.getCodeList()) {
-			if(selectApplication.getCustomer().getBizCondition().equals(cod.getCode())) {
-				selectApplication.getCustomer().setBizCondition(cod.getCodeDesc());
-			}
-		}
+//		for(CommonCode cod : code.getCodeList()) {
+//			if(selectApplication.getCustomer().getBizCondition().equals(cod.getCode())) {
+//				selectApplication.getCustomer().setBizCondition(cod.getCodeDesc());
+//			}
+//		}
 		File writeExcel = hpmApplicationExcel.writeExcel(selectApplication);
 		
 		ServletOutputStream outputStream = response.getOutputStream();

@@ -38,6 +38,7 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 	public Page<Application> applicationList(ApplicationSearchVO applicationSearchVO, Pageable pageable) {
 		QApplication application = QApplication.application;
 		QCustomer customer = QCustomer.customer;
+		QCustomer requestCustomer = new QCustomer("requestCustomer");
 		QMember member = QMember.member;
 		
 		BooleanBuilder booleanBuilder = new BooleanBuilder();
@@ -47,16 +48,9 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		}
 		
 		QueryResults<Application> fetchResults = from(application)
-				.select(Projections.fields(Application.class, 
-						 application.id
-						, application.requestCustomerName
-						, application.requestCustomerAddress
-						, application.appliRegDate
-						, application.regDate
-						, application.customer
-						, application.regMember))
-				.leftJoin(application.customer, customer)
-				.leftJoin(application.regMember, member)
+				.leftJoin(application.customer, customer).fetchJoin()
+				.leftJoin(application.requestCustomer, requestCustomer).fetchJoin()
+				.leftJoin(application.regMember, member).fetchJoin()
 				.where(booleanBuilder)
 				.orderBy(application.appliRegDate.desc())
 				.offset(pageable.getOffset())
@@ -84,9 +78,13 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
             
             if("".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
                 builder.and(application.customer.name.contains(applicationSearchVO.getKeyword()))
-                .or(applicationlog.deviceName.contains(applicationSearchVO.getKeyword()))
-                .or(applicationlog.productionCompany.contains(applicationSearchVO.getKeyword()))
-                .or(applicationlog.deviceNumber.contains(applicationSearchVO.getKeyword()));
+            			.or(applicationlog.deviceName.contains(applicationSearchVO.getKeyword()))
+            			.or(applicationlog.productionCompany.contains(applicationSearchVO.getKeyword()))
+            			.or(applicationlog.deviceNumber.contains(applicationSearchVO.getKeyword()))
+            			.or(applicationlog.regNumber.contains(applicationSearchVO.getKeyword()))
+            			.or(applicationlog.model.contains(applicationSearchVO.getKeyword()))
+            			.or(consignmentCompany.name.contains(applicationSearchVO.getKeyword()))
+    			;
             }else if("customerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
                 builder.and(application.customer.name.contains(applicationSearchVO.getKeyword()));
             }else if("deviceName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
@@ -99,8 +97,12 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
                 builder.and(applicationlog.regNumber.contains(applicationSearchVO.getKeyword()));
             }else if("model".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
                 builder.and(applicationlog.model.contains(applicationSearchVO.getKeyword()));
+            }else if("consignmentCompanyName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
+                builder.and(consignmentCompany.name.contains(applicationSearchVO.getKeyword()));
             }
         }
+        
+        
         
         if(applicationSearchVO.getStartDate() != null && applicationSearchVO.getEndDate() != null) {
 			if("appliRegDate".equals(applicationSearchVO.getDateCondition())) {
@@ -127,8 +129,8 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
                 , ExpressionUtils.as(application.customer.billPicName,"billPicName")
                 , ExpressionUtils.as(application.customer.billPicTel,"billPicTel")
                 , ExpressionUtils.as(application.customer.billPicMail,"billPicMail")
-                , ExpressionUtils.as(application.requestCustomerName,"requestCustomerName")
-                , ExpressionUtils.as(application.requestCustomerAddress,"requestCustomerAddress")
+                , ExpressionUtils.as(application.requestCustomer.name,"requestCustomerName")
+                , ExpressionUtils.as(application.requestCustomer.adress,"requestCustomerAddress")
                 , ExpressionUtils.as(application.customerSameYn,"customerSameYn")
                 , ExpressionUtils.as(application.fieldCorrectionNeedYn,"fieldCorrectionNeedYn")
                 , ExpressionUtils.as(application.recCalibrationDayYn,"recCalibrationDayYn")
@@ -166,10 +168,12 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
                 , ExpressionUtils.as(applicationlog.inspectionType,"inspectionType")
                 , ExpressionUtils.as(applicationlog.carryType,"carryType")
                 , ExpressionUtils.as(applicationlog.paymentStateType,"paymentStateType")
-                , ExpressionUtils.as(applicationlog.consignmentCompany.id,"consignmentCompany")
+                , ExpressionUtils.as(applicationlog.consignmentCompany.id,"consignmentCompanyId")
+                , ExpressionUtils.as(applicationlog.consignmentCompany,"consignmentCompany")
                 ))
         .leftJoin(application.applicationLogList, applicationlog)
         .leftJoin(application.customer, customer)
+        .leftJoin(application.requestCustomer, customer)
 		.leftJoin(application.regMember, member)
 		.leftJoin(applicationlog.consignmentCompany, consignmentCompany)
         .where(builder)
@@ -189,6 +193,7 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		JPQLQuery<Application> where = from(application)
 		.leftJoin(application.applicationLogList, applicationlog).fetchJoin()
 		.leftJoin(application.customer, customer).fetchJoin()
+		.leftJoin(application.requestCustomer, customer).fetchJoin()
 		.leftJoin(application.regMember, member).fetchJoin()
 		.leftJoin(application.customerSignImg, attachfile).fetchJoin()
 		
@@ -204,27 +209,28 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		
 		stringBuilder.append("(select");
 		stringBuilder.append(" appLog.id");
-		stringBuilder.append(" ,applog.reg_number");
-		stringBuilder.append(" ,applog.middle_category");
-		stringBuilder.append(" ,applog.report_number");
-		stringBuilder.append(" ,app.request_customer_name");
+		stringBuilder.append(" ,appLog.reg_number");
+		stringBuilder.append(" ,appLog.middle_category");
+		stringBuilder.append(" ,appLog.report_number");
+		stringBuilder.append(" ,requestCustomer.name as request_customer_name");
 		stringBuilder.append(" ,customer.name as 'customer_name'");
-		stringBuilder.append(" ,applog.device_name");
-		stringBuilder.append(" ,applog.production_company");
-		stringBuilder.append(" ,applog.model");
-		stringBuilder.append(" ,applog.device_number");
-		stringBuilder.append(" ,applog.standard");
-		stringBuilder.append(" ,applog.resolution");
-		stringBuilder.append(" ,applog.unit");
-		stringBuilder.append(" ,applog.correction_date");
-		stringBuilder.append(" ,applog.place");
-		stringBuilder.append(" ,applog.practitioner");
-		stringBuilder.append(" ,applog.small_category");
-		stringBuilder.append(" ,applog.published_date");
+		stringBuilder.append(" ,appLog.device_name");
+		stringBuilder.append(" ,appLog.production_company");
+		stringBuilder.append(" ,appLog.model");
+		stringBuilder.append(" ,appLog.device_number");
+		stringBuilder.append(" ,appLog.standard");
+		stringBuilder.append(" ,appLog.resolution");
+		stringBuilder.append(" ,appLog.unit");
+		stringBuilder.append(" ,appLog.correction_date");
+		stringBuilder.append(" ,appLog.place");
+		stringBuilder.append(" ,appLog.practitioner");
+		stringBuilder.append(" ,appLog.small_category");
+		stringBuilder.append(" ,appLog.published_date");
 		stringBuilder.append(" ,app.technical_manager");
-		stringBuilder.append(" ,applog.correction_fee");
-		stringBuilder.append(" ,applog.quantity");
-		stringBuilder.append(" ,applog.etc");
+		stringBuilder.append(" ,appLog.correction_fee");
+		stringBuilder.append(" ,appLog.quantity");
+		stringBuilder.append(" ,appLog.etc");
+		
 		stringBuilder.append(" ,customer.pic_name as customer_pic_name");
 		stringBuilder.append(" ,customer.mobile as customer_mobile");
 		stringBuilder.append(" ,customer.tel as customer_tel");
@@ -232,22 +238,39 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		stringBuilder.append(" ,customer.email as customer_email");
 		stringBuilder.append(" ,customer.adress as customer_address");
 		stringBuilder.append(" ,customer.adress_detail as customer_address_detail");
-		
 		stringBuilder.append(" ,customer.rep_name as customer_rep_name");
 		stringBuilder.append(" ,customer.company_reg_number as customer_company_reg_number");
 		stringBuilder.append(" ,customer.biz_condition as customer_biz_condition");
 		stringBuilder.append(" ,customer.item as customer_item");
 		stringBuilder.append(" ,customer.post_number as customer_post_number");
 		
-		stringBuilder.append(" ,applog.payment_state_type");
+		stringBuilder.append(" ,appLog.payment_state_type");
 		stringBuilder.append(" ,customer.bill_Pic_Name as  customer_bill_pic_name");
 		stringBuilder.append(" ,customer.Bill_Pic_Tel as  customer_bill_pic_tel");
 		stringBuilder.append(" ,customer.Bill_Pic_Mail as  customer_bill_pic_mail");
 		stringBuilder.append(" ,cc.name as  consignment_company_name");
-		stringBuilder.append(" ,app.APPLI_REG_DATE as appliRegDate");
+		
+		stringBuilder.append(" ,requestCustomer.pic_name as request_customer_pic_name");
+		stringBuilder.append(" ,requestCustomer.mobile as request_customer_mobile");
+		stringBuilder.append(" ,requestCustomer.tel as request_customer_tel");
+		stringBuilder.append(" ,requestCustomer.fax as request_customer_fax");
+		stringBuilder.append(" ,requestCustomer.email as request_customer_email");
+		stringBuilder.append(" ,requestCustomer.adress as request_customer_address");
+		stringBuilder.append(" ,requestCustomer.adress_detail as request_customer_address_detail");
+		stringBuilder.append(" ,requestCustomer.rep_name as request_customer_rep_name");
+		stringBuilder.append(" ,requestCustomer.company_reg_number as request_customer_company_reg_number");
+		stringBuilder.append(" ,requestCustomer.biz_condition as request_customer_biz_condition");
+		stringBuilder.append(" ,requestCustomer.item as request_customer_item");
+		stringBuilder.append(" ,requestCustomer.post_number as request_customer_post_number");
+		stringBuilder.append(" ,requestCustomer.bill_Pic_Name as  request_customer_bill_pic_name");
+		stringBuilder.append(" ,requestCustomer.Bill_Pic_Tel as  request_customer_bill_pic_tel");
+		stringBuilder.append(" ,requestCustomer.Bill_Pic_Mail as  request_customer_bill_pic_mail");
+		
+		stringBuilder.append(" ,app.APPLI_REG_DATE as appli_reg_date");
 		stringBuilder.append(" from application app");
 		stringBuilder.append(" inner join application_log appLog on (app.id = appLog.application_id)");
 		stringBuilder.append(" left outer join customer customer on (app.customer_id = customer.id)");
+		stringBuilder.append(" left outer join customer requestCustomer on (app.request_customer_id = requestCustomer.id)");
 		stringBuilder.append(" left outer join consignment_company cc on (appLog.consignment_company_id = cc.id)");
 		stringBuilder.append(" where 1=1");
 		stringBuilder.append(" and app.del_yn = 'N'");
@@ -262,23 +285,23 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
             
             if("".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             	stringBuilder.append("and (customer.name like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or applog.device_name like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or applog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or applog.reg_number like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or applog.model like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or applog.device_number like '%"+applicationSearchVO.getKeyword()+"%')");
+            	stringBuilder.append("or appLog.device_name like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("or appLog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("or appLog.reg_number like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("or appLog.model like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("or appLog.device_number like '%"+applicationSearchVO.getKeyword()+"%')");
             }else if("customerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             	stringBuilder.append("and customer.name like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("deviceName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-            	stringBuilder.append("and applog.device_name like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("and appLog.device_name like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("productionCompany".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-            	stringBuilder.append("and applog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("and appLog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("deviceNumber".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-            	stringBuilder.append("and applog.device_number like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("and appLog.device_number like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("regNumber".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-            	stringBuilder.append("and applog.reg_number like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("and appLog.reg_number like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("model".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-            	stringBuilder.append("and applog.model like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("and appLog.model like '%"+applicationSearchVO.getKeyword()+"%'");
             }
             
         }
@@ -291,14 +314,14 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		stringBuilder.append(" ,issueLog.reg_number");
 		stringBuilder.append(" ,issueLog.middle_category");
 		stringBuilder.append(" ,issueLog.report_number");
-		stringBuilder.append(" ,issueLog.request_customer_name");
+		stringBuilder.append(" ,requestCustomer.name as request_customer_name");
 		stringBuilder.append(" ,customer.name as 'customer_name'");
 		stringBuilder.append(" ,issueLog.device_name");
 		stringBuilder.append(" ,issueLog.production_company");
 		stringBuilder.append(" ,issueLog.model");
 		stringBuilder.append(" ,issueLog.device_number");
 		stringBuilder.append(" ,issueLog.standard");
-		stringBuilder.append(" ,issueLog.resolution");
+		stringBuilder.append(" ,issueLog.resolution ");
 		stringBuilder.append(" ,issueLog.unit");
 		stringBuilder.append(" ,issueLog.correction_date");
 		stringBuilder.append(" ,issueLog.place");
@@ -307,8 +330,9 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		stringBuilder.append(" ,issueLog.published_date");
 		stringBuilder.append(" ,issueLog.technical_manager");
 		stringBuilder.append(" ,issueLog.correction_fee");
-		stringBuilder.append(" ,issueLog.quantity");
+		stringBuilder.append(" ,1 as quantity");
 		stringBuilder.append(" ,issueLog.etc");
+		
 		stringBuilder.append(" ,customer.pic_name as customer_pic_name");
 		stringBuilder.append(" ,customer.mobile as customer_mobile");
 		stringBuilder.append(" ,customer.tel as customer_tel");
@@ -328,12 +352,30 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 		stringBuilder.append(" ,customer.Bill_Pic_Tel as customer_bill_pic_tel");
 		stringBuilder.append(" ,customer.Bill_Pic_Mail as customer_bill_pic_mail");
 		stringBuilder.append(" ,issueLog.HPM_TYPE as consignment_company_name");
-		stringBuilder.append(" ,issueLog.APPLI_REG_DATE as  appliRegDate");
+		
+		stringBuilder.append(" ,requestCustomer.pic_name as request_customer_pic_name");
+		stringBuilder.append(" ,requestCustomer.mobile as request_customer_mobile");
+		stringBuilder.append(" ,requestCustomer.tel as request_customer_tel");
+		stringBuilder.append(" ,requestCustomer.fax as request_customer_fax");
+		stringBuilder.append(" ,requestCustomer.email as request_customer_email");
+		stringBuilder.append(" ,requestCustomer.adress as request_customer_address");
+		stringBuilder.append(" ,requestCustomer.adress_detail as request_customer_address_detail");
+		stringBuilder.append(" ,requestCustomer.rep_name as request_customer_rep_name");
+		stringBuilder.append(" ,requestCustomer.company_reg_number as request_customer_company_reg_number");
+		stringBuilder.append(" ,requestCustomer.biz_condition as request_customer_biz_condition");
+		stringBuilder.append(" ,requestCustomer.item as request_customer_item");
+		stringBuilder.append(" ,requestCustomer.post_number as request_customer_post_number");
+		stringBuilder.append(" ,requestCustomer.bill_Pic_Name as  request_customer_bill_pic_name");
+		stringBuilder.append(" ,requestCustomer.Bill_Pic_Tel as  request_customer_bill_pic_tel");
+		stringBuilder.append(" ,requestCustomer.Bill_Pic_Mail as  request_customer_bill_pic_mail");
+		
+		stringBuilder.append(" ,issueLog.APPLI_REG_DATE as  appli_reg_date");
 		stringBuilder.append(" from issue_log issueLog");
 		stringBuilder.append(" left outer join customer customer on (issueLog.customer_id = customer.id)");
-		
+		stringBuilder.append(" left outer join customer requestCustomer on (issueLog.request_customer_id = requestCustomer.id)");
 		
 		stringBuilder.append(" where 1=1");
+		stringBuilder.append(" and issueLog.del_yn = 'N'");
 		if(applicationSearchVO.getStartDate() != null && applicationSearchVO.getEndDate() != null) {
 			stringBuilder.append(" and (issueLog.APPLI_REG_DATE between '" + applicationSearchVO.getStartDate() + "' and '"+ applicationSearchVO.getEndDate()+"')");
         }
@@ -365,11 +407,14 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
 
 		stringBuilder.append(" )");
 		
-		stringBuilder.append(" order by appliRegDate desc, reg_number desc");
-		JpaResultMapper jpaResultMapper = new JpaResultMapper();
+		stringBuilder.append(" order by appli_reg_date desc, reg_number desc");
 		
-		Query createNativeQuery = getEntityManager().createNativeQuery(stringBuilder.toString());
-		return jpaResultMapper.list(createNativeQuery, LogAllVO.class);
+		Query createNativeQuery = getEntityManager().createNativeQuery(stringBuilder.toString(), "LogAllVOMapping");
+		
+		@SuppressWarnings("unchecked")
+		List<LogAllVO> products = createNativeQuery.getResultList();
+		
+		return products;
 		
 	}
 

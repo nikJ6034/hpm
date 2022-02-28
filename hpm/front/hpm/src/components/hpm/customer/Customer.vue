@@ -418,8 +418,10 @@ export default {
       this.$http.post(`/api/customer`, this.customer)
       .then(response => {
         if (response.data.result === 'success') {
-          alert('거래처가 등록되었습니다.')
+          alert(response.data.msg)
           this.search(this.currentPage)
+        }else{
+          alert(response.data.msg)
         }
         })
       }
@@ -435,6 +437,8 @@ export default {
           if (response.data.result === 'success') {
             alert('거래처 정보가 변경되었습니다.')
             this.search(this.currentPage)
+          }else{
+            alert(response.data.msg)
           }
           })
       }

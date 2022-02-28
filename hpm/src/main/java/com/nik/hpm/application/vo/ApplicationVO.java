@@ -29,8 +29,7 @@ public class ApplicationVO {
 	public ApplicationVO(Application application) {
 		this.id = application.getId();
 		this.customer = application.getCustomer();
-		this.requestCustomerName = application.getRequestCustomerName();
-		this.requestCustomerAddress = application.getRequestCustomerAddress();
+		this.requestCustomer = application.getRequestCustomer();
 		this.customerSameYn = application.getCustomerSameYn();
 		this.fieldCorrectionNeedYn = application.getFieldCorrectionNeedYn();
 		this.recCalibrationDayYn = application.getRecCalibrationDayYn();
@@ -54,15 +53,14 @@ public class ApplicationVO {
 		this.reportLanguageNm = (application.getReportLanguage() != null)?application.getReportLanguage().getValue():null;
 		this.technicalManager = application.getTechnicalManager();
 		this.deliveryInfo = application.getDeliveryInfo();
+		this.regNm = application.getRegNm();
 	}
 
 	private long id;
 	
 	private Customer customer;
 	
-	private String requestCustomerName;
-	
-	private String requestCustomerAddress;
+	private Customer requestCustomer;
 	
 	/** 발행업체 동일 여부 */
 	private Yn customerSameYn;
@@ -120,5 +118,7 @@ public class ApplicationVO {
 	private String technicalManager;
 	
 	private String deliveryInfo;
+	
+	private String regNm;
 	
 }

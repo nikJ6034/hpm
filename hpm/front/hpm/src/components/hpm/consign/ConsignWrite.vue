@@ -111,31 +111,31 @@ export default {
         { header: '사업자', name: 'consignmentCompany', formatter: function(data){  return data.value.name } },
         { header: '기기명', name: 'deviceName' },
         { header: '제작 회사', name: 'productionCompany' },
+        { header: '기기번호', name: 'deviceNumber' },
         { header: '모델', name: 'model', align:'center' },
         { header: '수량', name: 'quantity' },
         { header: '업체명', name: 'customerName'
           , formatter: function(data){
-            if(data.value == 'N'){
-              return data.row.requestCustomerName
-            }else{
+            // if(data.value == 'N'){
+            //   return data.row.requestCustomerName
+            // }else{
               return data.row.customerName
-            }
+            // }
           } 
         },
         { header: '주소', name: 'customerAdress'
           , formatter: function(data){
-            if(data.value == 'N'){
-              return data.row.requestCustomerAddress
-            }else{
+            // if(data.value == 'N'){
+            //   return data.row.requestCustomerAddress
+            // }else{
               return data.row.customerAdress + (data.row.customerAdressDetail||"")
-            }
+            // }
           } 
         },
         { header: '성적서발행 업체명', name: 'requestCustomerName', width: 150 },
         { header: '성적서발행 업체 주소', name: 'requestCustomerAddress', width: 300 },
         { header: '비고', name: 'etc', align:'center' },
         // { header: '성적서 번호', name: 'reportNumber' },
-        // { header: '기기번호', name: 'deviceNumber' },
         // { header: '규격', name: 'standard' },
         // { header: '단위', name: 'unit' },
         // { header: '교정일자', name: 'correctionDate' },

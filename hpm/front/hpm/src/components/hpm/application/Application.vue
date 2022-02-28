@@ -82,6 +82,11 @@
                   class="float-right mr-1"
                   variant="outline-primary"
                   @click="goApplicationWritePage">신청서 작성</b-button>
+                <b-button
+                  v-if="customer.id != null"
+                  class="float-right mr-1"
+                  variant="outline-success"
+                  @click="deliveryExcelDown">견적</b-button>
               </b-col>
             </b-row>
           </b-container>
@@ -123,7 +128,13 @@
 
 export default {
   data: () => ({
-    fields: [ { key: 'index', label: 'No' }, { key: 'name', label: '거래처명' }, { key: 'companyRegNumber', label: '사업자 번호' }, { key: 'tel', label: '전화번호' } ],
+    fields: [ { key: 'index', label: 'No' }
+            , { key: 'name', label: '거래처명' }
+            , { key: 'tel', label: '거래처 전화번호' } 
+            // , { key: 'companyRegNumber', label: '사업자 번호' }
+            , { key: 'picName', label: '담당자' } 
+            , { key: 'picTel', label: '담당자 전화번호' } 
+            ],
     appFields: [ { key: 'index', label: 'No' }, { key: 'customer.name', label: '거래처명' }, { key: 'appliRegDate', label: '신청일' } ],
     customers: null,
     customer: { id: null, name: null },
@@ -157,6 +168,21 @@ export default {
       } else {
         this.$router.push(`/dashboard/application/write?customerId=${this.customer.id}`)
       }
+    },
+    deliveryExcelDown: function () {
+      this.$http.get(`/api/excel/customer/delivery/${this.customer.id}`, { responseType: 'blob' }).then(response => {
+          const blob = new Blob(
+					[response.data], { type: 'application/vnd.ms-excel.sheet.macroEnabled.12;charset=utf-8' })
+                    const aEle = document.createElement('a');     // Create a label
+                    const href = window.URL.createObjectURL(blob);       // Create downloaded link
+                    aEle.href = href
+                    aEle.download = '교정견적서 작성 2022';
+                    document.body.appendChild(aEle);
+                    aEle.click();     // Click to download
+                    document.body.removeChild(aEle); // Download complete remove element
+                    window.URL.revokeObjectURL(href) // Release blob object
+          
+        }).catch(err => console.log(err))
     },
     customerSearch: function (num) {
       const page = num - 1 || 0

@@ -87,7 +87,9 @@ public class IssueLogExcel {
 				cellCount++;
 				cell = row.getCell(cellCount);
 				if(cell == null) cell = row.createCell(cellCount);
-				cell.setCellValue(issueLog.getRequestCustomerName());
+				if(issueLog.getRequestCustomer() != null) {
+					cell.setCellValue(issueLog.getRequestCustomer().getName());
+				}
 				
 				cellCount++;
 				cell = row.getCell(cellCount);
@@ -167,7 +169,10 @@ public class IssueLogExcel {
 				cellCount++;
 				cell = row.getCell(cellCount);
 				if(cell == null) cell = row.createCell(cellCount);
-				cell.setCellValue(issueLog.getReportLanguage().getValue());
+				
+				if(issueLog.getReportLanguage() != null) {
+					cell.setCellValue(issueLog.getReportLanguage().getValue());
+				}
 				
 				cellCount++;
 				cell = row.getCell(cellCount);
@@ -204,7 +209,8 @@ public class IssueLogExcel {
 			
 			HSSFSheet sheetAt = workbook.getSheetAt(0);
 			
-			for(int i = 2; (StringUtils.isNotBlank(typeToString(sheetAt.getRow(i).getCell(0)))); i++) {
+			for(int i = 2; (sheetAt.getRow(i) != null && StringUtils.isNotBlank(typeToString(sheetAt.getRow(i).getCell(0)))); i++) {
+				
 				HSSFRow row = sheetAt.getRow(i);
 				IssueLog issueLog = new IssueLog();
 				
@@ -239,18 +245,23 @@ public class IssueLogExcel {
 				
 				//의뢰업체
 				try {
-					issueLog.setRequestCustomerName(typeToString(row.getCell(1)));
+					Customer requestCustomer = customerRepository.findByName(typeToString(row.getCell(1)));
+					issueLog.setRequestCustomer(requestCustomer);
 				}catch (Exception e) {
-					throw new Exception((i+1)+"행 의뢰업체 형식이 맞지 않습니다.");
+					throw new Exception((i+1)+"행 존재하지 않는 의뢰업체명이거나 중복된 업체명이 있습니다. 거래처를 확인해주세요");
 				}
 				//의뢰업체
 				
 				//업체명
-				Customer customer = customerRepository.findByName(typeToString(row.getCell(2)));
-				if(customer == null) {
-					throw new Exception((i+1)+"행 존재하지 않는 회사 명입니다. 회사명을 확인 해주세요.");
+				try {
+					Customer customer = customerRepository.findByName(typeToString(row.getCell(2)));
+					if(customer == null) {
+						throw new Exception((i+1)+"행 존재하지 않는 업체명이거나 중복된 업체명이 있습니다. 거래처를 확인해주세요");
+					}
+					issueLog.setCustomer(customer);
+				}catch (Exception e) {
+					throw new Exception((i+1)+"행 존재하지 않는 업체명이거나 중복된 업체명이 있습니다. 거래처를 확인해주세요");
 				}
-				issueLog.setCustomer(customer);
 				//업체명
 				
 				//기기명
@@ -273,7 +284,7 @@ public class IssueLogExcel {
 				try {
 					issueLog.setModel(typeToString(row.getCell(5)));
 				}catch (Exception e) {
-					throw new Exception((i+1)+"행 제조회사 타입에러");
+					throw new Exception((i+1)+"행 모델 타입에러");
 				}
 				//모델
 				
@@ -295,7 +306,15 @@ public class IssueLogExcel {
 				
 				//분해능
 				try {
-					issueLog.setResolution(typeToString(row.getCell(8)));
+					HSSFCell cell8 = row.getCell(8);
+					String sell8String = null;
+					if(cell8 != null && cell8.getCellType() == CellType.NUMERIC) {
+						sell8String = String.valueOf(cell8.getNumericCellValue());
+					}else if(cell8 != null){
+						sell8String = cell8.getStringCellValue();
+					}
+					
+					issueLog.setResolution(sell8String);
 				}catch (Exception e) {
 					throw new Exception((i+1)+"행 분해능 타입에러");
 				}	
@@ -349,7 +368,7 @@ public class IssueLogExcel {
 				try {
 					issueLog.setSmallCategory(typeToString(row.getCell(14)));
 				}catch (Exception e) {
-					throw new Exception((i+1)+"행 O열 타입에러");
+					throw new Exception((i+1)+"행 소분류 타입에러");
 				}
 				//소분류
 				
@@ -381,7 +400,7 @@ public class IssueLogExcel {
 						issueLog.setReportLanguage(ReportLanguage.findEnum(typeToString(cell16)));
 					}
 				}catch (Exception e) {
-					throw new Exception((i+1)+"행 Q열 성적서유형 타입이잘못되었습니다."+e.getMessage());
+					throw new Exception((i+1)+"행 성적서유형 타입이잘못되었습니다."+e.getMessage());
 				}
 				//성적서유형
 				
@@ -389,13 +408,18 @@ public class IssueLogExcel {
 				try {
 					issueLog.setCorrectionFee((long)row.getCell(18).getNumericCellValue());
 				}catch (Exception e) {
-					throw new Exception((i+1)+"행 기술책임자 타입에러");
+					throw new Exception((i+1)+"행 교정료 타입에러");
 				}
 				//교정료
 				
+				
 				//HPM구분
 				try {
-					issueLog.setHpmType(typeToString(row.getCell(19)));
+					if(row.getCell(19) != null && StringUtils.isNotBlank(typeToString(row.getCell(19)))) {
+						issueLog.setHpmType(typeToString(row.getCell(19)));
+					}else {
+						throw new Exception((i+1)+"행 Hpm 구분은 필수값입니다.");
+					}
 				}catch (Exception e) {
 					throw new Exception((i+1)+"행 Hpm 구분은 필수값입니다.");
 				}
@@ -404,10 +428,14 @@ public class IssueLogExcel {
 				//접수일
 				try {
 					Date appliRegDate = row.getCell(20).getDateCellValue();
-					LocalDate appliRegLocalDate = Instant.ofEpochMilli(appliRegDate.getTime())
-							.atZone(ZoneId.systemDefault())
-							.toLocalDate();
-					issueLog.setAppliRegDate(appliRegLocalDate);
+					if(appliRegDate != null) {
+						LocalDate appliRegLocalDate = Instant.ofEpochMilli(appliRegDate.getTime())
+								.atZone(ZoneId.systemDefault())
+								.toLocalDate();
+						issueLog.setAppliRegDate(appliRegLocalDate);
+					}else {
+						throw new Exception((i+1)+"행 접수일은 필수값입니다.");
+					}
 				}catch (Exception e) {
 					throw new Exception((i+1)+"행 접수일은 필수값입니다.");
 				}
@@ -438,7 +466,15 @@ public class IssueLogExcel {
 				issueLog.setRegNumber(row.getCell(3).getStringCellValue().substring(4, 8));
 				issueLog.setMiddleCategory(setLPad(typeToString(row.getCell(1)),4,"0"));
 				issueLog.setReportNumber(row.getCell(3).getStringCellValue());
-				issueLog.setRequestCustomerName(row.getCell(4).getStringCellValue());
+				
+				//의뢰업체
+				try {
+					Customer requestCustomer = customerRepository.findByName(typeToString(row.getCell(1)));
+					issueLog.setRequestCustomer(requestCustomer);
+				}catch (Exception e) {
+					throw new Exception((i+1)+"행 의뢰업체 형식이 맞지 않습니다.");
+				}
+				//의뢰업체
 				String stringCellValue = row.getCell(5).getStringCellValue();
 				Customer customer = customerRepository.findByName(stringCellValue);
 				

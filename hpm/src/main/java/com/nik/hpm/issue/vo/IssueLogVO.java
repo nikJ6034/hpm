@@ -31,6 +31,8 @@ public class IssueLogVO {
 	
 	private Customer customer;
 	
+	private Customer requestCustomer;
+	
 	/** 장비명 */
 	private String deviceName;
 	
@@ -99,6 +101,10 @@ public class IssueLogVO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate regDt;
+	
+	/** 접수일 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate appliRegDate;
 	
 	/** Hpm 구분 */
 	private String hpmType;

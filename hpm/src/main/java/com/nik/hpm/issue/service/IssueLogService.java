@@ -1,11 +1,13 @@
 package com.nik.hpm.issue.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.issue.entity.IssueLog;
 import com.nik.hpm.issue.repository.IssueLogRepository;
 import com.nik.hpm.issue.vo.IssueLogSearchVO;
@@ -35,7 +37,11 @@ public class IssueLogService {
 		ModelMapper modelMapper = new ModelMapper();
 		issueLogList.forEach(item ->{
 			IssueLog map = modelMapper.map(item, IssueLog.class);
-			issueLogRepository.delete(map);
+			Optional<IssueLog> findById = issueLogRepository.findById(map.getId());
+			findById.ifPresent(il -> {
+				il.setDelYn(Yn.Y);
+				issueLogRepository.save(il);
+			});
 			
 		});
 	}

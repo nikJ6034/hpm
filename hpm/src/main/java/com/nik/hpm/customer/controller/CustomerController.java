@@ -1,8 +1,14 @@
 package com.nik.hpm.customer.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nik.hpm.customer.enitity.Customer;
 import com.nik.hpm.customer.service.CustomerService;
 import com.nik.hpm.customer.vo.CustomerSearchVO;
+import com.nik.hpm.util.file.excel.data.DataAppliLogExcel;
 
 @RestController
 public class CustomerController {
 
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	DataAppliLogExcel dataAppliLogExcel;
 	
 	@GetMapping(value= "/api/customer/{id}")
 	public Customer findCustomer(Customer customer) {
@@ -37,13 +47,9 @@ public class CustomerController {
 	
 	@PostMapping(value= "/api/customer")
 	public Map<String, Object> customerCreate(@RequestBody Customer customer){
-		Map<String, Object> map = new HashMap<>();
-		customerService.customerCreate(customer);
+		Map<String, Object> customerCreate = customerService.customerCreate(customer);
 		
-		map.put("result", "success");
-		map.put("msg", "수정 성공");
-		
-		return map;
+		return customerCreate;
 	}
 	
 	@DeleteMapping(value= "/api/customer")
@@ -59,13 +65,22 @@ public class CustomerController {
 	
 	@PutMapping(value= "/api/customer")
 	public Map<String, Object> customerModify(@RequestBody Customer customer){
-		Map<String, Object> map = new HashMap<>();
-		customerService.customerModify(customer);
+		Map<String, Object> customerModify = customerService.customerModify(customer);
 		
-		map.put("result", "success");
-		map.put("msg", "수정 성공");
+		return customerModify;
+	}
+	
+	@GetMapping(value= "/api/excel/customer/delivery/{id}")
+	public void appliLogExcel(Customer customer, HttpServletResponse response) throws IOException{
 		
-		return map;
+		customer = customerService.customer(customer);
+		
+		File writeExcel = dataAppliLogExcel.writeExcelDelivery(customer);
+		
+		ServletOutputStream outputStream = response.getOutputStream();
+		FileUtils.copyFile(writeExcel, outputStream);
+		
+		outputStream.close();
 	}
 	
 }

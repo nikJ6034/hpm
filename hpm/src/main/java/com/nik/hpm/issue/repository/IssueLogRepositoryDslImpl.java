@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.nik.hpm.customer.enitity.QCustomer;
+import com.nik.hpm.enumcode.Yn;
 import com.nik.hpm.issue.entity.IssueLog;
 import com.nik.hpm.issue.entity.QIssueLog;
 import com.nik.hpm.issue.vo.IssueLogSearchVO;
@@ -22,9 +23,10 @@ public class IssueLogRepositoryDslImpl extends QuerydslRepositorySupport  implem
 		
 		QIssueLog issuelog = QIssueLog.issueLog;
 		QCustomer customer = QCustomer.customer;
+		QCustomer requestCustomer = new QCustomer("requestCustomer");
 		
 		BooleanBuilder builder = new BooleanBuilder();
-		
+		builder.and(issuelog.delYn.eq(Yn.N));
 		if(StringUtils.isNotBlank(issueLogSearchVO.getHpmType())) {
 			builder.and(issuelog.hpmType.eq(issueLogSearchVO.getHpmType()));
 		}
@@ -68,6 +70,7 @@ public class IssueLogRepositoryDslImpl extends QuerydslRepositorySupport  implem
 		return from(issuelog)
 		.where(builder)
 		.leftJoin(issuelog.customer, customer).fetchJoin()
+		.leftJoin(issuelog.requestCustomer, requestCustomer).fetchJoin()
 		.orderBy(issuelog.appliRegDate.desc(),issuelog.regNumber.desc())
 		.fetch();
 	}

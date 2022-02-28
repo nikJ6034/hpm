@@ -55,4 +55,20 @@ public class LogAllExcelVO {
 	private String customerItem;
 	private String customerPostNumber;
 	private String consignmentCompanyNm;
+	
+	private String requestCustomerPicName;
+	private String requestCustomerMobile;
+	private String requestCustomerTel;
+	private String requestCustomerFax;
+	private String requestCustomerEmail;
+	private String requestCustomerAddress;
+	private String requestCustomerAddressDetail;
+	private String requestCustomerRepName;
+	private String requestCustomerCompanyRegNumber;
+	private String requestCustomerBizCondition;
+	private String requestCustomerItem;
+	private Integer requestCustomerPostNumber;
+	private String requestCustomerBillPicName;
+	private String requestCustomerBillPicTel;
+	private String requestCustomerBillPicMail;
 }

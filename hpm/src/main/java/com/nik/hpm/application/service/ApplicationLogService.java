@@ -34,35 +34,39 @@ public class ApplicationLogService {
 			ApplicationLog map = modelMapper.map(item, ApplicationLog.class);
 			Optional<ApplicationLog> findById = applicationLogRepository.findById(map.getId());
 			ApplicationLog applicationLog = findById.get();
-			if(item.getConsignmentCompany() != null && item.getConsignmentCompany().getId() != 0) {
-				ConsignmentCompany consignmentCompany = new ConsignmentCompany();
-				consignmentCompany.setId(item.getConsignmentCompany().getId());
-				applicationLog.setConsignmentCompany(consignmentCompany);
-			}else {
-				applicationLog.setConsignmentCompany(null);
-			}
-			applicationLog.setInspectionType(map.getInspectionType());
+			
 			applicationLog.setRegNumber(map.getRegNumber());
+			applicationLog.setReportNumber(map.getReportNumber());
 			applicationLog.setDeviceName(map.getDeviceName());
-			applicationLog.setDeviceNumber(map.getDeviceNumber());
 			applicationLog.setProductionCompany(map.getProductionCompany());
 			applicationLog.setModel(map.getModel());
+			applicationLog.setDeviceNumber(map.getDeviceNumber());
 			applicationLog.setStandard(map.getStandard());
-			applicationLog.setResolution(map.getResolution());
-			applicationLog.setQuantity(map.getQuantity());
-			applicationLog.setReportNumber(map.getReportNumber());
-			applicationLog.setUnit(map.getUnit());
-			applicationLog.setEtc(map.getEtc());
-			applicationLog.setCarryType(map.getCarryType());
 			applicationLog.setCorrectionFee(map.getCorrectionFee());
+			applicationLog.setEtc(map.getEtc());
+			applicationLog.setResolution(map.getResolution());
+			applicationLog.setUnit(map.getUnit());
 			applicationLog.setCorrectionDate(map.getCorrectionDate());
 			applicationLog.setPlace(map.getPlace());
 			applicationLog.setPractitioner(map.getPractitioner());
 			applicationLog.setMiddleCategory(map.getMiddleCategory());
 			applicationLog.setSmallCategory(map.getSmallCategory());
 			applicationLog.setPublishedDate(map.getPublishedDate());
-			applicationLog.setMarginRate(map.getMarginRate());
+			
+			if(item.getConsignmentCompanyId() != null) {
+				ConsignmentCompany consignmentCompany = new ConsignmentCompany();
+				consignmentCompany.setId(item.getConsignmentCompanyId());
+				applicationLog.setConsignmentCompany(consignmentCompany);
+			}else {
+				applicationLog.setConsignmentCompany(null);
+			}
+			
+			applicationLog.setInspectionType(map.getInspectionType());
+			applicationLog.setCarryType(map.getCarryType());
+			applicationLog.setQuantity(map.getQuantity());
 			applicationLog.setPaymentStateType(map.getPaymentStateType());
+			
+			//applicationLog.setMarginRate(map.getMarginRate());
 			
 		});
 	}

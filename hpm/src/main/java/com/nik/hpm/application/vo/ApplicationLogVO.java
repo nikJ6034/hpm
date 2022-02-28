@@ -24,7 +24,7 @@ public class ApplicationLogVO {
 		
 		this.id = applicationLog.getId();
 		this.consignmentCompany = (applicationLog.getConsignmentCompany() != null)?new ConsignmentCompanyVO(applicationLog.getConsignmentCompany()):null;
-		this.consignmentCompanyId = (applicationLog.getConsignmentCompany() != null)? applicationLog.getConsignmentCompany().getId()+"":"";
+		this.consignmentCompanyId = (applicationLog.getConsignmentCompany() != null)? applicationLog.getConsignmentCompany().getId():null;
 		this.consignmentCompanyNm = (applicationLog.getConsignmentCompany() != null)? applicationLog.getConsignmentCompany().getName():null;
 		this.inspectionType = applicationLog.getInspectionType();
 		this.inspectionTypeNm = (applicationLog.getInspectionType()!= null )?applicationLog.getInspectionType().getValue():null;
@@ -52,13 +52,17 @@ public class ApplicationLogVO {
 		this.paymentStateTypeNm = (applicationLog.getPaymentStateType()!= null)?applicationLog.getPaymentStateType().getValue():null;
 		if(applicationLog.getApplication() != null) {
 			this.applicationId = applicationLog.getApplication().getId();
-			this.requestCustomerName = applicationLog.getApplication().getRequestCustomerName();
-			this.requestCustomerAddress = applicationLog.getApplication().getRequestCustomerAddress();
 			this.customerSameYn = applicationLog.getApplication().getCustomerSameYn();
 			if(applicationLog.getApplication().getCustomer() != null) {
 				this.customerName = applicationLog.getApplication().getCustomer().getName();
 				this.customerAdress = applicationLog.getApplication().getCustomer().getAdress();
 				this.customerAdressDetail = applicationLog.getApplication().getCustomer().getAdressDetail();
+			}
+			
+			if(applicationLog.getApplication().getRequestCustomer() != null) {
+				this.requestCustomerName = applicationLog.getApplication().getRequestCustomer().getName();
+				this.requestCustomerAddress = applicationLog.getApplication().getRequestCustomer().getAdress();
+				this.requestCustomerAdressDetail = applicationLog.getApplication().getRequestCustomer().getAdressDetail();
 			}
 		}
 	}
@@ -67,7 +71,7 @@ public class ApplicationLogVO {
 	
 	private ConsignmentCompanyVO consignmentCompany;
 	
-	private String consignmentCompanyId;
+	private Long consignmentCompanyId;
 	
 	private String consignmentCompanyNm;
 	
@@ -158,6 +162,8 @@ public class ApplicationLogVO {
 	private String requestCustomerName;
 	
 	private String requestCustomerAddress;
+	
+	private String requestCustomerAdressDetail;
 	
 	private Yn customerSameYn;
 	

@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 import com.nik.hpm.enumcode.Yn;
@@ -64,7 +65,7 @@ public class Customer implements Serializable {
 	/** 팩스번호 */
 	private String fax;
 	
-	@Column
+	@Column(columnDefinition = "TEXT")
 	/** 담당자 */
 	private String picName;
 	
