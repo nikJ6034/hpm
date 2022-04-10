@@ -34,12 +34,17 @@ public class IssueLogRepositoryDslImpl extends QuerydslRepositorySupport  implem
 		if(StringUtils.isNotBlank(issueLogSearchVO.getKeyword())) {
             
             if("".equals(issueLogSearchVO.getCondition()) && StringUtils.isNotBlank(issueLogSearchVO.getKeyword())) {
-                builder.and(issuelog.customer.name.contains(issueLogSearchVO.getKeyword()))
-                .or(issuelog.deviceName.contains(issueLogSearchVO.getKeyword()))
-                .or(issuelog.productionCompany.contains(issueLogSearchVO.getKeyword()))
-                .or(issuelog.deviceNumber.contains(issueLogSearchVO.getKeyword()));
+                builder.and(issuelog.customer.name.contains(issueLogSearchVO.getKeyword())
+	                .or(issuelog.deviceName.contains(issueLogSearchVO.getKeyword()))
+	                .or(issuelog.productionCompany.contains(issueLogSearchVO.getKeyword()))
+	                .or(issuelog.deviceNumber.contains(issueLogSearchVO.getKeyword()))
+	                .or(requestCustomer.name.contains(issueLogSearchVO.getKeyword()))
+                )
+                ;
             }else if("customerName".equals(issueLogSearchVO.getCondition()) && StringUtils.isNotBlank(issueLogSearchVO.getKeyword())) {
                 builder.and(issuelog.customer.name.contains(issueLogSearchVO.getKeyword()));
+            }else if("requestCustomerName".equals(issueLogSearchVO.getCondition()) && StringUtils.isNotBlank(issueLogSearchVO.getKeyword())) {
+                builder.and(requestCustomer.name.contains(issueLogSearchVO.getKeyword()));
             }else if("deviceName".equals(issueLogSearchVO.getCondition()) && StringUtils.isNotBlank(issueLogSearchVO.getKeyword())) {
                 builder.and(issuelog.deviceName.contains(issueLogSearchVO.getKeyword()));
             }else if("productionCompany".equals(issueLogSearchVO.getCondition()) && StringUtils.isNotBlank(issueLogSearchVO.getKeyword())) {

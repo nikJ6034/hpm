@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
-import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -77,16 +76,20 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
         if(StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             
             if("".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-                builder.and(application.customer.name.contains(applicationSearchVO.getKeyword()))
+                builder.and(application.customer.name.contains(applicationSearchVO.getKeyword())
             			.or(applicationlog.deviceName.contains(applicationSearchVO.getKeyword()))
             			.or(applicationlog.productionCompany.contains(applicationSearchVO.getKeyword()))
             			.or(applicationlog.deviceNumber.contains(applicationSearchVO.getKeyword()))
             			.or(applicationlog.regNumber.contains(applicationSearchVO.getKeyword()))
             			.or(applicationlog.model.contains(applicationSearchVO.getKeyword()))
             			.or(consignmentCompany.name.contains(applicationSearchVO.getKeyword()))
+            			.or(application.requestCustomer.name.contains(applicationSearchVO.getKeyword()))
+            	)
     			;
             }else if("customerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
                 builder.and(application.customer.name.contains(applicationSearchVO.getKeyword()));
+            }else if("requestCustomerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
+                builder.and(application.requestCustomer.name.contains(applicationSearchVO.getKeyword()));
             }else if("deviceName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
                 builder.and(applicationlog.deviceName.contains(applicationSearchVO.getKeyword()));
             }else if("productionCompany".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
@@ -289,11 +292,14 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
             	stringBuilder.append("or appLog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
             	stringBuilder.append("or appLog.reg_number like '%"+applicationSearchVO.getKeyword()+"%'");
             	stringBuilder.append("or appLog.model like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or appLog.device_number like '%"+applicationSearchVO.getKeyword()+"%')");
+            	stringBuilder.append("or appLog.device_number like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("or requestCustomer.name like '%"+applicationSearchVO.getKeyword()+"%')");
             }else if("customerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             	stringBuilder.append("and customer.name like '%"+applicationSearchVO.getKeyword()+"%'");
+            }else if("requestCustomerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
+            	stringBuilder.append("and requestCustomer.name like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("deviceName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
-            	stringBuilder.append("and appLog.device_name like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("and requestCustomer.name like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("productionCompany".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             	stringBuilder.append("and appLog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("deviceNumber".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
@@ -388,9 +394,12 @@ public class ApplicationRepositoryDslImpl extends QuerydslRepositorySupport impl
             	stringBuilder.append("or issueLog.production_company like '%"+applicationSearchVO.getKeyword()+"%'");
             	stringBuilder.append("or issueLog.reg_number like '%"+applicationSearchVO.getKeyword()+"%'");
             	stringBuilder.append("or issueLog.model like '%"+applicationSearchVO.getKeyword()+"%'");
-            	stringBuilder.append("or issueLog.device_number like '%"+applicationSearchVO.getKeyword()+"%')");
+            	stringBuilder.append("or issueLog.device_number like '%"+applicationSearchVO.getKeyword()+"%'");
+            	stringBuilder.append("or requestCustomer.name like '%"+applicationSearchVO.getKeyword()+"%')");
             }else if("customerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             	stringBuilder.append("and customer.name like '%"+applicationSearchVO.getKeyword()+"%'");
+            }else if("requestCustomerName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
+            	stringBuilder.append("and requestCustomer.name like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("deviceName".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
             	stringBuilder.append("and issueLog.device_name like '%"+applicationSearchVO.getKeyword()+"%'");
             }else if("productionCompany".equals(applicationSearchVO.getCondition()) && StringUtils.isNotBlank(applicationSearchVO.getKeyword())) {
