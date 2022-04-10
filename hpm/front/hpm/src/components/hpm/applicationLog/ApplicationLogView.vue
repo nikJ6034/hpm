@@ -77,6 +77,7 @@
                         <b-form-select-option value="">전체</b-form-select-option>
                         <b-form-select-option value="customerName">거래처명</b-form-select-option>
                         <b-form-select-option value="consignmentCompanyName">위탁업체명</b-form-select-option>
+                        <b-form-select-option value="requestCustomerName">의뢰업체명</b-form-select-option>
                         <b-form-select-option value="regNumber">접수번호</b-form-select-option>
                         <b-form-select-option value="deviceName">장비명</b-form-select-option>
                         <b-form-select-option value="productionCompany">제조사</b-form-select-option>
