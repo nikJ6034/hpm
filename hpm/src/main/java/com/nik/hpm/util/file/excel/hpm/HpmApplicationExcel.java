@@ -48,10 +48,10 @@ public class HpmApplicationExcel {
 				FileOutputStream fileOutputStream = new FileOutputStream(createTempFile);
 			) {
 			workbook.setForceFormulaRecalculation(true);
-			XSSFSheet sheetAt = workbook.getSheetAt(0);
+			XSSFSheet sheetAt = workbook.getSheet("교정접수증");//workbook.getSheetAt(0);
 			
 			XSSFRow row1 = sheetAt.getRow(1);
-			
+
 			if(!application.getApplicationLogList().isEmpty()) {
 				
 				row1.getCell(10).setCellValue(application.getApplicationLogList().get(0).getRegNumber());
@@ -104,7 +104,7 @@ public class HpmApplicationExcel {
 			}else {
 				row10.getCell(9).setCellValue("불필요");
 			}
-			
+
 			//언어
 			if(application.getReportLanguage() != null) {
 				row10.getCell(4).setCellValue(application.getReportLanguage().getValue());
@@ -221,7 +221,6 @@ public class HpmApplicationExcel {
 			row88.getCell(7).setCellValue(application.getConsignee());
 			
 			workbook.write(fileOutputStream);
-			fileOutputStream.close();
 		}
 		
 		return createTempFile;
