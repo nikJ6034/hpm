@@ -401,7 +401,8 @@ export default {
                     const href = window.URL.createObjectURL(blob);       // Create downloaded link
                     aEle.href = href
                     
-                    aEle.download = this.application.applicationLogList[0].consignmentCompanyNm+" "+this.application.customer.name+" "+this.$moment().format("YYYY년 MM월 DD일")+"["+this.application.appliRegDateTypeNm+"]";  // File name after download
+                    //aEle.download = this.application.applicationLogList[0].consignmentCompanyNm+" "+this.application.customer.name+" "+this.$moment().format("YYYY년 MM월 DD일")+"["+this.application.appliRegDateTypeNm+"]";  // File name after download
+                    aEle.download = "교정신청서 2022";
                     document.body.appendChild(aEle);
                     aEle.click();     // Click to download
                     document.body.removeChild(aEle); // Download complete remove element
