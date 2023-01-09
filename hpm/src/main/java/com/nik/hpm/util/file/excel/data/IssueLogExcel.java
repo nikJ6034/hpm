@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class IssueLogExcel {
 			return readXlsx(file);
 		}
 		
-		return null;
+		return Collections.emptyList();
 	}
 	
 	public File writeExcel(List<IssueLog> issueLogList) throws IOException {

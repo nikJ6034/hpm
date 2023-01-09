@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -68,10 +67,9 @@ public class DataAppliLogExcel {
 				rowNum++;
 			}
 			
-			FileOutputStream fileOutputStream = new FileOutputStream(createTempFile);
-			
-			workbook.write(fileOutputStream);
-			fileOutputStream.close();
+			try (FileOutputStream fileOutputStream = new FileOutputStream(createTempFile)) {
+				workbook.write(fileOutputStream);
+			}
 		}
 		
 		return createTempFile;
@@ -174,10 +172,9 @@ public class DataAppliLogExcel {
 				rowNum++;
 			}
 			
-			FileOutputStream fileOutputStream = new FileOutputStream(createTempFile);
-			
-			workbook.write(fileOutputStream);
-			fileOutputStream.close();
+			try(FileOutputStream fileOutputStream = new FileOutputStream(createTempFile)){
+				workbook.write(fileOutputStream);
+			}
 		}
 		
 		return createTempFile;
@@ -209,10 +206,10 @@ public class DataAppliLogExcel {
 			sheetAt1.getRow(7).getCell(1).setCellValue(LocalDate.now());
 			sheetAt1.getRow(8).getCell(1).setCellValue(customer.getEmail());
 			
-			FileOutputStream fileOutputStream = new FileOutputStream(createTempFile);
+			try(FileOutputStream fileOutputStream = new FileOutputStream(createTempFile)){
+				workbook.write(fileOutputStream);
+			}
 			
-			workbook.write(fileOutputStream);
-			fileOutputStream.close();
 		}
 		
 		return createTempFile;
